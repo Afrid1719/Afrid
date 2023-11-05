@@ -1,12 +1,8 @@
-import AddTodo from '@/components/AddTodo'
+import { redirect } from 'next/navigation'
 import React from 'react'
-import { Unauthorized } from '@/components/Unauthorized'
 
-// Typing Component is not encouraged but looks stylish
-const Page: React.FunctionComponent = () => {
-  const userId = true
-
-  return !!userId ? <AddTodo /> : <Unauthorized />
+const page = () => {
+  redirect('/home')
 }
 
-export default Page
+export default page

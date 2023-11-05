@@ -3,6 +3,7 @@ import { IRoute } from '@/interfaces/i-routes'
 import Link from 'next/link'
 import React from 'react'
 import { slide as Menu } from 'react-burger-menu'
+import LoginLogout from './LoginLogout'
 
 type PropsTypes = {
   pageWrapperId: string
@@ -76,6 +77,7 @@ const MobileNav: React.FC<PropsTypes> = (props) => {
           {route.menuName}
         </Link>
       ))}
+      <LoginLogout />
     </Menu>
   )
 }

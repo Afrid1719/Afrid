@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google'
 import Footer from '@/components/Footer'
 import MobileNav from '@/components/MobileNav'
 import DesktopNav from '@/components/DesktopNav'
+import AuthProvider from './context/AuthProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,15 +23,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} id="body-wrapper">
-        <MobileNav
-          pageWrapperId="page-wrapper"
-          outerContainerId="body-wrapper"
-          className="block md:hidden"
-        />
-        <Header />
-        <DesktopNav />
-        <main id="page-wrapper">{children}</main>
-        <Footer />
+        <AuthProvider>
+          <MobileNav
+            pageWrapperId="page-wrapper"
+            outerContainerId="body-wrapper"
+            className="block md:hidden"
+          />
+          <Header />
+          <DesktopNav />
+          <main id="page-wrapper">{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   )

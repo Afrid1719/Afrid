@@ -2,6 +2,7 @@ import { routes } from '@/app/routes.config'
 import { IRoute } from '@/interfaces/i-routes'
 import Link from 'next/link'
 import React from 'react'
+import LoginLogout from './LoginLogout'
 
 const DesktopNav = () => {
   return (
@@ -16,6 +17,7 @@ const DesktopNav = () => {
             {route.menuName}
           </Link>
         ))}
+        <LoginLogout />
       </nav>
     </div>
   )

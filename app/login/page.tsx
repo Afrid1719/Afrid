@@ -1,26 +1,43 @@
 'use client'
 
-import React, { SyntheticEvent, useState } from 'react'
+import React, { SyntheticEvent, useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Link from 'next/link'
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
+import Link from 'next/link'
 import './login.css'
 import Image from 'next/image'
+import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const Page = () => {
-  let [password, setPassword] = useState('')
-  let [showPassword, setShowPassword] = useState(false)
-  let [email, setEmail] = useState('')
+  const { data: session, status } = useSession()
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState('')
+  const [isLoggedIn, setIsLoggedIn] = useState(null)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!!session) {
+      router.push('/home')
+    }
+  })
 
   async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
-    const data = new FormData()
-    data.append('email', email)
-    data.append('password', password)
-    await fetch('/login/api', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
+    try {
+      let res = await signIn('credentials', {
+        redirect: false,
+        username: email,
+        password,
+      })
+      if (res?.ok) {
+        router.push('/home')
+      }
+      setIsLoggedIn(res?.ok)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const socialLogins = [
@@ -49,13 +66,19 @@ const Page = () => {
     <div className="flex items-center justify-center m-8">
       <div className="p-8 rounded shadow-md w-full md:w-8/12 lg:w-4/12 login-bg">
         <h2 className="text-2xl font-semibold mb-6 text-center">Log in</h2>
+        {isLoggedIn === false && (
+          <p className="py-2 px-4 mb-3 text-white bg-red-600 rounded-md">
+            Invalid credentials
+          </p>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2 ml-4"
               htmlFor="email"
             >
-              Email or Username
+              Email
             </label>
             <input
               type="text"

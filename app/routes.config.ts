@@ -26,7 +26,7 @@ export const routes: IRoute[] = [
     path: '/thoughts',
   },
   {
-    menuName: 'Login',
-    path: '/login',
+    menuName: 'Profile',
+    path: '/profile',
   },
 ]
