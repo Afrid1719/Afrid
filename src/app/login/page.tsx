@@ -45,17 +45,17 @@ const Page = () => {
 
   const socialLogins = [
     {
-      providerName: "Google",
+      providerName: "google",
       icon: "google-icon.svg",
       url: "/",
     },
     {
-      providerName: "Facebook",
+      providerName: "facebook",
       icon: "fb-icon.svg",
       url: "/",
     },
     {
-      providerName: "Instagram",
+      providerName: "instagram",
       icon: "insta-icon.svg",
       url: "/",
     },
@@ -63,6 +63,14 @@ const Page = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleSocialLogin = (
+    evt: React.MouseEvent<HTMLAnchorElement>,
+    provider: string,
+  ) => {
+    evt.preventDefault();
+    signIn(provider);
   };
 
   return (
@@ -138,7 +146,8 @@ const Page = () => {
         <div className="flex justify-center my-2">
           {socialLogins.map((social, idx) => (
             <Link
-              href={social.url}
+              href={"#"}
+              onClick={(e) => handleSocialLogin(e, social.providerName)}
               className="p-2 mx-2 rounded-[20px] border border-slate-300 bg-white"
               key={`provider-${idx}`}
             >
