@@ -15,24 +15,27 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@types/node": "20.6.0",
-    "@types/react": "18.2.21",
-    "@types/react-burger-menu": "^2.8.5",
-    "@types/react-dom": "18.2.7",
+    "@types/react": "^18.3.3",
+    "@types/react-burger-menu": "^2.8.7",
+    "@types/react-dom": "^18.3.0",
     "autoprefixer": "10.4.15",
+    "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.10",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
-    "next": "13.4.19",
+    "mongoose": "^8.5.2",
+    "next": "^14.2.5",
     "next-auth": "^4.24.4",
     "postcss": "8.4.29",
-    "react": "18.2.0",
+    "react": "^18.3.1",
     "react-burger-menu": "^3.0.9",
-    "react-dom": "18.2.0",
+    "react-dom": "^18.3.1",
     "react-tailwindcss-datepicker": "^1.6.6",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "eslint-plugin-svg-jsx": "^1.2.2"
   }
 }
