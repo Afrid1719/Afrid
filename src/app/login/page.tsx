@@ -75,7 +75,7 @@ const Page = () => {
 
   return (
     <div className="flex items-center justify-center m-8">
-      <div className="p-8 rounded w-full sm:w-8/12 md:w-6/12 lg:w-4/12 bg-app-primary">
+      <div className="p-8 rounded w-full sm:w-8/12 md:w-7/12 lg:w-5/12 bg-app-primary">
         <h2 className="text-2xl font-semibold mb-6 text-center">Log in</h2>
         {isLoggedIn === false && (
           <p className="py-2 px-4 mb-3 text-white bg-red-600 rounded-md">
@@ -133,7 +133,7 @@ const Page = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-app-color-6 text-white font-semibold py-2 rounded-full hover:bg-app-color-4 my-4"
+            className="w-full bg-app-tertiary text-white font-semibold py-2 rounded-full hover:bg-app-tertiary-dark my-4"
           >
             Login
           </button>
@@ -160,14 +160,11 @@ const Page = () => {
             </Link>
           ))}
         </div>
-        <div className="my-4 text-center text-sm">
+        <div className="my-4 text-center text-sm flex flex-col mt-5 space-y-4">
           <Link href="/" className="text-app-tertiary">
             Forgot Login or Password?
           </Link>
-          <Link
-            href="/register"
-            className="text-sm text-[#888] transition duration-150 ease hover:text-black"
-          >
+          <Link href="/register" className="text-app-tertiary">
             Don&apos;t have an account?
           </Link>
         </div>

@@ -13,8 +13,7 @@ const LoginLogout = () => {
   const handleLogout = async (evt: React.SyntheticEvent) => {
     evt.preventDefault();
     try {
-      await signOut({ redirect: false });
-      router.push("/");
+      await signOut({ callbackUrl: "/" });
     } catch (e) {
       console.error(e);
     }
@@ -23,14 +22,14 @@ const LoginLogout = () => {
     <Link
       onClick={handleLogout}
       href="/logout"
-      className="mr-5 hover:text-app-color-6 text-app-tertiary text-xl"
+      className="mr-5 hover:text-app-tertiary-dark text-app-tertiary text-xl"
     >
       <FontAwesomeIcon icon={faSignOutAlt} />
     </Link>
   ) : (
     <Link
       href="/login"
-      className="mr-5 hover:text-app-color-6 text-app-tertiary text-xl"
+      className="mr-5 hover:text-app-tertiary-dark text-app-tertiary text-xl"
     >
       <FontAwesomeIcon icon={faSignInAlt} />
     </Link>

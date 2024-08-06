@@ -10,11 +10,12 @@ const config: Config = {
     extend: {
       colors: {
         "app-primary": "#071f35", // denim blue
-        "app-secondary": "#79c4f2", // dark blue
+        "app-secondary": "#79c4f2", // light blue
         "app-tertiary": "#5b7327", // dirty green
-        "app-color-4": "#5b9ed9", // blue
-        "app-color-5": "#84b6e3", //
-        "app-color-6": "#3286cf", //
+        "app-tertiary-dark": "#38451c", // dirty green darker
+        "app-color-4": "#5b9ed9", // creamy blue
+        "app-color-5": "#84b6e3", // too light blue
+        "app-color-6": "#3286cf", // blue
       },
     },
   },

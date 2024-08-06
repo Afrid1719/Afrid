@@ -20,6 +20,11 @@ const UserSchema = new Schema<UserDocument>(
       type: String,
       required: [true, "Name is required"],
     },
+    username: {
+      type: String,
+      default: "",
+      match: [/^[a-zA-Z0-9_.]+$/, "Username is invalid"],
+    },
   },
   {
     timestamps: true,
