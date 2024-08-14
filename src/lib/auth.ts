@@ -6,10 +6,11 @@ import bcrypt from "bcryptjs";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import Google from "next-auth/providers/google";
 import clientPromise from "@/lib/mongodb";
+import { CredentialsUser } from "@/interfaces/i-auth";
 
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: "/login",
+    signIn: "/login"
   },
   providers: [
     Credentials({
@@ -17,55 +18,60 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       credentials: {
         email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
+        password: { label: "Password", type: "password" }
       },
-      async authorize(credentials) {
+      async authorize(credentials): Promise<CredentialsUser | null> {
         try {
           await connectDB();
           // @ts-ignore
           const user = await User.findOne({ email: credentials?.email }).select(
-            "+password",
+            "+password"
           );
-          console.log("user", user);
           if (!user) {
-            throw new Error("Invalid email");
+            return {
+              error: "Invalid email"
+            } as CredentialsUser;
+          }
+          if (!user.password) {
+            return {
+              error:
+                "Password not set. Try signing using your Social Media account."
+            } as CredentialsUser;
           }
           const passwordMatch = await bcrypt.compare(
             credentials!.password,
-            user.password,
+            user.password
           );
           if (!passwordMatch) {
-            throw new Error("Invalid password");
+            return {
+              error: "Invalid password"
+            } as CredentialsUser;
           }
-          return user;
+          return user as CredentialsUser;
         } catch (error) {
           console.log(error);
         } finally {
           await disconnectDB();
         }
-      },
+      }
     }),
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!
+    })
   ],
   adapter: MongoDBAdapter(clientPromise),
-  callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      return true;
-    },
-    async jwt({ token, account, profile }) {
-      // Persist the OAuth access_token and or the user id to the token right after signin
-      if (account) {
-        token.accessToken = account.access_token;
-        token.id = profile.id;
-      }
-      return token;
-    },
-  },
   session: {
-    strategy: "jwt",
+    strategy: "jwt"
   },
-  debug: process.env.NODE_ENV === "development",
+  callbacks: {
+    async signIn({ user }) {
+      let credentialUser = user as CredentialsUser;
+      if (credentialUser.error) {
+        throw new Error(credentialUser.error);
+      }
+      return true;
+    }
+  },
+  debug: process.env.NODE_ENV === "development"
 };

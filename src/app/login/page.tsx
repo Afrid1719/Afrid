@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
-import { getProviders, signIn, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 const Page = () => {
   const { status } = useSession();
@@ -29,16 +30,18 @@ const Page = () => {
       let res = await signIn("credentials", {
         redirect: false,
         email: formData.get("email"),
-        password: formData.get("password"),
+        password: formData.get("password")
       });
       if (res?.error) {
         setError(res.error as string);
+        toast.error(res.error);
+        return;
       }
       if (res?.ok) {
         return router.push("/");
       }
       setIsLoggedIn(res?.ok);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
     }
   }
@@ -47,18 +50,18 @@ const Page = () => {
     {
       providerName: "google",
       icon: "google-icon.svg",
-      url: "/",
+      url: "/"
     },
     {
       providerName: "facebook",
       icon: "fb-icon.svg",
-      url: "/",
+      url: "/"
     },
     {
       providerName: "instagram",
       icon: "insta-icon.svg",
-      url: "/",
-    },
+      url: "/"
+    }
   ];
 
   const togglePasswordVisibility = () => {
@@ -67,22 +70,16 @@ const Page = () => {
 
   const handleSocialLogin = (
     evt: React.MouseEvent<HTMLAnchorElement>,
-    provider: string,
+    provider: string
   ) => {
     evt.preventDefault();
     signIn(provider);
   };
 
   return (
-    <div className="flex items-center justify-center m-8">
-      <div className="p-8 rounded w-full sm:w-8/12 md:w-7/12 lg:w-5/12 bg-app-primary">
+    <div className="flex items-center justify-center m-8 max-w-[1600px] mx-auto">
+      <div className="p-8 rounded w-full sm:w-8/12 md:w-7/12 lg:w-5/12 xl:w-4/12 bg-app-primary">
         <h2 className="text-2xl font-semibold mb-6 text-center">Log in</h2>
-        {isLoggedIn === false && (
-          <p className="py-2 px-4 mb-3 text-white bg-red-600 rounded-md">
-            Invalid credentials
-          </p>
-        )}
-
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label

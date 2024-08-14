@@ -47,8 +47,8 @@ export default function Page() {
   };
 
   return (
-    <div className="flex items-center justify-center m-8">
-      <div className="p-8 rounded w-full sm:w-8/12 md:w-7/12 lg:w-5/12 bg-app-primary">
+    <div className="flex items-center justify-center m-8 max-w-[1600px] mx-auto">
+      <div className="p-8 rounded w-full sm:w-8/12 md:w-7/12 lg:w-5/12 xl:w-4/12 bg-app-primary">
         {error && <div className="text-center text-red-800 mb-3">{error}</div>}
         <h2 className="text-2xl font-semibold mb-6 text-center">Register</h2>
 
