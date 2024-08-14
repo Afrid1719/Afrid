@@ -6,7 +6,11 @@ import { signOut, useSession } from "next-auth/react";
 import { faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 
-const LoginLogout = () => {
+type PropTypes = {
+  className?: string;
+};
+
+const LoginLogout = ({ className = "" }: PropTypes) => {
   const { status } = useSession();
   const router = useRouter();
 
@@ -22,14 +26,14 @@ const LoginLogout = () => {
     <Link
       onClick={handleLogout}
       href="/logout"
-      className="mr-5 hover:text-app-tertiary-dark text-app-tertiary text-xl"
+      className={`mr-5 text-app-tertiary text-xl ${className}`}
     >
       <FontAwesomeIcon icon={faSignOutAlt} />
     </Link>
   ) : (
     <Link
       href="/login"
-      className="mr-5 hover:text-app-tertiary-dark text-app-tertiary text-xl"
+      className={`mr-5 text-app-tertiary text-xl ${className}`}
     >
       <FontAwesomeIcon icon={faSignInAlt} />
     </Link>

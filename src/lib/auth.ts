@@ -3,7 +3,7 @@ import User from "@/models/User";
 import type { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import Google from "next-auth/providers/google";
 import clientPromise from "@/lib/mongodb";
 
@@ -53,7 +53,6 @@ export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      console.log("client", user, profile);
       return true;
     },
     async jwt({ token, account, profile }) {
