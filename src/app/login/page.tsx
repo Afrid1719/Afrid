@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { FormEvent, useReducer } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import Link from "next/link";
@@ -8,15 +8,40 @@ import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { socialLogins } from "@/utils/social-logins";
+
+const initialState = {
+  email: "",
+  password: "",
+  showPassword: false,
+  isLoggingIn: false
+};
+
+type ACTIONTYPE =
+  | { type: "set_email"; payload: string }
+  | { type: "set_password"; payload: string }
+  | { type: "set_show_password"; payload: boolean }
+  | { type: "set_is_logging_in"; payload: boolean };
+
+const reducers = (state: typeof initialState, action: ACTIONTYPE) => {
+  switch (action.type) {
+    case "set_email":
+      return { ...state, email: action.payload };
+    case "set_password":
+      return { ...state, password: action.payload };
+    case "set_show_password":
+      return { ...state, showPassword: action.payload };
+    case "set_is_logging_in":
+      return { ...state, isLoggingIn: action.payload };
+    default:
+      return state;
+  }
+};
 
 const Page = () => {
   const { status } = useSession();
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
-
-  const [error, setError] = useState("");
+  const [state, dispatch] = useReducer(reducers, initialState);
+  const { email, password, showPassword, isLoggingIn } = state;
   const router = useRouter();
 
   if (status === "authenticated") {
@@ -25,48 +50,26 @@ const Page = () => {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
     try {
+      dispatch({ type: "set_is_logging_in", payload: true });
       let res = await signIn("credentials", {
         redirect: false,
-        email: formData.get("email"),
-        password: formData.get("password")
+        email,
+        password
       });
       if (res?.error) {
-        setError(res.error as string);
         toast.error(res.error);
         return;
       }
       if (res?.ok) {
         return router.push("/");
       }
-      setIsLoggedIn(res?.ok);
     } catch (e: any) {
       console.error(e);
+    } finally {
+      dispatch({ type: "set_is_logging_in", payload: false });
     }
   }
-
-  const socialLogins = [
-    {
-      providerName: "google",
-      icon: "google-icon.svg",
-      url: "/"
-    },
-    {
-      providerName: "facebook",
-      icon: "fb-icon.svg",
-      url: "/"
-    },
-    {
-      providerName: "instagram",
-      icon: "insta-icon.svg",
-      url: "/"
-    }
-  ];
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
 
   const handleSocialLogin = (
     evt: React.MouseEvent<HTMLAnchorElement>,
@@ -93,9 +96,14 @@ const Page = () => {
               id="email"
               name="email"
               value={email}
+              disabled={isLoggingIn}
               required
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 text-black border border-slate-500 rounded-full appearance-none"
+              onChange={(e) =>
+                dispatch({ type: "set_email", payload: e.target.value })
+              }
+              className={`w-full px-4 py-2 ${
+                isLoggingIn ? "bg-slate-300" : ""
+              } text-black border border-slate-500 rounded-full appearance-none`}
             />
           </div>
           <div className="mb-4">
@@ -111,14 +119,25 @@ const Page = () => {
                 id="password"
                 name="password"
                 value={password}
+                disabled={isLoggingIn}
                 required
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 text-black border overflow-ellipsis border-slate-500 rounded-full appearance-none"
+                onChange={(e) =>
+                  dispatch({ type: "set_password", payload: e.target.value })
+                }
+                className={`w-full px-4 py-2 ${
+                  isLoggingIn ? "bg-slate-300" : ""
+                } text-black border overflow-ellipsis border-slate-500 rounded-full appearance-none`}
               />
               <button
                 type="button"
                 className="absolute text-black top-1/2 transform -translate-y-1/2 right-3"
-                onClick={togglePasswordVisibility}
+                disabled={isLoggingIn}
+                onClick={() =>
+                  dispatch({
+                    type: "set_show_password",
+                    payload: !showPassword
+                  })
+                }
               >
                 {showPassword ? (
                   <FontAwesomeIcon icon={faEye} />
@@ -130,9 +149,12 @@ const Page = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-app-tertiary text-white font-semibold py-2 rounded-full hover:bg-app-tertiary-dark my-4"
+            className={`w-full ${
+              isLoggingIn ? "opacity-90" : ""
+            } bg-app-tertiary text-white font-semibold py-2 rounded-full hover:bg-app-tertiary-dark my-4`}
+            disabled={isLoggingIn}
           >
-            Login
+            {isLoggingIn ? "Logging In..." : "Login"}
           </button>
         </form>
         <div className="flex flex-row justify-between w-100 my-4">
@@ -145,7 +167,9 @@ const Page = () => {
             <Link
               href={"#"}
               onClick={(e) => handleSocialLogin(e, social.providerName)}
-              className="p-2 mx-2 rounded-[20px] border border-slate-300 bg-white"
+              className={`p-2 mx-2 rounded-[20px] border border-slate-300 bg-white ${
+                isLoggingIn ? "pointer-events-none" : ""
+              }`}
               key={`provider-${idx}`}
             >
               <Image
@@ -158,10 +182,20 @@ const Page = () => {
           ))}
         </div>
         <div className="my-4 text-center text-sm flex flex-col mt-5 space-y-4">
-          <Link href="/" className="text-app-tertiary">
+          <Link
+            href="/"
+            className={`text-app-tertiary ${
+              isLoggingIn ? "pointer-events-none" : ""
+            }`}
+          >
             Forgot Login or Password?
           </Link>
-          <Link href="/register" className="text-app-tertiary">
+          <Link
+            href="/register"
+            className={`text-app-tertiary ${
+              isLoggingIn ? "pointer-events-none" : ""
+            }`}
+          >
             Don&apos;t have an account?
           </Link>
         </div>
