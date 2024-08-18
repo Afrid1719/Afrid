@@ -1,0 +1,26 @@
+.typing_wrapper {
+    display: block;
+    width: 100%;
+    height: 120px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-weight: 600;
+    line-height: 2;
+    text-shadow: 4px -6px 0 #5b7327;
+    background: -webkit-linear-gradient( #5b7327, #071f35, #5b9ed9);
+    background-clip: text;
+    -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (min-width: 768px) {
+  .typing_wrapper {
+    height: 190px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .typing_wrapper {
+    height: 260px;
+  }
+}

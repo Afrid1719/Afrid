@@ -1,7 +1,9 @@
+import Greetings from "@/components/Greetings";
 
 export default function Page() {
   return (
-    <div>Home</div>
-  )
+    <div>
+      <Greetings />
+    </div>
+  );
 }
-
