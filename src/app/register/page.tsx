@@ -1,58 +1,93 @@
 "use client";
-import { FormEvent, useRef, useState } from "react";
+import { useReducer, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { register } from "@/actions/registerUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { register } from "@/actions/register-user";
+import toast from "react-hot-toast";
+
+type ACTIONTYPE =
+  | { type: "set_password"; payload: string }
+  | { type: "set_confirm_password"; payload: string }
+  | { type: "set_show_password"; payload: boolean }
+  | { type: "set_show_confirm_password"; payload: boolean }
+  | { type: "set_is_submitting"; payload: boolean }
+  | { type: "reset" };
+
+const initialState = {
+  password: "",
+  confirmPassword: "",
+  showPassword: false,
+  showConfirmPassword: false,
+  isSubmitting: false
+};
+
+const reducer = (state: typeof initialState, action: ACTIONTYPE) => {
+  switch (action.type) {
+    case "set_password":
+      return { ...state, password: action.payload };
+    case "set_confirm_password":
+      return { ...state, confirmPassword: action.payload };
+    case "set_show_password":
+      return { ...state, showPassword: action.payload };
+    case "set_show_confirm_password":
+      return { ...state, showConfirmPassword: action.payload };
+    case "set_is_submitting":
+      return { ...state, isSubmitting: action.payload };
+    case "reset":
+      return initialState;
+    default:
+      return state;
+  }
+};
 
 export default function Page() {
-  const [error, setError] = useState<string>();
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setConfirmShowPassword] =
-    useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [isPasswordMatch, setIsPasswordMatch] = useState<boolean>(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const router = useRouter();
   const ref = useRef<HTMLFormElement>(null);
+  const {
+    password,
+    confirmPassword,
+    showPassword,
+    showConfirmPassword,
+    isSubmitting
+  } = state;
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.currentTarget);
     if (password !== confirmPassword) {
-      setIsPasswordMatch(false);
       return;
     }
-    const r = await register({
-      email: formData.get("email"),
-      password: formData.get("password"),
-      name: formData.get("name"),
-    });
-    ref.current?.reset();
-    if (r?.error) {
-      setError(r.error);
-      return;
-    } else {
+    try {
+      dispatch({ type: "set_is_submitting", payload: true });
+      const r = await register({
+        email: formData.get("email"),
+        password: formData.get("password"),
+        name: formData.get("name")
+      });
+      if (r?.error) {
+        toast.error(r.error);
+        return;
+      }
+      ref.current?.reset();
+      dispatch({ type: "reset" });
       return router.push("/login");
+    } catch (e: any) {
+      console.error(e.message);
+    } finally {
+      dispatch({ type: "set_is_submitting", payload: false });
     }
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setConfirmShowPassword(!showConfirmPassword);
   };
 
   return (
     <div className="flex items-center justify-center m-8 max-w-[1600px] mx-auto">
       <div className="p-8 rounded w-full sm:w-8/12 md:w-7/12 lg:w-5/12 xl:w-4/12 bg-app-primary">
-        {error && <div className="text-center text-red-800 mb-3">{error}</div>}
-        <h2 className="text-2xl font-semibold mb-6 text-center">Register</h2>
-
-        <form action={handleSubmit} ref={ref}>
+        <h2 className="text-2xl font-semibold mb-6 text-center">
+          Create an account
+        </h2>
+        <form onSubmit={handleSubmit} ref={ref} autoComplete="off">
           <div className="mb-4">
             <label
               className="block text-gray-200 text-sm font-bold mb-2 ml-4"
@@ -64,9 +99,8 @@ export default function Page() {
               type="text"
               id="name"
               name="name"
-              value={name}
               required
-              onChange={(e) => setName(e.target.value)}
+              disabled={isSubmitting}
               className="w-full px-4 py-2 text-black border border-slate-500 rounded-full appearance-none"
             />
           </div>
@@ -81,9 +115,8 @@ export default function Page() {
               type="text"
               id="email"
               name="email"
-              value={email}
               required
-              onChange={(e) => setEmail(e.target.value)}
+              disabled={isSubmitting}
               className="w-full px-4 py-2 text-black border border-slate-500 rounded-full appearance-none"
             />
           </div>
@@ -99,15 +132,22 @@ export default function Page() {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
-                value={password}
                 required
-                onChange={(e) => setPassword(e.target.value)}
+                disabled={isSubmitting}
+                onChange={(e) =>
+                  dispatch({ type: "set_password", payload: e.target.value })
+                }
                 className="w-full px-4 py-2 text-black border overflow-ellipsis border-slate-500 rounded-full appearance-none"
               />
               <button
                 type="button"
                 className="absolute text-black top-1/2 transform -translate-y-1/2 right-3"
-                onClick={togglePasswordVisibility}
+                onClick={() =>
+                  dispatch({
+                    type: "set_show_password",
+                    payload: !showPassword
+                  })
+                }
               >
                 {showPassword ? (
                   <FontAwesomeIcon icon={faEye} />
@@ -129,20 +169,29 @@ export default function Page() {
                 type={showConfirmPassword ? "text" : "password"}
                 id="confirmPassword"
                 name="confirmPassword"
-                value={confirmPassword}
                 required
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                  setIsPasswordMatch(null);
-                }}
+                disabled={isSubmitting}
+                onChange={(e) =>
+                  dispatch({
+                    type: "set_confirm_password",
+                    payload: e.target.value
+                  })
+                }
                 className={`w-full px-4 py-2 text-black border border-slate-500 overflow-ellipsis ${
-                  isPasswordMatch === false && "ring-4 ring-red-500"
+                  password !== confirmPassword &&
+                  !!confirmPassword &&
+                  "ring-4 ring-red-500"
                 } rounded-full appearance-none`}
               />
               <button
                 type="button"
                 className="absolute text-black top-1/2 transform -translate-y-1/2 right-3"
-                onClick={toggleConfirmPasswordVisibility}
+                onClick={() =>
+                  dispatch({
+                    type: "set_show_confirm_password",
+                    payload: !showConfirmPassword
+                  })
+                }
               >
                 {showConfirmPassword ? (
                   <FontAwesomeIcon icon={faEye} />
@@ -151,7 +200,7 @@ export default function Page() {
                 )}
               </button>
             </div>
-            {isPasswordMatch === false && (
+            {password !== confirmPassword && !!confirmPassword && (
               <span className="pl-2 text-red-500 text-sm">
                 Passwords do not match
               </span>
@@ -159,9 +208,10 @@ export default function Page() {
           </div>
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-full bg-app-tertiary text-white font-semibold py-2 rounded-full hover:bg-app-tertiary-dark my-4"
           >
-            Register
+            {isSubmitting ? "Registering..." : "Register"}
           </button>
         </form>
         {/* TODO: Add Social Registration  */}
@@ -189,7 +239,12 @@ export default function Page() {
           ))}
         </div> */}
         <div className="my-4 text-center text-sm flex flex-col mt-5 space-y-4">
-          <Link href="/login" className="text-app-tertiary">
+          <Link
+            href="/login"
+            className={`text-app-tertiary ${
+              isSubmitting ? "pointer-events-none" : ""
+            }`}
+          >
             Already have an account?
           </Link>
         </div>

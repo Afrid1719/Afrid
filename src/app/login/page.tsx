@@ -21,7 +21,8 @@ type ACTIONTYPE =
   | { type: "set_email"; payload: string }
   | { type: "set_password"; payload: string }
   | { type: "set_show_password"; payload: boolean }
-  | { type: "set_is_logging_in"; payload: boolean };
+  | { type: "set_is_logging_in"; payload: boolean }
+  | { type: "reset" };
 
 const reducers = (state: typeof initialState, action: ACTIONTYPE) => {
   switch (action.type) {
@@ -33,6 +34,8 @@ const reducers = (state: typeof initialState, action: ACTIONTYPE) => {
       return { ...state, showPassword: action.payload };
     case "set_is_logging_in":
       return { ...state, isLoggingIn: action.payload };
+    case "reset":
+      return initialState;
     default:
       return state;
   }
@@ -61,9 +64,8 @@ const Page = () => {
         toast.error(res.error);
         return;
       }
-      if (res?.ok) {
-        return router.push("/");
-      }
+      dispatch({ type: "reset" });
+      return router.push("/");
     } catch (e: any) {
       console.error(e);
     } finally {
@@ -101,9 +103,7 @@ const Page = () => {
               onChange={(e) =>
                 dispatch({ type: "set_email", payload: e.target.value })
               }
-              className={`w-full px-4 py-2 ${
-                isLoggingIn ? "bg-slate-300" : ""
-              } text-black border border-slate-500 rounded-full appearance-none`}
+              className={`w-full px-4 py-2 text-black border border-slate-500 rounded-full appearance-none`}
             />
           </div>
           <div className="mb-4">
@@ -124,9 +124,7 @@ const Page = () => {
                 onChange={(e) =>
                   dispatch({ type: "set_password", payload: e.target.value })
                 }
-                className={`w-full px-4 py-2 ${
-                  isLoggingIn ? "bg-slate-300" : ""
-                } text-black border overflow-ellipsis border-slate-500 rounded-full appearance-none`}
+                className={`w-full px-4 py-2 text-black border overflow-ellipsis border-slate-500 rounded-full appearance-none`}
               />
               <button
                 type="button"
@@ -149,9 +147,7 @@ const Page = () => {
           </div>
           <button
             type="submit"
-            className={`w-full ${
-              isLoggingIn ? "opacity-90" : ""
-            } bg-app-tertiary text-white font-semibold py-2 rounded-full hover:bg-app-tertiary-dark my-4`}
+            className={`w-full bg-app-tertiary text-white font-semibold py-2 rounded-full hover:bg-app-tertiary-dark my-4`}
             disabled={isLoggingIn}
           >
             {isLoggingIn ? "Logging In..." : "Login"}

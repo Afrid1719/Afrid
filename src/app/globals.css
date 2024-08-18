@@ -32,3 +32,11 @@ body {
   border-radius: 5px;
   border: 2px solid #5b7327;
 } */
+
+input:disabled, input.disabled {
+  background-color: rgb(203 213 225);
+}
+
+button.disabled {
+  opacity: 0.9;
+}
