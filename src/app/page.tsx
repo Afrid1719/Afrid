@@ -1,9 +1,5 @@
-import AddTodo from "@/components/AddTodo";
-import { Unauthorized } from "@/components/Unauthorized";
-import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default async function Page() {
-  const userId = await getServerSession();
-
-  return !!userId ? <AddTodo /> : <Unauthorized />;
+export default function Page() {
+  redirect("/home");
 }

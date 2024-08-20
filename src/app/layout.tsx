@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Nunito } from "next/font/google";
 import Footer from "@/components/Footer";
 import MobileNav from "@/components/MobileNav";
 import DesktopNav from "@/components/DesktopNav";
@@ -9,7 +9,7 @@ import Header from "@/components/Header";
 import React from "react";
 import { Toaster } from "react-hot-toast";
 
-const inter = Inter({ subsets: ["latin"] });
+const nunito = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Afrid",
@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <AuthProvider>
-        <body className={`${inter.className} text-white`} id="body-wrapper">
+        <body className={`${nunito.className} text-white`} id="body-wrapper">
           <MobileNav
             pageWrapperId="page-wrapper"
             outerContainerId="body-wrapper"
