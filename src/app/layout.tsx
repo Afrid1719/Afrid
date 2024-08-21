@@ -32,7 +32,12 @@ export default function RootLayout({
           />
           <Header />
           <DesktopNav />
-          <main id="page-wrapper">{children}</main>
+          <main
+            id="page-wrapper"
+            className="flex flex-col w-full md:w-4/5 lg:w-3/4 max-w-7xl mx-auto py-3"
+          >
+            {children}
+          </main>
           <Footer />
           <Toaster
             position="top-center"

@@ -1,7 +1,7 @@
 "use client";
 import { TypeAnimation } from "react-type-animation";
 import styles from "@/components/styles/greetings.module.css";
-import { Grey_Qo } from "@next/font/google";
+import { Grey_Qo } from "next/font/google";
 
 const greyQo = Grey_Qo({ weight: "400", subsets: ["latin"] });
 
