@@ -1,11 +1,20 @@
-const Header = () => {
+const Header = ({ shrunk }: { shrunk: boolean }) => {
   return (
-    <header className="text-gray-600 body-font mb-3">
-      <div className="flex flex-col items-center w-full">
-        <a className="flex title-font font-medium justify-center text-gray-900 mb-3 md:mb-5 bg-app-primary w-full p-4">
+    <header
+      className={`${
+        shrunk ? "fixed ease md:h-[72px]" : ""
+      } w-full top-0 text-gray-600 mb-3 bg-app-primary`}
+    >
+      <div className="flex flex-col items-center">
+        <a
+          className={`${
+            shrunk ? "justify-start" : "justify-center mb-3 md:mb-5"
+          } flex title-font font-medium text-gray-900 w-full p-2 md:p-4`}
+        >
           <svg
-            width="178.59612922454644"
-            height="176.39125213623046"
+            className="ease-in-out duration-300"
+            width={shrunk ? "45" : "178.59612922454644"}
+            height={shrunk ? "40" : "176.39125213623046"}
             viewBox="0 0 170.85936202417773 168.75"
           >
             <defs id="SvgjsDefs1562"></defs>
@@ -41,7 +50,7 @@ const Header = () => {
         </a>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

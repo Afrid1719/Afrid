@@ -3,11 +3,10 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import Footer from "@/components/Footer";
 import MobileNav from "@/components/MobileNav";
-import DesktopNav from "@/components/DesktopNav";
 import AuthProvider from "@/components/AuthProvider";
-import Header from "@/components/Header";
 import React from "react";
 import { Toaster } from "react-hot-toast";
+import StickyHeader from "@/components/StickyHeader";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -30,8 +29,7 @@ export default function RootLayout({
             outerContainerId="body-wrapper"
             className="block md:hidden"
           />
-          <Header />
-          <DesktopNav />
+          <StickyHeader />
           <main
             id="page-wrapper"
             className="flex flex-col w-full md:w-4/5 lg:w-3/4 max-w-7xl mx-auto py-3"

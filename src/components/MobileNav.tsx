@@ -18,48 +18,48 @@ var mobileNavStyles = {
     width: "28px",
     height: "20px",
     right: "30px",
-    top: "30px",
+    top: "16px"
   },
   bmBurgerBars: {
-    background: "#79c4f2",
+    background: "#79c4f2"
   },
   bmBurgerBarsHover: {
-    background: "#3286cf",
+    background: "#3286cf"
   },
   bmCrossButton: {
     height: "24px",
     width: "24px",
     top: "30px",
-    right: "30px",
+    right: "30px"
   },
   bmCross: {
-    background: "#5b7327",
+    background: "#5b7327"
   },
   bmMenuWrap: {
     position: "fixed",
-    height: "100%",
+    height: "100%"
   },
   bmMenu: {
     background: "rgb(7,31,53)",
     padding: "2.5em 1.5em 0",
-    fontSize: "1.15em",
+    fontSize: "1.15em"
   },
   bmMorphShape: {
-    fill: "#e0fdf8",
+    fill: "#e0fdf8"
   },
   bmItemList: {
     color: "#e0fdf8",
     padding: "0.8em",
-    marginTop: "2em",
+    marginTop: "2em"
   },
   bmItem: {
     padding: "8px 6px",
     color: "#79c4f2",
-    textAlign: "center",
+    textAlign: "center"
   },
   bmOverlay: {
-    background: "rgba(0, 0, 0, 0.3)",
-  },
+    background: "rgba(0, 0, 0, 0.3)"
+  }
 };
 
 const MobileNav = (props: Props) => {

@@ -3,9 +3,13 @@ import { IRoute } from "@/interfaces/i-routes";
 import Link from "next/link";
 import LoginLogout from "./LoginLogout";
 
-const DesktopNav = () => {
+const DesktopNav = ({ shrunk }: { shrunk: boolean }) => {
   return (
-    <div className="container mx-auto md:flex hidden flex-wrap items-center p-4 md:p-0 md:mb-4 mb-5">
+    <div
+      className={`${
+        shrunk && "fixed h-[72px] top-0 left-1/2 -translate-x-1/2 ease"
+      } container mx-auto md:flex hidden flex-wrap items-center p-4 md:p-0 md:mb-4 mb-5`}
+    >
       <nav className="nav--desktop md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
         {routes.map((route: IRoute, $idx: number) => (
           <Link
