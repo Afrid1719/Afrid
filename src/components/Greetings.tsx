@@ -8,7 +8,7 @@ const greyQo = Grey_Qo({ weight: "400", subsets: ["latin"] });
 export default function Greetings() {
   const text1 = "Greetings";
   const text2 = "I'm Syed Afrid Ali";
-  const text3 = "A Wizard Who Codes ...";
+  const text3 = "A Wizard Who Codes";
   const text4 = "... and A Cosmophile";
   return (
     <div

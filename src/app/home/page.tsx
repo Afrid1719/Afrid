@@ -1,11 +1,140 @@
 import Greetings from "@/components/Greetings";
 import Introduction from "@/components/Introduction";
+import MyProjects from "@/components/MyProjects";
+import Skills from "@/components/Skills";
+import { IMyProject, ISkill } from "@/interfaces/i-home";
 
 export default function Page() {
   return (
     <div>
       <Greetings />
       <Introduction />
+      <Skills skillSet={skillSet} />
+      <MyProjects data={myProjects} />
     </div>
   );
 }
+
+const myProjects: IMyProject[] = [
+  {
+    id: "1",
+    name: "My Portfolio",
+    description:
+      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+    preview: "/preview1.png",
+    codeLink: "https://github.com/afriddev/afrid.dev",
+    techs: ["Next.js", "Tailwind", "Typescript", "Vercel"]
+  },
+  {
+    id: "2",
+    name: "Gaming Hub",
+    description:
+      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+    preview:
+      "https://lh3.googleusercontent.com/7PoLcOh1bDmrlxz4ZrJK_VnlcUv7ATdaNLm3eOUOIjAGctQhqcAM73-T1uznL2Celw53XdM9GrzKz76MRjdhuT0-=s1280-w1280-h800",
+    codeLink: "https://github.com/afriddev/afrid.dev",
+    techs: ["PHP", "Laravel", "MySql", "CSS"]
+  },
+  {
+    id: "3",
+    name: "Gaming Hub",
+    description:
+      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+    preview: "/preview2.png",
+    codeLink: "https://github.com/afriddev/afrid.dev",
+    techs: ["PHP", "Laravel", "MySql", "JavaScript"]
+  }
+];
+
+const skillSet: ISkill[] = [
+  {
+    id: "1",
+    name: "HTML",
+    icon: "https://img.icons8.com/color/48/000000/html-5--v1.png",
+    rating: 8
+  },
+  {
+    id: "2",
+    name: "CSS",
+    icon: "https://img.icons8.com/color/48/000000/css3.png",
+    rating: 8
+  },
+  {
+    id: "3",
+    name: "JavaScript",
+    icon: "https://img.icons8.com/color/48/000000/javascript--v1.png",
+    rating: 8
+  },
+  {
+    id: "4",
+    name: "React",
+    icon: "https://img.icons8.com/color/48/000000/react-native.png",
+    rating: 8
+  },
+  {
+    id: "4",
+    name: "Laravel",
+    icon: "https://img.icons8.com/?size=100&id=lRjcvhvtR81o&format=png&color=000000",
+    rating: 8
+  },
+  {
+    id: "1",
+    name: "HTML",
+    icon: "https://img.icons8.com/color/48/000000/html-5--v1.png",
+    rating: 8
+  },
+  {
+    id: "2",
+    name: "CSS",
+    icon: "https://img.icons8.com/color/48/000000/css3.png",
+    rating: 8
+  },
+  {
+    id: "3",
+    name: "JavaScript",
+    icon: "https://img.icons8.com/color/48/000000/javascript--v1.png",
+    rating: 8
+  },
+  {
+    id: "4",
+    name: "React",
+    icon: "https://img.icons8.com/color/48/000000/react-native.png",
+    rating: 8
+  },
+  {
+    id: "4",
+    name: "Laravel",
+    icon: "https://img.icons8.com/?size=100&id=lRjcvhvtR81o&format=png&color=000000",
+    rating: 8
+  },
+  {
+    id: "1",
+    name: "HTML",
+    icon: "https://img.icons8.com/color/48/000000/html-5--v1.png",
+    rating: 8
+  },
+  {
+    id: "2",
+    name: "CSS",
+    icon: "https://img.icons8.com/color/48/000000/css3.png",
+    rating: 8
+  },
+  {
+    id: "3",
+    name: "JavaScript",
+    icon: "https://img.icons8.com/color/48/000000/javascript--v1.png",
+    rating: 8
+  },
+  {
+    id: "4",
+    name: "React",
+    icon: "https://img.icons8.com/color/48/000000/react-native.png",
+    rating: 8
+  },
+  {
+    id: "4",
+    name: "Laravel",
+    icon: "https://img.icons8.com/?size=100&id=lRjcvhvtR81o&format=png&color=000000",
+    rating: 8
+  }
+];
