@@ -13,7 +13,7 @@ export default function MyProjects({ data }: { data: IMyProject[] }) {
         My Projects
       </h2>
       <h3 className="lg:text-xl text-app-color-5">
-        Explore the projects I&apos;ve worked on.
+        Explore the projects I&apos;ve worked on
       </h3>
       <section className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 auto-rows-max py-6 gap-4">
         {data.map((project) => (

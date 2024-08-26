@@ -10,7 +10,7 @@ export default function Skills({ skillSet }: { skillSet: ISkill[] }) {
         My Skills
       </h2>
       <h3 className="lg:text-xl text-app-color-5">
-        Explore the diverse range of skills I&apos;ve honed over the years.
+        Explore the diverse range of skills I&apos;ve honed over the years
       </h3>
       <section className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 py-6 gap-4">
         {skillSet.map((skill) => (
