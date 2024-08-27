@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Introduction() {
   return (
@@ -33,7 +34,14 @@ export default function Introduction() {
           efficient, scalable, and user-friendly web applications using
           technologies like JavaScript, Laravel, Next.js, and MongoDB. Beyond my
           work, I have a keen interest in exploring AI tools, delving into the
-          Marvel and Harry Potter universes, and learning Japanese.
+          Marvel and Harry Potter universes, and learning Japanese. Go to{" "}
+          <Link
+            href={"/professional"}
+            className="text-app-color-5 hover:text-app-color-6 hover:underline"
+          >
+            Professional
+          </Link>{" "}
+          for my Work Experiences and Academics.
         </section>
       </article>
     </div>
