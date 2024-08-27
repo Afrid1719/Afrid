@@ -34,13 +34,13 @@ export default function GetInTouch() {
   const [state, dispatch] = useReducer(reducers, initialState);
   const { email, name, message, isSubmitting } = state;
   return (
-    <Card className="p-4 md:p-5 mt-4">
+    <Card className="p-4 md:p-5 mt-4 lg:w-3/5 lg:ml-auto">
       <h2 className="text-2xl md:text-3xl lg:text-4xl text-center font-extrabold mb-2">
         Get In Touch
       </h2>
       <form action="">
         <div className="flex flex-col">
-          <div className="flex flex-col md:flex-row gap-2">
+          <div className="flex flex-col md:flex-row gap-2 mb-2">
             <div className="md:w-1/2">
               <label
                 className="block text-gray-200 text-sm font-bold mb-2 ml-4"
@@ -102,8 +102,8 @@ export default function GetInTouch() {
             />
           </div>
         </div>
-        <button className="w-full mt-4 bg-app-tertiary hover:bg-app-tertiary-dark text-white font-bold py-2 px-4 rounded">
-          {isSubmitting ? "Submitting..." : "Submit"}
+        <button className="w-full md:w-auto block ml-auto mt-4 bg-app-tertiary hover:bg-app-tertiary-dark text-white font-bold py-2 px-4 rounded">
+          {isSubmitting ? "Sending..." : "Send Message"}
         </button>
       </form>
     </Card>
