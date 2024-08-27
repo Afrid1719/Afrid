@@ -14,3 +14,10 @@ export interface IMyProject {
   url?: string;
   techs: string[];
 }
+
+export interface ITool {
+  id: string;
+  name: string;
+  icon: string;
+  rating?: number;
+}

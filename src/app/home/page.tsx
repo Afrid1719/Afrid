@@ -1,19 +1,77 @@
+import GetInTouch from "@/components/GetInTouch";
 import Greetings from "@/components/Greetings";
 import Introduction from "@/components/Introduction";
 import MyProjects from "@/components/MyProjects";
 import Skills from "@/components/Skills";
-import { IMyProject, ISkill } from "@/interfaces/i-home";
+import ToolsIUse from "@/components/ToolsIUse";
+import { IMyProject, ISkill, ITool } from "@/interfaces/i-home";
 
 export default function Page() {
   return (
-    <div>
+    <>
       <Greetings />
       <Introduction />
       <Skills data={skillSet} />
       <MyProjects data={myProjects} />
-    </div>
+      <ToolsIUse data={toolsIUse} />
+      <div className="w-full flex justify-center">
+        <hr className="w-2/4 mt-4 border-app-tertiary-dark" />
+      </div>
+      <GetInTouch />
+    </>
   );
 }
+
+const toolsIUse: ITool[] = [
+  {
+    id: "1",
+    name: "Jira",
+    icon: "https://img.icons8.com/color/48/000000/jira.png",
+    rating: 8
+  },
+  {
+    id: "2",
+    name: "VS Code",
+    icon: "https://img.icons8.com/?size=100&id=9OGIyU8hrxW5&format=png&color=000000",
+    rating: 8
+  },
+  {
+    id: "3",
+    name: "Git",
+    icon: "https://img.icons8.com/?size=100&id=20906&format=png&color=000000",
+    rating: 8
+  },
+  {
+    id: "4",
+    name: "Windows",
+    icon: "https://img.icons8.com/?size=100&id=gXoJoyTtYXFg&format=png&color=000000",
+    rating: 8
+  },
+  {
+    id: "5",
+    name: "Windows",
+    icon: "https://img.icons8.com/?size=100&id=gXoJoyTtYXFg&format=png&color=000000",
+    rating: 8
+  },
+  {
+    id: "6",
+    name: "Windows",
+    icon: "https://img.icons8.com/?size=100&id=gXoJoyTtYXFg&format=png&color=000000",
+    rating: 8
+  },
+  {
+    id: "7",
+    name: "Windows",
+    icon: "https://img.icons8.com/?size=100&id=gXoJoyTtYXFg&format=png&color=000000",
+    rating: 8
+  },
+  {
+    id: "8",
+    name: "Windows",
+    icon: "https://img.icons8.com/?size=100&id=gXoJoyTtYXFg&format=png&color=000000",
+    rating: 8
+  }
+];
 
 const myProjects: IMyProject[] = [
   {
