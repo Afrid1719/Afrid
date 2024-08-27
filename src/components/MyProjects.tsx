@@ -1,6 +1,9 @@
 import { IMyProject } from "@/interfaces/i-home";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowUpRightFromSquare,
+  faGlobe
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,25 +32,16 @@ export default function MyProjects({ data }: { data: IMyProject[] }) {
               className="rounded-t-xl w-full h-auto object-cover"
               style={{ aspectRatio: 300 / 200 }}
             />
-            <div className="p-4 bg-app-primary bg-opacity-50 rounded-b-xl">
+            <div className="flex flex-col grow p-4 border-t border-app-primary rounded-b-xl">
               <h2 className="text-xl lg:text-2xl font-bold text-app-tertiary">
                 <Link href={project.url || ""} target="_blank">
                   {project.name}
                 </Link>
               </h2>
-              {project.description && (
-                <p className="mt-2 text-white">
-                  {project.description.length > 200
-                    ? project.description.substring(0, 200) + "..."
-                    : project.description}
-                </p>
-              )}
               <p className="mt-2">
-                Technologies:{" "}
+                Built using{" "}
                 <strong className="text-app-tertiary">
-                  {project.techs.join(", ").length > 100
-                    ? project.techs.join(", ").slice(0, 100) + "..."
-                    : project.techs.join(", ")}
+                  {project.techs.join(", ")}
                 </strong>
               </p>
               <div className="mt-2 flex flex-nowrap w-full justify-end gap-x-3 text-2xl">
@@ -72,6 +66,12 @@ export default function MyProjects({ data }: { data: IMyProject[] }) {
           </div>
         ))}
       </section>
+      <Link
+        href="/projects"
+        className="text-app-secondary hover:text-app-color-6"
+      >
+        View All Projects <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+      </Link>
     </div>
   );
 }

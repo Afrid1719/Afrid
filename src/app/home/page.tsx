@@ -9,7 +9,7 @@ export default function Page() {
     <div>
       <Greetings />
       <Introduction />
-      <Skills skillSet={skillSet} />
+      <Skills data={skillSet} />
       <MyProjects data={myProjects} />
     </div>
   );
@@ -23,7 +23,15 @@ const myProjects: IMyProject[] = [
       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
     preview: "/preview1.png",
     codeLink: "https://github.com/afriddev/afrid.dev",
-    techs: ["Next.js", "Tailwind", "Typescript", "Vercel"]
+    techs: [
+      "Next.js",
+      "Tailwind",
+      "Typescript",
+      "Vercel",
+      "React",
+      "MongoDB",
+      "PostgreSQL"
+    ]
   },
   {
     id: "2",
@@ -72,67 +80,67 @@ const skillSet: ISkill[] = [
     rating: 8
   },
   {
-    id: "4",
+    id: "5",
     name: "Laravel",
     icon: "https://img.icons8.com/?size=100&id=lRjcvhvtR81o&format=png&color=000000",
     rating: 8
   },
   {
-    id: "1",
+    id: "6",
     name: "HTML",
     icon: "https://img.icons8.com/color/48/000000/html-5--v1.png",
     rating: 8
   },
   {
-    id: "2",
+    id: "7",
     name: "CSS",
     icon: "https://img.icons8.com/color/48/000000/css3.png",
     rating: 8
   },
   {
-    id: "3",
+    id: "8",
     name: "JavaScript",
     icon: "https://img.icons8.com/color/48/000000/javascript--v1.png",
     rating: 8
   },
   {
-    id: "4",
+    id: "9",
     name: "React",
     icon: "https://img.icons8.com/color/48/000000/react-native.png",
     rating: 8
   },
   {
-    id: "4",
+    id: "10",
     name: "Laravel",
     icon: "https://img.icons8.com/?size=100&id=lRjcvhvtR81o&format=png&color=000000",
     rating: 8
   },
   {
-    id: "1",
+    id: "11",
     name: "HTML",
     icon: "https://img.icons8.com/color/48/000000/html-5--v1.png",
     rating: 8
   },
   {
-    id: "2",
+    id: "12",
     name: "CSS",
     icon: "https://img.icons8.com/color/48/000000/css3.png",
     rating: 8
   },
   {
-    id: "3",
+    id: "13",
     name: "JavaScript",
     icon: "https://img.icons8.com/color/48/000000/javascript--v1.png",
     rating: 8
   },
   {
-    id: "4",
+    id: "14",
     name: "React",
     icon: "https://img.icons8.com/color/48/000000/react-native.png",
     rating: 8
   },
   {
-    id: "4",
+    id: "15",
     name: "Laravel",
     icon: "https://img.icons8.com/?size=100&id=lRjcvhvtR81o&format=png&color=000000",
     rating: 8
