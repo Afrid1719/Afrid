@@ -10,12 +10,15 @@ import { readData } from "@/utils/json-reader";
 export default async function Page() {
   const skillSet: { skills: ISkill[] } = await readData("data/skills.json");
   const toolsIUse: { tools: ITool[] } = await readData("data/tools.json");
+  const myProjects: { projects: IMyProject[] } = await readData(
+    "data/myprojects.json"
+  );
   return (
     <>
       <Greetings />
       <Introduction />
       <Skills data={skillSet.skills} />
-      <MyProjects data={myProjects} />
+      <MyProjects data={myProjects.projects} />
       <ToolsIUse data={toolsIUse.tools} />
       <div className="w-full flex justify-center p-4 md:p-5">
         <hr className="w-2/4 border-app-tertiary-dark" />

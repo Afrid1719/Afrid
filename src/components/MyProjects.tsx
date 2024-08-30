@@ -67,12 +67,14 @@ export default function MyProjects({ data }: { data: IMyProject[] }) {
           </div>
         ))}
       </section>
-      <Link
-        href="/projects"
-        className="text-app-secondary hover:text-app-color-6"
-      >
-        View All Projects <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-      </Link>
+      {data.length > 3 && (
+        <Link
+          href="/projects"
+          className="text-app-secondary hover:text-app-color-6"
+        >
+          View All Projects <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+        </Link>
+      )}
     </div>
   );
 }

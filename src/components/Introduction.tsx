@@ -7,12 +7,12 @@ export default function Introduction() {
       <article className="flex flex-col justify-center items-center md:flex-row gap-y-4 ">
         <section className="flex justify-center items-center gap-3 md:flex-col md:w-1/2">
           <Image
-            src="https://avatar.iran.liara.run/public/boy?username=Ash"
+            src="/me-intro-2-modified.png"
             width={200}
             height={200}
             alt="Afrid"
             priority={true}
-            className="rounded-xl object-fill w-32 h-32 md:w-auto md:h-auto"
+            className="shadow-xl shadow-slate-950 rounded-full w-40 h-40 md:w-64 md:h-64 object-fill aspect-auto"
           />
           <button className="bg-app-color-6 hover:bg-app-color-5 text-white font-bold py-2 px-4 rounded md:mt-4">
             Download Resume
