@@ -11,5 +11,14 @@ export default function Error({
   useEffect(() => {
     console.error(error);
   }, [error]);
-  return <button onClick={() => reset()}>Try again</button>;
+  return (
+    <div className="p-4 md:p-5 flex justify-center">
+      <button
+        onClick={() => reset()}
+        className="px-5 py-3 border-2 border-app-primary rounded-xl shadow shadow-app-primary transition-all hover:scale-105 hover:shadow-md hover:shadow-app-primary"
+      >
+        Try again
+      </button>
+    </div>
+  );
 }

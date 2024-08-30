@@ -1,0 +1,49 @@
+{
+    "tools": [
+        {
+            "id": "1",
+            "name": "Git",
+            "icon": "https://img.icons8.com/?size=100&id=20906&format=png&color=000000"
+        },
+        {
+            "id": "2",
+            "name": "SVN",
+            "icon": "https://img.icons8.com/?size=100&id=50468&format=png&color=000000"
+        },
+        {
+            "id": "3",
+            "name": "VS Code",
+            "icon": "https://img.icons8.com/?size=100&id=9OGIyU8hrxW5&format=png&color=000000"
+        },
+        {
+            "id": "4",
+            "name": "Bitbucket/Stash",
+            "icon": "https://img.icons8.com/color/48/000000/bitbucket.png"
+        },
+        {
+            "id": "5",
+            "name": "Jira",
+            "icon": "https://img.icons8.com/color/48/000000/jira.png"
+        },
+        {
+            "id": "6",
+            "name": "Windows",
+            "icon": "https://img.icons8.com/?size=100&id=gXoJoyTtYXFg&format=png&color=000000"
+        },
+        {
+            "id": "7",
+            "name": "Ubuntu",
+            "icon": "https://img.icons8.com/color/48/000000/ubuntu.png"
+        },
+        {
+            "id": "8",
+            "name": "SourceTree/Fork",
+            "icon": "https://img.icons8.com/?size=100&id=Qu2sYlfDM0qZ&format=png&color=000000"
+        },
+        {
+            "id": "9",
+            "name": "NPM",
+            "icon": "https://img.icons8.com/color/48/000000/npm.png"
+        }
+    ]
+}

@@ -5,15 +5,18 @@ import MyProjects from "@/components/MyProjects";
 import Skills from "@/components/Skills";
 import ToolsIUse from "@/components/ToolsIUse";
 import { IMyProject, ISkill, ITool } from "@/interfaces/i-home";
+import { readData } from "@/utils/json-reader";
 
-export default function Page() {
+export default async function Page() {
+  const skillSet: { skills: ISkill[] } = await readData("data/skills.json");
+  const toolsIUse: { tools: ITool[] } = await readData("data/tools.json");
   return (
     <>
       <Greetings />
       <Introduction />
-      <Skills data={skillSet} />
+      <Skills data={skillSet.skills} />
       <MyProjects data={myProjects} />
-      <ToolsIUse data={toolsIUse} />
+      <ToolsIUse data={toolsIUse.tools} />
       <div className="w-full flex justify-center p-4 md:p-5">
         <hr className="w-2/4 border-app-tertiary-dark" />
       </div>
@@ -21,57 +24,6 @@ export default function Page() {
     </>
   );
 }
-
-const toolsIUse: ITool[] = [
-  {
-    id: "1",
-    name: "Jira",
-    icon: "https://img.icons8.com/color/48/000000/jira.png",
-    rating: 8
-  },
-  {
-    id: "2",
-    name: "VS Code",
-    icon: "https://img.icons8.com/?size=100&id=9OGIyU8hrxW5&format=png&color=000000",
-    rating: 8
-  },
-  {
-    id: "3",
-    name: "Git",
-    icon: "https://img.icons8.com/?size=100&id=20906&format=png&color=000000",
-    rating: 8
-  },
-  {
-    id: "4",
-    name: "Windows",
-    icon: "https://img.icons8.com/?size=100&id=gXoJoyTtYXFg&format=png&color=000000",
-    rating: 8
-  },
-  {
-    id: "5",
-    name: "Windows",
-    icon: "https://img.icons8.com/?size=100&id=gXoJoyTtYXFg&format=png&color=000000",
-    rating: 8
-  },
-  {
-    id: "6",
-    name: "Windows",
-    icon: "https://img.icons8.com/?size=100&id=gXoJoyTtYXFg&format=png&color=000000",
-    rating: 8
-  },
-  {
-    id: "7",
-    name: "Windows",
-    icon: "https://img.icons8.com/?size=100&id=gXoJoyTtYXFg&format=png&color=000000",
-    rating: 8
-  },
-  {
-    id: "8",
-    name: "Windows",
-    icon: "https://img.icons8.com/?size=100&id=gXoJoyTtYXFg&format=png&color=000000",
-    rating: 8
-  }
-];
 
 const myProjects: IMyProject[] = [
   {
@@ -109,98 +61,5 @@ const myProjects: IMyProject[] = [
     preview: "/preview2.png",
     codeLink: "https://github.com/afriddev/afrid.dev",
     techs: ["PHP", "Laravel", "MySql", "JavaScript"]
-  }
-];
-
-const skillSet: ISkill[] = [
-  {
-    id: "1",
-    name: "HTML",
-    icon: "https://img.icons8.com/color/48/000000/html-5--v1.png",
-    rating: 8
-  },
-  {
-    id: "2",
-    name: "CSS",
-    icon: "https://img.icons8.com/color/48/000000/css3.png",
-    rating: 8
-  },
-  {
-    id: "3",
-    name: "JavaScript",
-    icon: "https://img.icons8.com/color/48/000000/javascript--v1.png",
-    rating: 8
-  },
-  {
-    id: "4",
-    name: "React",
-    icon: "https://img.icons8.com/color/48/000000/react-native.png",
-    rating: 8
-  },
-  {
-    id: "5",
-    name: "Laravel",
-    icon: "https://img.icons8.com/?size=100&id=lRjcvhvtR81o&format=png&color=000000",
-    rating: 8
-  },
-  {
-    id: "6",
-    name: "HTML",
-    icon: "https://img.icons8.com/color/48/000000/html-5--v1.png",
-    rating: 8
-  },
-  {
-    id: "7",
-    name: "CSS",
-    icon: "https://img.icons8.com/color/48/000000/css3.png",
-    rating: 8
-  },
-  {
-    id: "8",
-    name: "JavaScript",
-    icon: "https://img.icons8.com/color/48/000000/javascript--v1.png",
-    rating: 8
-  },
-  {
-    id: "9",
-    name: "React",
-    icon: "https://img.icons8.com/color/48/000000/react-native.png",
-    rating: 8
-  },
-  {
-    id: "10",
-    name: "Laravel",
-    icon: "https://img.icons8.com/?size=100&id=lRjcvhvtR81o&format=png&color=000000",
-    rating: 8
-  },
-  {
-    id: "11",
-    name: "HTML",
-    icon: "https://img.icons8.com/color/48/000000/html-5--v1.png",
-    rating: 8
-  },
-  {
-    id: "12",
-    name: "CSS",
-    icon: "https://img.icons8.com/color/48/000000/css3.png",
-    rating: 8
-  },
-  {
-    id: "13",
-    name: "JavaScript",
-    icon: "https://img.icons8.com/color/48/000000/javascript--v1.png",
-    rating: 8
-  },
-  {
-    id: "14",
-    name: "React",
-    icon: "https://img.icons8.com/color/48/000000/react-native.png",
-    rating: 8
-  },
-  {
-    id: "15",
-    name: "Laravel",
-    icon: "https://img.icons8.com/?size=100&id=lRjcvhvtR81o&format=png&color=000000",
-    rating: 8
   }
 ];
