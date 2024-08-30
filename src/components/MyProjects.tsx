@@ -29,6 +29,7 @@ export default function MyProjects({ data }: { data: IMyProject[] }) {
               alt={project.name}
               width={800}
               height={800}
+              priority={true}
               className="rounded-t-xl w-full h-auto object-cover"
               style={{ aspectRatio: 300 / 200 }}
             />

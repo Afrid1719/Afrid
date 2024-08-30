@@ -11,6 +11,7 @@ export default function Introduction() {
             width={200}
             height={200}
             alt="Afrid"
+            priority={true}
             className="rounded-xl object-fill w-32 h-32 md:w-auto md:h-auto"
           />
           <button className="bg-app-color-6 hover:bg-app-color-5 text-white font-bold py-2 px-4 rounded md:mt-4">

@@ -29,6 +29,7 @@ export default function ToolsIUse({ data }: { data: ITool[] }) {
                 title={tool.name}
                 width={48}
                 height={48}
+                priority={true}
               />
               <strong>{tool.name}</strong>
               {tool.rating && (

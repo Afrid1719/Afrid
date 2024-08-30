@@ -29,6 +29,7 @@ export default function Skills({ data }: { data: ISkill[] }) {
                 title={skill.name}
                 width={48}
                 height={48}
+                priority={true}
               />
               <strong>{skill.name}</strong>
               <span className="text-sm">{`${skill.rating} / 10`}</span>
