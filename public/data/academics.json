@@ -1,0 +1,92 @@
+{
+  "academics": [
+    {
+      "id": "1",
+      "level": "Masters",
+      "degree": "Masters of Computer Application",
+      "institutionImage": "/lpu.png",
+      "institutionName": "Lovely Professional University",
+      "startYear": "2024",
+      "endYear": "2026 (Expected)",
+      "marksObtained": "",
+      "marksOutOf": ""
+    },
+    {
+      "id": "2",
+      "level": "Bachelors",
+      "degree": "Bachelors of Computer Application",
+      "institutionImage": "/techno-india-logo.png",
+      "institutionName": "Lovely Professional University",
+      "startYear": "2016",
+      "endYear": "2019",
+      "marksObtained": "8.2",
+      "marksOutOf": "10"
+    },
+    {
+      "id": "3",
+      "level": "Higher Secondary",
+      "degree": "Indian School Certificate (10th + 2)",
+      "institutionName": "St. Sebastians School",
+      "startYear": "2014",
+      "endYear": "2016",
+      "marksObtained": "69",
+      "marksOutOf": "100"
+    },
+    {
+      "id": "4",
+      "level": "Secondary",
+      "degree": "Indian Certificate of Secondary Education (10th)",
+      "institutionImage": "/tpes-logo.png",
+      "institutionName": "The Park English School",
+      "startYear": "2002",
+      "endYear": "2014",
+      "marksObtained": "63.17",
+      "marksOutOf": "100"
+    },
+    {
+      "id": "5",
+      "level": "Certification",
+      "degree": "Programming, Data Structures, and Algorithms using C",
+      "institutionImage": "/nptel-logo.jpg",
+      "institutionName": "NPTEL",
+      "startYear": "2018",
+      "marksObtained": 86,
+      "marksOutOf": 100
+    },
+    {
+      "id": "6",
+      "level": "Certification",
+      "degree": "Programming in C++",
+      "institutionImage": "/nptel-logo.jpg",
+      "institutionName": "NPTEL",
+      "startYear": "2018",
+      "marksObtained": 83,
+      "marksOutOf": 100
+    },
+    {
+      "id": "7",
+      "level": "Certification",
+      "degree": "PHP 7 and Laravel 6",
+      "institutionName": "Ardent Collaborations",
+      "startYear": "2020",
+      "marksObtained": 83,
+      "marksOutOf": 100
+    },
+    {
+      "id": "8",
+      "level": "Certification",
+      "degree": "The Web Developer Bootcamp by Colt Steele",
+      "institutionImage": "/udemy-logo.png",
+      "institutionName": "Udemy",
+      "startYear": "2020"
+    },
+    {
+      "id": "9",
+      "level": "Certification",
+      "degree": "Nodejs Developer by ZTM",
+      "institutionImage": "/udemy-logo.png",
+      "institutionName": "Udemy",
+      "startYear": "2022"
+    }
+  ]
+}
