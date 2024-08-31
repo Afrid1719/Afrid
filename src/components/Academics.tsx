@@ -12,11 +12,11 @@ export default function Academics({ data }: { data: IAcademics[] }) {
           <div className="flex flex-row gap-x-3">
             <div>
               <Image
-                src={item.institutionImage}
+                src={item?.institutionImage || "/placeholder-image.webp"}
                 width={50}
                 height={50}
                 alt={item.institutionName}
-                className="rounded-full"
+                className="rounded-full md:w-[50px] md:h-[50px]"
               />
             </div>
             <div className="grow flex flex-col">
@@ -27,6 +27,11 @@ export default function Academics({ data }: { data: IAcademics[] }) {
               <em className="text-sm">
                 {item.startYear} {!!item.endYear ? `- ${item.endYear}` : ``}
               </em>
+              {item.marksObtained && item.marksOutOf && (
+                <p className="text-sm">
+                  Score : {item.marksObtained} / {item.marksOutOf}
+                </p>
+              )}
             </div>
           </div>
         </Card>
