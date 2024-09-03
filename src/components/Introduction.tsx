@@ -14,9 +14,13 @@ export default function Introduction() {
             priority={true}
             className="shadow-xl shadow-slate-950 rounded-full w-40 h-40 md:w-64 md:h-64 object-fill aspect-auto"
           />
-          <button className="bg-app-color-6 hover:bg-app-color-5 text-white font-bold py-2 px-4 rounded md:mt-4">
+          <a
+            href="/resume.pdf"
+            download="Afrid-resume.pdf"
+            className="bg-app-color-6 hover:bg-app-color-5 text-white font-bold py-2 px-4 rounded md:mt-4"
+          >
             Download Resume
-          </button>
+          </a>
         </section>
         <section className="md:w-1/2">
           I&apos;m a Full Stack Web Developer
