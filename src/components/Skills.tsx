@@ -21,7 +21,7 @@ export default function Skills({ data }: { data: ISkill[] }) {
             <Card
               key={skill.id}
               mergeClasses={false}
-              className="flex flex-col border-2 border-app-primary shadow hover:shadow-lg hover:scale-105 transition-all ease hover:shadow-app-primary/40 rounded-xl items-center justify-center p-2 md:p-5"
+              className="flex flex-col border-2 border-app-primary shadow hover:shadow-lg hover:scale-105 transition-all ease hover:shadow-app-primary/40 rounded-xl items-center justify-center p-2 md:p-5 z-[888]"
             >
               <Image
                 src={skill.icon}

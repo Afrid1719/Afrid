@@ -1,3 +1,5 @@
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,9 +19,13 @@ export default function Introduction() {
           <a
             href="/resume.pdf"
             download="Afrid-resume.pdf"
-            className="bg-app-color-6 hover:bg-app-color-5 text-white font-bold py-2 px-4 rounded md:mt-4"
+            className="bg-app-color-6 hover:bg-app-color-5 text-white text-center font-bold py-2 px-2 sm:px-4 rounded md:mt-4"
           >
-            Download Resume
+            <span className="hidden md:inline">Download</span>
+            <span className="inline md:hidden text-base">
+              <FontAwesomeIcon icon={faDownload} />
+            </span>{" "}
+            Resume
           </a>
         </section>
         <section className="md:w-1/2">

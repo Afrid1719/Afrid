@@ -143,6 +143,12 @@
           "name": "GraphQL",
           "icon": "https://img.icons8.com/color/48/000000/graphql.png",
           "rating": 3
+      },
+      {
+        "id": "25",
+          "name": "Redux",
+          "icon": "https://img.icons8.com/color/48/000000/redux.png",
+          "rating": 4
       }
   ]
 }
