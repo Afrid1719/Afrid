@@ -1,32 +1,49 @@
-import { IRoute } from '@/interfaces/i-routes'
+import { IRoute } from "@/interfaces/i-routes";
 
 export const routes: IRoute[] = [
   {
-    menuName: 'Home',
-    path: '/home',
+    menuName: "Home",
+    path: "/home",
+    off: false
   },
   {
-    menuName: 'Incidents',
-    path: '/incidents',
+    menuName: "Incidents",
+    path: "/incidents",
+    off: true
   },
   {
-    menuName: 'Memories',
-    path: '/memories',
+    menuName: "Memories",
+    path: "/memories",
+    off: true
   },
   {
-    menuName: 'Gallery',
-    path: '/gallery',
+    menuName: "Gallery",
+    path: "/gallery",
+    off: true
   },
   {
-    menuName: 'Professional',
-    path: '/professional',
+    menuName: "Professional",
+    path: "/professional",
+    off: false
   },
   {
-    menuName: 'Thoughts',
-    path: '/thoughts',
+    menuName: "Blog",
+    path: "/blog",
+    off: false
   },
   {
-    menuName: 'Profile',
-    path: '/profile',
+    menuName: "Projects",
+    path: "/projects",
+    off: false
   },
-]
+  {
+    menuName: "Thoughts",
+    path: "/thoughts",
+    off: true
+  },
+  {
+    menuName: "Profile",
+    path: "/profile",
+    off: true
+  }
+];

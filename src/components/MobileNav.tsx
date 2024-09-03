@@ -6,6 +6,8 @@ import React from "react";
 import { slide as Menu } from "react-burger-menu";
 import LoginLogout from "./LoginLogout";
 
+const featureAvailable = false;
+
 type Props = {
   pageWrapperId: string;
   outerContainerId: string;
@@ -69,16 +71,18 @@ const MobileNav = (props: Props) => {
       right
       burgerButtonClassName={props.className}
     >
-      {routes.map((route: IRoute, $idx: number) => (
-        <Link
-          key={`route-${$idx}`}
-          href={route.path}
-          className="mr-5 hover:text-app-color-6 text-app-secondary"
-        >
-          {route.menuName}
-        </Link>
-      ))}
-      <LoginLogout />
+      {routes
+        .filter((route) => !route.off)
+        .map((route: IRoute, $idx: number) => (
+          <Link
+            key={`route-${$idx}`}
+            href={route.path}
+            className="mr-5 hover:text-app-color-6 text-app-secondary"
+          >
+            {route.menuName}
+          </Link>
+        ))}
+      {featureAvailable && <LoginLogout />}
     </Menu>
   );
 };
