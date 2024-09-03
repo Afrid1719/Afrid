@@ -6,11 +6,11 @@
             "company": "Triophase Global Pvt. Ltd.",
             "duration": "April 2024 - July 2024",
             "description": [
-                "Led project analysis to identify delay factors, redefining workflows and increasing stakeholder satisfaction by 15%.",
-                "Managed a team of 3 developers and 1 QA engineer, creating troubleshooting guides that reduced project delays by 15%.",
-                "Reviewed 30+ pull requests and fixed critical bugs pre-production, allowing focus on high-priority tasks and maintaining project momentum."
+                "Directed project analysis to identify delay factors, redefining workflows and increasing stakeholder satisfaction by 15%.",
+                "Supervised a team of 3 developers and 1 QA engineer, creating troubleshooting guides that reduced project delays by 15%.",
+                "Evaluated 30+ pull requests and resolved critical bugs pre-production, allowing focus on high-priority tasks and maintaining project momentum."
             ],
-            "techs": ["PHP", "React.js", "Nextjs", "JavaScript", "SASS", "Typescript", "Laravel", "MySQL", "Docker", "Linux", "Bootstrap", "HTML5", "CSS3", "Jira", "Bitbucket", "Git"]
+            "techs": ["PHP", "React.js", "Nextjs", "JavaScript", "SASS", "Typescript", "Laravel", "Redux", "MySQL", "Docker", "Linux", "Bootstrap", "HTML5", "CSS3", "Jira", "Bitbucket", "Git"]
         },
         {
             "id": "2",
@@ -20,9 +20,9 @@
             "description": [
                 "Engineered 30+ features with an average of 4 story points per ticket for a hospice care platform, enhancing functionality and user experience.",
                 "Collaborated with product and backend teams on 30+ new features, providing frontend expertise and mentoring 5 junior developers.",
-                "Contributed to Sprint Review and Retrospective meetings, brainstorming and implementing improvements for deliverable releases.",
-                "Completed internal training and courses to stay current with product features and industry updates.",
-                "Participated in Q&A sessions for collaboration and brainstorming on specific technological topics."
+                "Drove collaborative efforts during Sprint Review sessions, facilitating the brainstorming of innovative solutions and enhancing team communication, which collectively increased deliverable quality, now recognized by stakeholders as top-tier.",
+                "Achieved completion of internal training and courses to stay current with evolving product features and industry best practices.",
+                "Engaged in Q&A sessions for collaboration and brainstorming on technological topics."
             ],
             "techs": ["HTML5", "CSS3", "JavaScript", "Aurelia.js", "Typescript", "Bootstrap 4", "Jira", "Stash", "Git"]
         },
@@ -32,12 +32,11 @@
             "company": "Hummingbird Web Solutions Pvt. Ltd.",
             "duration": "November 2020 - May 2022",
             "description": [
-                "Executed Agile methodologies to enhance Responsive Elementor Addons by developing 10 new widgets and implementing a template builder.",
+                "Implemented Agile methodologies to enhance Responsive Elementor Addons by developing 10 new widgets and a template builder.",
                 "Integrated 5+ third-party JavaScript libraries and resolved 2+ critical bugs in the Responsive Template Importer plugin.",
-                "Participated in Q&A meetings to collaborate and brainstorm on specific technological topics.",
-                "Attended company-wide meetings to improve cross-team collaboration."
+                "Developed and added 5 more widgets to the Responsive Theme, enhancing user engagement and functionality across client websites."
             ],
-            "techs": ["HTML5", "CSS3", "JavaScript", "SASS", "PHP", "Bootstrap 4", "WordPress", "MySQL", "React.js", "Jira", "Bitbucket", "Git"]
+            "techs": ["HTML5", "CSS3", "JavaScript", "SASS", "PHP", "Bootstrap 4", "WordPress", "MySQL", "React.js", "Redux", "Jira", "Bitbucket", "Git"]
         },
         {
             "id": "4",
@@ -45,9 +44,9 @@
             "company": "Cognizant Technology Solutions",
             "duration": "June 2019 - February 2020",
             "description": [
-                "Analyzed requirements for 5+ Jira stories, resulting in improved time management and efficiency in test case execution.",
-                "Created and executed 100+ manual test cases across 9 devices, maintaining software quality at over 75%.",
-                "Developed and executed 10+ automated test cases using the Selenium-Cucumber framework in Java, achieving 50% automation and ensuring robust software quality."
+                "Analyzed requirements for 5+ Jira stories, leading to more efficient execution of test cases.",
+                "Developed and executed 100+ manual test cases across 9 devices, maintaining software quality above 75%.",
+                "Created 10+ automated test cases using the Selenium-Cucumber framework in Java, achieving 50% automation and ensuring robust software quality."
             ],
             "techs": ["Java", "Selenium", "Cucumber", "Jira", "Git", "Manual Testing"]
         }
