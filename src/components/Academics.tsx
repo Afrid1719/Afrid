@@ -11,13 +11,15 @@ export default function Academics({ data }: { data: IAcademics[] }) {
         <Card key={index} className="p-3">
           <div className="flex flex-row gap-x-3">
             <div>
-              <Image
-                src={item?.institutionImage || "/placeholder-image.webp"}
-                width={50}
-                height={50}
-                alt={item.institutionName}
-                className="rounded-full md:w-[50px] md:h-[50px]"
-              />
+              <div className="w-[50px] h-[50px]">
+                <Image
+                  src={item?.institutionImage || "/placeholder.svg"}
+                  width={50}
+                  height={50}
+                  alt={item.institutionName}
+                  className="rounded-full"
+                />
+              </div>
             </div>
             <div className="grow flex flex-col">
               <h3 className="text-xl font-bold">
