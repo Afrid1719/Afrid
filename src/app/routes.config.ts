@@ -4,46 +4,67 @@ export const routes: IRoute[] = [
   {
     menuName: "Home",
     path: "/home",
-    off: false
+    off: false,
+    showInMenu: true
   },
   {
     menuName: "Incidents",
     path: "/incidents",
-    off: true
+    off: true,
+    showInMenu: false
   },
   {
     menuName: "Memories",
     path: "/memories",
-    off: true
+    off: true,
+    showInMenu: false
   },
   {
     menuName: "Gallery",
     path: "/gallery",
-    off: true
+    off: true,
+    showInMenu: false
   },
   {
     menuName: "Professional",
     path: "/professional",
-    off: false
+    off: false,
+    showInMenu: true
   },
   {
     menuName: "Blog",
     path: "/blog",
-    off: false
+    off: false,
+    showInMenu: true
   },
   {
     menuName: "Projects",
     path: "/projects",
-    off: false
+    off: false,
+    showInMenu: true
   },
   {
     menuName: "Thoughts",
     path: "/thoughts",
-    off: true
+    off: true,
+    showInMenu: false
   },
   {
     menuName: "Profile",
     path: "/profile",
-    off: true
+    off: false,
+    showInMenu: true
+  },
+  {
+    menuName: "Login",
+    path: "/login",
+    off: false,
+    showInMenu: true
+  },
+  {
+    menuName: "Register",
+    path: "/register",
+    off: false,
+    showInMenu: false
   }
 ];

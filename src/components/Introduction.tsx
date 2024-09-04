@@ -22,7 +22,7 @@ export default function Introduction() {
             className="bg-app-color-6 hover:bg-app-color-5 text-white text-center font-bold py-2 px-2 sm:px-4 rounded md:mt-4"
           >
             <span className="hidden md:inline">Download</span>
-            <span className="inline md:hidden text-base">
+            <span className="inline-block md:hidden w-4 h-4">
               <FontAwesomeIcon icon={faDownload} />
             </span>{" "}
             Resume
