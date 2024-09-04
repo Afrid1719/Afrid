@@ -2,11 +2,8 @@
 import { routes } from "@/app/routes.config";
 import { IRoute } from "@/interfaces/i-routes";
 import Link from "next/link";
-import React from "react";
 import { slide as Menu } from "react-burger-menu";
-import LoginLogout from "./LoginLogout";
-
-const featureAvailable = false;
+import { useSession } from "next-auth/react";
 
 type Props = {
   pageWrapperId: string;
@@ -65,6 +62,7 @@ var mobileNavStyles = {
 };
 
 const MobileNav = (props: Props) => {
+  const { status } = useSession();
   return (
     <Menu
       styles={mobileNavStyles}
@@ -72,17 +70,30 @@ const MobileNav = (props: Props) => {
       burgerButtonClassName={props.className}
     >
       {routes
-        .filter((route) => !route.off)
-        .map((route: IRoute, $idx: number) => (
-          <Link
-            key={`route-${$idx}`}
-            href={route.path}
-            className="mr-5 hover:text-app-color-6 text-app-secondary"
-          >
-            {route.menuName}
-          </Link>
-        ))}
-      {featureAvailable && <LoginLogout />}
+        .filter((route) => route.showInMenu)
+        .map((route: IRoute, $idx: number) => {
+          if (route.path !== "/login") {
+            return (
+              <Link
+                key={`route-${$idx}`}
+                href={route.path}
+                className="mr-5 hover:text-app-color-6 text-app-secondary"
+              >
+                {route.menuName}
+              </Link>
+            );
+          } else {
+            return (
+              <Link
+                key="route-loginlogout"
+                href={status === "authenticated" ? "/logout" : route.path}
+                className="mr-5 hover:text-app-color-6 text-app-secondary"
+              >
+                {status === "authenticated" ? "Logout" : "Login"}
+              </Link>
+            );
+          }
+        })}
     </Menu>
   );
 };

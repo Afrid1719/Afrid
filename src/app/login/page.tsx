@@ -83,7 +83,7 @@ const Page = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="p-8 rounded w-full sm:w-8/12 md:w-7/12 lg:w-5/12 xl:w-4/12 bg-app-primary">
+      <div className="p-8 rounded w-full sm:w-8/12 md:w-7/12 lg:w-5/12 xl:w-4/12 md:bg-app-primary">
         <h2 className="text-2xl font-semibold mb-6 text-center">Log in</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
