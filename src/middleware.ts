@@ -3,8 +3,7 @@ import { routes } from "./app/routes.config";
 
 const protectedRoutes: string[] = routes
   .filter((route) => route.off)
-  .map((route) => route.path)
-  .concat(["/login", "/register"]);
+  .map((route) => route.path);
 
 export const config: MiddlewareConfig = {
   matcher: [

@@ -2,10 +2,24 @@
 import { routes } from "@/app/routes.config";
 import { IRoute } from "@/interfaces/i-routes";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const DesktopNav = ({ shrunk }: { shrunk: boolean }) => {
   const { status } = useSession();
+  const router = useRouter();
+
+  const handleLoginLogout = async (
+    evt: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    evt.preventDefault();
+    if (status === "authenticated") {
+      await signOut();
+    } else {
+      router.push("/login");
+    }
+  };
+
   return (
     <div
       className={`${
@@ -32,7 +46,8 @@ const DesktopNav = ({ shrunk }: { shrunk: boolean }) => {
               return (
                 <Link
                   key="route-loginlogout"
-                  href={status === "authenticated" ? "/logout" : route.path}
+                  href="javascript:void(0)"
+                  onClick={handleLoginLogout}
                   className="inline-block px-2 py-0.5 mr-3 text-app-secondary nav-links--desktop"
                 >
                   {status === "authenticated" ? "Logout" : "Login"}

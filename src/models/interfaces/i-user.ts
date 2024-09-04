@@ -1,5 +1,5 @@
-export interface UserDocument {
-  _id: string;
+export interface IUser {
+  _id?: string;
   username?: string;
   email: string;
   password: string;
