@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import Google from "next-auth/providers/google";
 import clientPromise from "@/lib/mongodb";
-import { CredentialsUser } from "@/interfaces/i-auth";
+import type { Adapter } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -20,36 +20,35 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials): Promise<CredentialsUser | null> {
+      async authorize(credentials: Record<"email" | "password", string>) {
         try {
           await connectDB();
-          // @ts-ignore
           const user = await User.findOne({ email: credentials?.email }).select(
             "+password"
           );
           if (!user) {
-            return {
-              error: "Invalid email"
-            } as CredentialsUser;
+            throw new Error("User not found");
           }
           if (!user.password) {
-            return {
-              error:
-                "Password not set. Try signing using your Social Media account."
-            } as CredentialsUser;
+            throw new Error(
+              "Password not set. Try signing using your Social Media account."
+            );
           }
           const passwordMatch = await bcrypt.compare(
             credentials!.password,
             user.password
           );
           if (!passwordMatch) {
-            return {
-              error: "Invalid password"
-            } as CredentialsUser;
+            throw new Error("Password did not match");
           }
-          return user as CredentialsUser;
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.name
+          };
         } catch (error) {
-          console.log(error);
+          console.log("Authorization error:", error); // Log the error for debugging
+          throw error;
         } finally {
           await disconnectDB();
         }
@@ -60,19 +59,25 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!
     })
   ],
-  // @ts-ignore
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: MongoDBAdapter(clientPromise) as Adapter,
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60 // 30 days
   },
   callbacks: {
-    async signIn({ user }) {
-      let credentialUser = user as CredentialsUser;
-      if (credentialUser.error) {
-        throw new Error(credentialUser.error);
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
       }
-      return true;
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+      }
+      return session;
     }
   },
-  debug: process.env.NODE_ENV === "development"
+  debug: process.env.NODE_ENV === "development",
+  secret: process.env.NEXTAUTH_SECRET
 };
