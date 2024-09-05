@@ -46,7 +46,7 @@ const DesktopNav = ({ shrunk }: { shrunk: boolean }) => {
               return (
                 <Link
                   key="route-loginlogout"
-                  href="javascript:void(0)"
+                  href="#"
                   onClick={handleLoginLogout}
                   className="inline-block px-2 py-0.5 mr-3 text-app-secondary nav-links--desktop"
                 >

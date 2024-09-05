@@ -100,7 +100,7 @@ const MobileNav = (props: Props) => {
             return (
               <Link
                 key="route-loginlogout"
-                href="javascript:void(0)"
+                href="#"
                 onClick={handleLoginLogout}
                 className="mr-5 hover:text-app-color-6 text-app-secondary"
               >
