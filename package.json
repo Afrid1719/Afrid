@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.4.2",
@@ -32,7 +34,11 @@
     "tailwindcss": "^3.4.10"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
     "@types/bcryptjs": "^2.4.6",
+    "@types/jest": "^29.5.12",
     "@types/lodash": "^4.17.7",
     "@types/node": "20.6.0",
     "@types/react": "^18.3.3",
@@ -41,7 +47,11 @@
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
     "eslint-plugin-svg-jsx": "^1.2.2",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "postcss": "8.4.29",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
     "typescript": "5.2.2"
   }
 }
