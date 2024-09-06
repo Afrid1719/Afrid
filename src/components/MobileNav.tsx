@@ -3,7 +3,8 @@ import { routes } from "@/app/routes.config";
 import { IRoute } from "@/interfaces/i-routes";
 import Link from "next/link";
 import { slide as Menu } from "react-burger-menu";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   pageWrapperId: string;
@@ -63,6 +64,19 @@ var mobileNavStyles = {
 
 const MobileNav = (props: Props) => {
   const { status } = useSession();
+  const router = useRouter();
+
+  const handleLoginLogout = async (
+    evt: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    evt.preventDefault();
+    if (status === "authenticated") {
+      await signOut();
+    } else {
+      router.push("/login");
+    }
+  };
+
   return (
     <Menu
       styles={mobileNavStyles}
@@ -86,7 +100,8 @@ const MobileNav = (props: Props) => {
             return (
               <Link
                 key="route-loginlogout"
-                href={status === "authenticated" ? "/logout" : route.path}
+                href="#"
+                onClick={handleLoginLogout}
                 className="mr-5 hover:text-app-color-6 text-app-secondary"
               >
                 {status === "authenticated" ? "Logout" : "Login"}

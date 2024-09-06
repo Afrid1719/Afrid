@@ -62,20 +62,20 @@ export default function Page() {
     }
     try {
       dispatch({ type: "set_is_submitting", payload: true });
-      const r = await register({
-        email: formData.get("email"),
-        password: formData.get("password"),
-        name: formData.get("name")
+      await register({
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
+        name: formData.get("name") as string
       });
-      if (r?.error) {
-        toast.error(r.error);
-        return;
-      }
       ref.current?.reset();
       dispatch({ type: "reset" });
       return router.push("/login");
-    } catch (e: any) {
-      console.error(e.message);
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+        return;
+      }
     } finally {
       dispatch({ type: "set_is_submitting", payload: false });
     }
