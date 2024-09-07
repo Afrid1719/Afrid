@@ -1,8 +1,14 @@
-const Header = ({ shrunk }: { shrunk: boolean }) => {
+const Header = ({
+  shrunk,
+  stickyHeight
+}: {
+  shrunk: boolean;
+  stickyHeight: string;
+}) => {
   return (
     <header
       className={`${
-        shrunk ? "fixed ease md:h-[72px]" : ""
+        shrunk ? `fixed ease md:h-[${stickyHeight}]` : ""
       } w-full top-0 text-gray-600 mb-3 bg-app-primary z-[100]`}
     >
       <div className="flex flex-col items-center">

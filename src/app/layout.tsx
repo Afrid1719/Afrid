@@ -4,7 +4,7 @@ import { Nunito } from "next/font/google";
 import Footer from "@/components/Footer";
 import MobileNav from "@/components/MobileNav";
 import AuthProvider from "@/components/AuthProvider";
-import React from "react";
+import React, { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import StickyHeader from "@/components/StickyHeader";
 
@@ -29,7 +29,9 @@ export default function RootLayout({
             outerContainerId="body-wrapper"
             className="block md:hidden"
           />
-          <StickyHeader />
+          <Suspense>
+            <StickyHeader />
+          </Suspense>
           <main
             id="page-wrapper"
             className="flex flex-col w-full md:w-4/5 lg:w-3/4 max-w-7xl mx-auto py-3"
