@@ -10,6 +10,7 @@ type Props = {
   pageWrapperId: string;
   outerContainerId: string;
   className: string;
+  showLogout: boolean;
 };
 
 var mobileNavStyles = {
@@ -54,7 +55,6 @@ var mobileNavStyles = {
   },
   bmItem: {
     padding: "8px 6px",
-    color: "#79c4f2",
     textAlign: "center"
   },
   bmOverlay: {
@@ -65,7 +65,6 @@ var mobileNavStyles = {
 const MobileNav = (props: Props) => {
   const { status } = useSession();
   const router = useRouter();
-
   const handleLoginLogout = async (
     evt: React.MouseEvent<HTMLAnchorElement>
   ) => {
@@ -84,7 +83,7 @@ const MobileNav = (props: Props) => {
       burgerButtonClassName={props.className}
     >
       {routes
-        .filter((route) => route.showInMenu)
+        .filter((route) => !route.off)
         .map((route: IRoute, $idx: number) => {
           if (route.path !== "/login") {
             return (
@@ -109,6 +108,15 @@ const MobileNav = (props: Props) => {
             );
           }
         })}
+      {props.showLogout && (
+        <a
+          key="route-logout"
+          onClick={async () => await signOut()}
+          className="cursor-pointer mr-5 rounded text-app-primary bg-app-secondary "
+        >
+          Logout
+        </a>
+      )}
     </Menu>
   );
 };
