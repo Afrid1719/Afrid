@@ -1,5 +1,6 @@
 import { MiddlewareConfig, NextResponse, type NextRequest } from "next/server";
 import { routes } from "./app/routes.config";
+import { isAllowed } from "./utils/access";
 
 const protectedRoutes: string[] = routes
   .filter((route) => route.off)
@@ -18,8 +19,11 @@ export const config: MiddlewareConfig = {
   ]
 };
 
-export function middleware(req: NextRequest) {
-  if (protectedRoutes.some((item) => req.nextUrl.pathname.startsWith(item))) {
+export async function middleware(req: NextRequest) {
+  if (
+    protectedRoutes.some((item) => req.nextUrl.pathname.startsWith(item)) &&
+    !(await isAllowed(req))
+  ) {
     return NextResponse.redirect(new URL("/home", req.url));
   }
 }

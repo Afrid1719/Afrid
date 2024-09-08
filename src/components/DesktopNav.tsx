@@ -5,7 +5,13 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const DesktopNav = ({ shrunk }: { shrunk: boolean }) => {
+const DesktopNav = ({
+  shrunk,
+  showLogout
+}: {
+  shrunk: boolean;
+  showLogout: boolean;
+}) => {
   const { status } = useSession();
   const router = useRouter();
 
@@ -55,6 +61,15 @@ const DesktopNav = ({ shrunk }: { shrunk: boolean }) => {
               );
             }
           })}
+        {showLogout && (
+          <button
+            key="route-logout"
+            onClick={async () => await signOut()}
+            className="inline-block px-2 py-0.5 mr-3 font-semibold bg-app-secondary text-app-primary rounded"
+          >
+            Logout
+          </button>
+        )}
       </nav>
     </div>
   );
