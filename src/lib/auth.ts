@@ -1,5 +1,6 @@
 import { connectDB, disconnectDB } from "@/lib/mongo";
 import User from "@/models/User";
+import Admin from "@/models/Admin";
 import type { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -18,34 +19,61 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       credentials: {
         email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
+        isAdmin: { label: "Is Admin", type: "boolean" }
       },
-      async authorize(credentials: Record<"email" | "password", string>) {
+      async authorize(
+        credentials: Record<"email" | "password" | "isAdmin", string>
+      ) {
         try {
           await connectDB();
-          const user = await User.findOne({ email: credentials?.email }).select(
-            "+password"
-          );
-          if (!user) {
-            throw new Error("User not found");
-          }
-          if (!user.password) {
-            throw new Error(
-              "Password not set. Try signing using your Social Media account."
+          if (credentials.isAdmin === "true") {
+            const admin = await Admin.findOne({
+              email: credentials?.email
+            }).select("+password");
+            if (!admin) {
+              throw new Error("Admin not found");
+            }
+            if (admin.blocked) {
+              throw new Error("You are blocked");
+            }
+            const passwordMatch = await bcrypt.compare(
+              credentials!.password,
+              admin.password
             );
+            if (!passwordMatch) {
+              throw new Error("Password did not match");
+            }
+            return {
+              id: admin._id.toString(),
+              email: admin.email,
+              name: admin.name
+            };
+          } else {
+            const user = await User.findOne({
+              email: credentials?.email
+            }).select("+password");
+            if (!user) {
+              throw new Error("User not found");
+            }
+            if (!user.password) {
+              throw new Error(
+                "Password not set. Try signing using your Social Media account."
+              );
+            }
+            const passwordMatch = await bcrypt.compare(
+              credentials!.password,
+              user.password
+            );
+            if (!passwordMatch) {
+              throw new Error("Password did not match");
+            }
+            return {
+              id: user._id.toString(),
+              email: user.email,
+              name: user.name
+            };
           }
-          const passwordMatch = await bcrypt.compare(
-            credentials!.password,
-            user.password
-          );
-          if (!passwordMatch) {
-            throw new Error("Password did not match");
-          }
-          return {
-            id: user._id.toString(),
-            email: user.email,
-            name: user.name
-          };
         } catch (error) {
           console.log("Authorization error:", error); // Log the error for debugging
           throw error;
