@@ -84,7 +84,7 @@ const MobileNav = (props: Props) => {
       burgerButtonClassName={props.className}
     >
       {routes
-        .filter((route) => route.showInMenu)
+        .filter((route) => !route.off)
         .map((route: IRoute, $idx: number) => {
           if (route.path !== "/login") {
             return (
