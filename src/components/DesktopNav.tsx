@@ -30,7 +30,7 @@ const DesktopNav = ({ shrunk }: { shrunk: boolean }) => {
     >
       <nav className="nav--desktop md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
         {routes
-          .filter((route) => route.showInMenu)
+          .filter((route) => !route.off)
           .map((route: IRoute, $idx: number) => {
             if (route.path !== "/login") {
               return (
