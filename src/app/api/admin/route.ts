@@ -1,11 +1,18 @@
-import { IAdminRequest } from "@/interfaces/i-admin";
+import { IAdmin } from "@/interfaces/i-admin";
+import { createAdmin } from "@/models/Admin";
 import { zAdminCreateRequest } from "@/schemas/z-admin";
-import { createAdmin } from "@/services/admin.mongo";
+import { isAllowed } from "@/utils/access";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function POST(request: NextRequest) {
-  const data: IAdminRequest = await request.json();
+  const data: IAdmin = await request.json();
+  if (!(await isAllowed(request))) {
+    return NextResponse.json(
+      { id: "auth_failed", message: "Unauthorized" },
+      { status: 401 }
+    );
+  }
   try {
     zAdminCreateRequest.parse(data);
     const admin = await createAdmin(data);

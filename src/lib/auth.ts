@@ -11,7 +11,7 @@ import type { Adapter } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: "/login"
+    signIn: "/admin"
   },
   providers: [
     Credentials({

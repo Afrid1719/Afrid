@@ -4,13 +4,13 @@ import Introduction from "@/components/Introduction";
 import MyProjects from "@/components/MyProjects";
 import Skills from "@/components/Skills";
 import ToolsIUse from "@/components/ToolsIUse";
-import { IMyProject, ISkill, ITool } from "@/interfaces/i-home";
+import { IProject, ISkill, ITool } from "@/interfaces/i-home";
 import { readData } from "@/utils/json-reader";
 
 export default async function Page() {
   const skillSet: { skills: ISkill[] } = await readData("data/skills.json");
   const toolsIUse: { tools: ITool[] } = await readData("data/tools.json");
-  const myProjects: { projects: IMyProject[] } = await readData(
+  const myProjects: { projects: IProject[] } = await readData(
     "data/myprojects.json"
   );
   return (

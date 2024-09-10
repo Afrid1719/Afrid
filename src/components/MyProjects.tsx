@@ -1,4 +1,4 @@
-import { IMyProject } from "@/interfaces/i-home";
+import { IProject } from "@/interfaces/i-home";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {
   faArrowUpRightFromSquare,
@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default function MyProjects({ data }: { data: IMyProject[] }) {
+export default function MyProjects({ data }: { data: IProject[] }) {
   return (
     <div className="flex flex-col items-center p-4 md:p-5">
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold mb-4">
