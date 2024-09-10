@@ -4,7 +4,7 @@
       "id": "1",
       "name": "NASA Project",
       "description": "NASA Project is a web application that allows you to launch missions to the Exoplanets using our special rockets.",
-      "preview": "/myprojects/nasa-project-preview.png",
+      "preview": "https://via.placeholder.com/800x800",
       "codeLink": "https://github.com/Afrid1719/NASA-Project",
       "techs": [
         "Node.js",

@@ -20,7 +20,7 @@ export const ProjectSchema = new Schema<IProject>(
     preview: {
       // URL for preview image
       type: String,
-      required: [true, "Preview is required"]
+      default: "https://via.placeholder.com/800x800"
     },
     codeLink: {
       // Most likely a github URL
@@ -70,6 +70,84 @@ export async function createProject(project: IProject) {
     const newProject = new Project(project);
     await newProject.save();
     return newProject;
+  } catch (error) {
+    throw error;
+  } finally {
+    await disconnectDB();
+  }
+}
+
+export async function getAllProjects() {
+  try {
+    await connectDB();
+    const projects = await Project.find()
+      .sort({ createdAt: -1 })
+      .select("-__v -updatedAt");
+    return projects;
+  } catch (error) {
+    throw error;
+  } finally {
+    await disconnectDB();
+  }
+}
+
+export async function getProjectById(id: string) {
+  try {
+    await connectDB();
+    const project = await Project.findById(id).select("-__v -updatedAt");
+    if (!project) {
+      throw new Error("Project not found");
+    }
+    return project;
+  } catch (error) {
+    throw error;
+  } finally {
+    await disconnectDB();
+  }
+}
+
+export async function getProjectByName(name: string) {
+  try {
+    await connectDB();
+    const project = await Project.findOne({ name }).select("-__v -updatedAt");
+    if (!project) {
+      throw new Error("Project not found");
+    }
+    return project;
+  } catch (error) {
+    throw error;
+  } finally {
+    await disconnectDB();
+  }
+}
+
+export async function updateProject(id: string, data: Partial<IProject>) {
+  try {
+    await connectDB();
+    const project = await Project.findByIdAndUpdate(id, data, {
+      new: true
+    }).select("-__v -updatedAt");
+    if (!project) {
+      throw new Error("Project not found");
+    }
+    return project;
+  } catch (error) {
+    throw error;
+  } finally {
+    await disconnectDB();
+  }
+}
+
+export async function deleteProject(id: string) {
+  try {
+    await connectDB();
+    const project = await Project.findByIdAndDelete(id).select(
+      "-__v -updatedAt"
+    );
+    if (!project) {
+      throw new Error("Project not found");
+    }
+    return project;
   } catch (error) {
     throw error;
   } finally {

@@ -9,7 +9,7 @@ export interface IProject {
   id?: string;
   name: string;
   description?: string;
-  preview: string;
+  preview?: string;
   codeLink: string;
   url?: string;
   techs: string[];
