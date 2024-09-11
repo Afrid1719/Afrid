@@ -23,6 +23,13 @@ export const SkillSchema = new mongoose.Schema<ISkill>(
   }
 );
 
+SkillSchema.pre("save", function (next) {
+  if (this.isModified("icon")) {
+    this.icon = encodeURIComponent(this.icon);
+  }
+  next();
+});
+
 const Skill =
   (mongoose.models?.Skill as mongoose.Model<ISkill>) ||
   mongoose.model<ISkill>("Skill", SkillSchema);

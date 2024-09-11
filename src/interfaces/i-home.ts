@@ -19,7 +19,7 @@ export interface IProject extends mongoose.Document {
 
 export interface ITool extends mongoose.Document {
   name: string;
-  icon: string;
+  icon?: string;
   rating?: number;
   [key: string]: any;
 }
