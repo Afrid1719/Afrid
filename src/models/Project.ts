@@ -1,6 +1,6 @@
 import { IProject } from "@/interfaces/i-home";
 import { connectDB, disconnectDB } from "@/lib/mongo";
-import mongoose, { Document, model, Schema, Types } from "mongoose";
+import mongoose, { model, Schema, Types } from "mongoose";
 
 export const ProjectSchema = new Schema<IProject>(
   {

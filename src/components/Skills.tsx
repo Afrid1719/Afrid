@@ -1,11 +1,17 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import { useEffect, useState } from "react";
 import Card from "./Card";
 import { ISkill } from "@/interfaces/i-home";
 
-export default function Skills({ data }: { data: ISkill[] }) {
-  const [showMore, setShowMore] = React.useState(false);
+export default function Skills() {
+  const [showMore, setShowMore] = useState(false);
+  const [data, setData] = useState<ISkill[]>([]);
+  useEffect(() => {
+    fetch("/api/skills")
+      .then((res) => res.json())
+      .then((res) => setData(res));
+  }, []);
   return (
     <div className="flex flex-col items-center p-4 md:p-5">
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold mb-4">
