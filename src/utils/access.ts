@@ -16,10 +16,16 @@ export async function decodeSession(token: string) {
 
 export async function isAllowed(req?: NextRequest) {
   let token = "";
-  if (!req) {
-    token = cookies().get("next-auth.session-token")?.value;
+  let cookieName = "";
+  if (process.env.NODE_ENV === "development") {
+    cookieName = "next-auth.session-token";
   } else {
-    token = req.cookies.get("next-auth.session-token")?.value;
+    cookieName = "__Secure-next-auth.session-token";
+  }
+  if (!req) {
+    token = cookies().get(cookieName)?.value;
+  } else {
+    token = req.cookies.get(cookieName)?.value;
   }
   const session = await decodeSession(token);
   if (!session) {
