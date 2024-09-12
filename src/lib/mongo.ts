@@ -1,28 +1,50 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 
 const { MONGODB_URI } = process.env;
+const options = {};
+
+class Singleton {
+  private static _instance: Singleton;
+  private clientPromise: Promise<mongo.MongoClient>;
+
+  private constructor() {
+    mongoose
+      .connect(MONGODB_URI as string, options)
+      .then((instance: mongoose.Mongoose) => {
+        this.clientPromise = new Promise((resolve) =>
+          resolve(instance.connection.getClient())
+        );
+        if (process.env.NODE_ENV === "development") {
+          // In development mode, use a global variable so that the value
+          // is preserved across module reloads caused by HMR (Hot Module Replacement).
+          if (!global._mongoClientPromise) {
+            global._mongoClientPromise = this.clientPromise;
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  public static get instance(): Promise<mongo.MongoClient> {
+    if (!this._instance) {
+      this._instance = new Singleton();
+    }
+    return this._instance.clientPromise;
+  }
+}
+
+const clientPromise = Singleton.instance;
 
 export const connectDB = async () => {
-  if (!process.env.MONGODB_URI) {
-    throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
-  }
-  try {
-    const { connection } = await mongoose.connect(MONGODB_URI as string);
-    if (connection.readyState === 1) {
-      return Promise.resolve(true);
-    }
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
+  return await clientPromise;
 };
 
 export const disconnectDB = async () => {
-  try {
-    await mongoose.disconnect();
-    return Promise.resolve();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
+  // Implementation for disconnecting from MongoDB if required
 };
+
+// Export a module-scoped MongoClient promise. By doing this in a
+// separate module, the client can be shared across functions.
+export default clientPromise;

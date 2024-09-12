@@ -6,8 +6,9 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import Google from "next-auth/providers/google";
-import clientPromise from "@/lib/mongodb";
+import clientPromise from "@/lib/mongo";
 import type { Adapter } from "next-auth/adapters";
+import { MongoClient } from "mongodb";
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -87,7 +88,9 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!
     })
   ],
-  adapter: MongoDBAdapter(clientPromise) as Adapter,
+  adapter: MongoDBAdapter(
+    clientPromise as unknown as Promise<MongoClient>
+  ) as Adapter,
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60 // 30 days

@@ -2,18 +2,15 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { ITool } from "@/interfaces/i-home";
-import { getTools } from "@/models/Tool";
 import Card from "./Card";
 
 export default function ToolsIUse() {
   const [showMore, setShowMore] = useState(false);
   const [data, setData] = useState<ITool[]>([]);
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getTools();
-      setData(data);
-    };
-    fetchData();
+    fetch("/api/tools")
+      .then((res) => res.json())
+      .then((res) => setData(res));
   }, []);
   return (
     <div className="flex flex-col items-center p-4 md:p-5">

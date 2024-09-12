@@ -3,7 +3,6 @@ import { createSkill, getSkills } from "@/models/Skill";
 import { success } from "@/utils/response";
 import { authorizedController, unauthorizedController } from "../controller";
 import { NextRequest } from "next/server";
-import { sanitize } from "sanitizer";
 import { zSkillCreateRequest } from "@/schemas/z-skill";
 
 export async function GET() {
@@ -17,9 +16,6 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const fn = async function () {
     const data: ISkill = await req.json();
-    for (const key in data) {
-      data[key] = sanitize(data[key]);
-    }
     zSkillCreateRequest.parse(data);
     const res = await createSkill(data);
     return success(res);

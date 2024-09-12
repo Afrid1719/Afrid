@@ -1,19 +1,19 @@
-import { ISkill } from "@/interfaces/i-home";
-import { deleteSkill, updateSkill } from "@/models/Skill";
-import { zSkillUpdateRequest } from "@/schemas/z-skill";
+import { ITool } from "@/interfaces/i-home";
 import { success } from "@/utils/response";
 import { NextRequest } from "next/server";
 import { authorizedController } from "../../controller";
+import { deleteTool, updateTool } from "@/models/Tool";
+import { zToolUpdateRequest } from "@/schemas/z-tool";
 
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const fn = async function () {
-    const data: Partial<ISkill> = await req.json();
-    zSkillUpdateRequest.parse(data);
-    const updatedSkill = await updateSkill(params.id, data);
-    return success(updatedSkill);
+    const data: Partial<ITool> = await req.json();
+    zToolUpdateRequest.parse(data);
+    const updatedTool = await updateTool(params.id, data);
+    return success(updatedTool);
   };
   return await authorizedController(req, fn);
 }
@@ -23,7 +23,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   const fn = async function () {
-    const res = await deleteSkill(params.id);
+    const res = await deleteTool(params.id);
     return success(res);
   };
   return await authorizedController(req, fn);

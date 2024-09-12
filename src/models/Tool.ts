@@ -1,6 +1,6 @@
 import { ITool } from "@/interfaces/i-home";
 import { connectDB, disconnectDB } from "@/lib/mongo";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 export const ToolSchema = new mongoose.Schema<ITool>(
   {
@@ -28,6 +28,14 @@ ToolSchema.pre("save", function (next) {
     this.icon = encodeURIComponent(this.icon);
   }
   next();
+});
+
+ToolSchema.post("find", function (docs: Types.DocumentArray<ITool>) {
+  docs.forEach((doc) => {
+    if (doc.icon) {
+      doc.icon = decodeURIComponent(doc.icon);
+    }
+  });
 });
 
 const Tool =

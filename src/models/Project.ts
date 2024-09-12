@@ -34,7 +34,7 @@ export const ProjectSchema = new Schema<IProject>(
   }
 );
 
-ProjectSchema.pre("save", async function (next) {
+ProjectSchema.pre("save", function (next) {
   if (this.isModified("codeLink")) {
     this.codeLink = encodeURIComponent(this.codeLink);
   }

@@ -1,6 +1,6 @@
 import { ISkill } from "@/interfaces/i-home";
 import { connectDB, disconnectDB } from "@/lib/mongo";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 export const SkillSchema = new mongoose.Schema<ISkill>(
   {
@@ -30,6 +30,14 @@ SkillSchema.pre("save", function (next) {
   next();
 });
 
+SkillSchema.post("find", function (docs: Types.DocumentArray<ISkill>) {
+  docs.forEach((doc) => {
+    if (doc.icon) {
+      doc.icon = decodeURIComponent(doc.icon);
+    }
+  });
+});
+
 const Skill =
   (mongoose.models?.Skill as mongoose.Model<ISkill>) ||
   mongoose.model<ISkill>("Skill", SkillSchema);
@@ -57,8 +65,6 @@ export async function getSkills() {
     return await Skill.find().sort({ rating: -1 }).select("-__v -updatedAt");
   } catch (error) {
     throw error;
-  } finally {
-    await disconnectDB();
   }
 }
 

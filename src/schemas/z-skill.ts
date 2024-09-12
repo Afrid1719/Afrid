@@ -6,12 +6,10 @@ export const zSkillCreateRequest = z.object({
     .min(1, { message: "Name is required" })
     .max(30, { message: "Name must be at most 30 characters" }),
   icon: z.string().url({ message: "Icon must be a valid URL" }).optional(),
-  rating: z.preprocess((val) => {
-    if (typeof val === "string") {
-      return Number(val);
-    }
-    return val;
-  }, z.number().min(1, { message: "Rating must be at least 1" }).max(10, { message: "Rating must be at most 10" }))
+  rating: z
+    .number()
+    .min(1, { message: "Rating must be at least 1" })
+    .max(10, { message: "Rating must be at most 10" })
 });
 
 export const zSkillUpdateRequest = z.object({
@@ -22,11 +20,8 @@ export const zSkillUpdateRequest = z.object({
     .optional(),
   icon: z.string().url({ message: "Icon must be a valid URL" }).optional(),
   rating: z
-    .preprocess((val) => {
-      if (typeof val === "string") {
-        return Number(val);
-      }
-      return val;
-    }, z.number().min(1, { message: "Rating must be at least 1" }).max(10, { message: "Rating must be at most 10" }))
+    .number()
+    .min(1, { message: "Rating must be at least 1" })
+    .max(10, { message: "Rating must be at most 10" })
     .optional()
 });

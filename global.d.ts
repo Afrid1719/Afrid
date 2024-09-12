@@ -1,5 +1,5 @@
-import { MongoClient } from "mongodb";
+import { mongo } from "mongoose";
 
 declare global {
-  var _mongoClientPromise: Promise<MongoClient>;
+  var _mongoClientPromise: Promise<mongo.MongoClient>;
 }
