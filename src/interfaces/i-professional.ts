@@ -1,8 +1,10 @@
-export interface IWorkExperience {
-  id: string;
+import { Date } from "mongoose";
+
+export interface IExperience {
   position: string;
   company: string;
-  duration: string;
+  startDate: Date;
+  endDate: Date;
   description: string[];
   techs: string[];
 }
