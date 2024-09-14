@@ -1,17 +1,14 @@
 import Timeline from "@/components/Timeline";
-import { IAcademics, IWorkExperience } from "@/interfaces/i-professional";
+import { IAcademics, IExperience } from "@/interfaces/i-professional";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase, faBook } from "@fortawesome/free-solid-svg-icons";
 import Academics from "@/components/Academics";
-import { readData } from "@/utils/json-reader";
+import { getAllExperiences } from "@/models/Experience";
+import { getAllAcademics } from "@/models/Academics";
 
 export default async function Page() {
-  const workExperience: { experience: IWorkExperience[] } = await readData(
-    "data/workexperience.json"
-  );
-  const academicsData: { academics: IAcademics[] } = await readData(
-    "data/academics.json"
-  );
+  const workExperience: IExperience[] = await getAllExperiences();
+  const academicsData: IAcademics[] = await getAllAcademics();
   return (
     <div className="flex flex-col items-center justify-center gap-y-4">
       <div className="flex flex-col items-center justify-center">
@@ -20,7 +17,7 @@ export default async function Page() {
           <FontAwesomeIcon icon={faBriefcase} style={{ color: "#5b7327" }} />
         </h2>
         <div className="flex flex-col p-4 md:p-0 lg:w-3/4">
-          <Timeline data={workExperience.experience} />
+          <Timeline data={workExperience} />
         </div>
       </div>
       <hr className="w-2/4 mt-4 border-app-tertiary-dark" />
@@ -31,7 +28,7 @@ export default async function Page() {
         </h2>
       </div>
       <div className="grid grid-cols-1 grid-rows-1 items-center justify-center gap-y-6">
-        <Academics data={academicsData.academics} />
+        <Academics data={academicsData} />
       </div>
     </div>
   );

@@ -1,16 +1,17 @@
-import { IWorkExperience } from "@/interfaces/i-professional";
+import { IExperience } from "@/interfaces/i-professional";
 import { Fragment } from "react";
 import DocumentDownload from "./DocumentDownload";
+import moment from "moment";
 
-const Timeline = ({ data }: { data: IWorkExperience[] }) => (
+const Timeline = ({ data }: { data: IExperience[] }) => (
   <div className="flex flex-col gap-y-2">
-    {data.map((item, index) => (
-      <TimelineItem key={index} item={item} />
+    {data.map((item) => (
+      <TimelineItem key={item._id.toString()} item={item} />
     ))}
   </div>
 );
 
-function TimelineItem({ item }: { item: IWorkExperience }) {
+function TimelineItem({ item }: { item: IExperience }) {
   return (
     <Fragment>
       <div className="gap-y-2 gap-x-3 grid grid-cols-[20px_1fr] grid-rows-[minmax(2rem, auto)_1fr]">
@@ -29,7 +30,13 @@ function TimelineItem({ item }: { item: IWorkExperience }) {
         <div className="flex flex-col items-start px-4 py-2 rounded-md bg-app-primary bg-opacity-50 shadow-md">
           <h4 className="">
             {item.company} <span className="text-2xl leading-tight">|</span>
-            <em className="text-sm"> {item.duration}</em>
+            <em className="text-sm">
+              {" "}
+              {moment(item.startDate).format("MMMM YYYY")} -{" "}
+              {item.endDate
+                ? moment(item.endDate).format("MMMM YYYY")
+                : "Present"}
+            </em>
           </h4>
           <h4 className="italic text-sm"></h4>
           <section className="mt-2">

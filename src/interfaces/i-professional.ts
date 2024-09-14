@@ -1,6 +1,6 @@
-import { Date } from "mongoose";
+import mongoose from "mongoose";
 
-export interface IExperience {
+export interface IExperience extends mongoose.Document {
   position: string;
   company: string;
   startDate: Date;
@@ -9,7 +9,7 @@ export interface IExperience {
   techs: string[];
 }
 
-export interface IAcademics {
+export interface IAcademics extends mongoose.Document {
   id: string;
   level: string;
   degree: string;
