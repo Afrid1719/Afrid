@@ -17,6 +17,7 @@ export interface IAcademics {
   institutionName: string;
   startYear: string;
   endYear?: string;
+  isPursuing?: boolean;
   marksObtained?: number;
   marksOutOf?: number;
 }
