@@ -8,7 +8,8 @@ export enum AcademicLevel {
   Diploma = "Diploma",
   Bachelors = "Bachelors",
   Masters = "Masters",
-  PhD = "PhD"
+  PhD = "PhD",
+  Certification = "Certification"
 }
 
 const AcademicsSchema = new Schema<IAcademics>(
