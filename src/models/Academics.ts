@@ -4,6 +4,7 @@ import mongoose, { Schema, Types } from "mongoose";
 
 export enum AcademicLevel {
   HigherSecondary = "Higher Secondary",
+  Secondary = "Secondary",
   Diploma = "Diploma",
   Bachelors = "Bachelors",
   Masters = "Masters",
