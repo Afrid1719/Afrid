@@ -1,19 +1,23 @@
+import { local } from "@/utils/image-placeholder";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Introduction() {
+export default async function Introduction() {
+  const imageUrl = "/me-intro-2-modified.png";
+  const dataUrl: any = await local(imageUrl);
   return (
     <div className="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
       <article className="flex flex-col justify-center items-center md:flex-row gap-y-4 ">
         <section className="flex justify-center items-center gap-3 md:flex-col md:w-1/2">
           <Image
-            src="/me-intro-2-modified.png"
+            src={imageUrl}
             width={200}
             height={200}
             alt="Afrid"
-            priority={true}
+            placeholder="blur"
+            blurDataURL={dataUrl.base64}
             className="shadow-xl shadow-slate-950 rounded-full w-40 h-40 md:w-64 md:h-64 object-fill aspect-auto"
           />
           <a

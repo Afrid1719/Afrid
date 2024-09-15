@@ -1,5 +1,6 @@
 import { ISkill } from "@/interfaces/i-home";
 import { connectDB, disconnectDB } from "@/lib/mongo";
+import { remote } from "@/utils/image-placeholder";
 import mongoose, { Types } from "mongoose";
 
 export const SkillSchema = new mongoose.Schema<ISkill>(
@@ -13,6 +14,9 @@ export const SkillSchema = new mongoose.Schema<ISkill>(
       type: String,
       default: "https://via.placeholder.com/64"
     },
+    blurDataUrl: {
+      type: String
+    },
     rating: {
       type: Number,
       required: [true, "Rating is required"]
@@ -23,7 +27,8 @@ export const SkillSchema = new mongoose.Schema<ISkill>(
   }
 );
 
-SkillSchema.pre("save", function (next) {
+SkillSchema.pre("save", async function (next) {
+  this.blurDataUrl = ((await remote(this.icon)) as any)?.base64;
   if (this.isModified("icon")) {
     this.icon = encodeURIComponent(this.icon);
   }
@@ -51,7 +56,7 @@ export async function createSkill(skill: ISkill) {
     await connectDB();
     const newSkill = new Skill(skill);
     await newSkill.save();
-    return newSkill;
+    return await Skill.findById(newSkill._id).select("-__v -updatedAt");
   } catch (error) {
     throw error;
   } finally {

@@ -1,5 +1,4 @@
 import { IProject } from "@/interfaces/i-home";
-import { getAllProjects } from "@/models/Project";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {
   faArrowUpRightFromSquare,
@@ -10,8 +9,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default async function MyProjects() {
-  const data: IProject[] = await getAllProjects();
+type Props = {
+  status: string;
+  data: IProject[];
+  reason: any;
+};
+
+export default async function MyProjects({ status, data, reason }: Props) {
   return (
     <div className="flex flex-col items-center p-4 md:p-5">
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold mb-4">
@@ -23,7 +27,7 @@ export default async function MyProjects() {
       <section className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 auto-rows-max py-6 gap-4">
         {data.map((project) => (
           <div
-            key={project.id}
+            key={project._id.toString()}
             className="flex flex-col border-2 border-app-primary rounded-xl"
           >
             <Image

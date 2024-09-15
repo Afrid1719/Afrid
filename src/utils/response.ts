@@ -8,12 +8,12 @@ export function created(data: any) {
   return NextResponse.json(data, { status: 201 });
 }
 
-export function nonContent() {
-  return NextResponse.json({ status: 204 });
+export function noContent() {
+  return new NextResponse(null, { status: 204 });
 }
 
-export function notModified() {
-  return NextResponse.json({ status: 304 });
+export function notModified(unModifiedData: any) {
+  return new NextResponse(unModifiedData, { status: 304 });
 }
 
 export function badRequest(err: string) {
