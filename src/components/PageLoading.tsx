@@ -11,10 +11,10 @@ export default function PageLoading() {
           className={styles.pl}
         >
           <circle
-            stroke-linecap="round"
-            stroke-dashoffset="-330"
-            stroke-dasharray="0 660"
-            stroke-width="20"
+            strokeLinecap="round"
+            strokeDashoffset="-330"
+            strokeDasharray="0 660"
+            strokeWidth="20"
             stroke="#000"
             fill="none"
             r="105"
@@ -23,10 +23,10 @@ export default function PageLoading() {
             className={`${styles.pl__ring} ${styles.pl__ring__a}`}
           ></circle>
           <circle
-            stroke-linecap="round"
-            stroke-dashoffset="-110"
-            stroke-dasharray="0 220"
-            stroke-width="20"
+            strokeLinecap="round"
+            strokeDashoffset="-110"
+            strokeDasharray="0 220"
+            strokeWidth="20"
             stroke="#000"
             fill="none"
             r="35"
@@ -35,9 +35,9 @@ export default function PageLoading() {
             className={`${styles.pl__ring} ${styles.pl__ring__b}`}
           ></circle>
           <circle
-            stroke-linecap="round"
-            stroke-dasharray="0 440"
-            stroke-width="20"
+            strokeLinecap="round"
+            strokeDasharray="0 440"
+            strokeWidth="20"
             stroke="#000"
             fill="none"
             r="70"
@@ -46,9 +46,9 @@ export default function PageLoading() {
             className={`${styles.pl__ring} ${styles.pl__ring__c}`}
           ></circle>
           <circle
-            stroke-linecap="round"
-            stroke-dasharray="0 440"
-            stroke-width="20"
+            strokeLinecap="round"
+            strokeDasharray="0 440"
+            strokeWidth="20"
             stroke="#000"
             fill="none"
             r="70"
