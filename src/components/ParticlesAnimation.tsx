@@ -49,7 +49,7 @@ export default function ParticlesAnimation() {
           // The density of the particles (uses the density value from the particle)
           density: { enable: true, value_area: 800 },
           // The number of particles
-          value: 300
+          value: 350
         },
         // The opacity of the particles
         opacity: {
