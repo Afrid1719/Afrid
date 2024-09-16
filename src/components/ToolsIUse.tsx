@@ -4,14 +4,14 @@ import { useState, useEffect } from "react";
 import { ITool } from "@/interfaces/i-home";
 import Card from "./Card";
 
-export default function ToolsIUse() {
+type Props = {
+  status: string;
+  data: ITool[];
+  reason: any;
+};
+
+export default function ToolsIUse({ status, data, reason }: Props) {
   const [showMore, setShowMore] = useState(false);
-  const [data, setData] = useState<ITool[]>([]);
-  useEffect(() => {
-    fetch("/api/tools")
-      .then((res) => res.json())
-      .then((res) => setData(res));
-  }, []);
   return (
     <div className="flex flex-col items-center p-4 md:p-5">
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold mb-4">
@@ -25,7 +25,7 @@ export default function ToolsIUse() {
           if (i > 5 && !showMore) return null;
           return (
             <Card
-              key={tool.id}
+              key={tool._id.toString()}
               mergeClasses={false}
               className="flex flex-col border-2 border-app-primary shadow hover:shadow-lg hover:scale-105 transition-all ease hover:shadow-app-primary/40 rounded-xl items-center justify-center p-2 md:p-5"
             >
@@ -35,9 +35,10 @@ export default function ToolsIUse() {
                 title={tool.name}
                 width={48}
                 height={48}
-                priority={true}
+                placeholder="blur"
+                blurDataURL={tool.blurDataUrl || ""}
               />
-              <strong>{tool.name}</strong>
+              <strong className="text-center">{tool.name}</strong>
               {tool.rating && (
                 <span className="text-sm">{`${tool.rating} / 10`}</span>
               )}

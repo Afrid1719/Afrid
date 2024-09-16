@@ -1,17 +1,17 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Card from "./Card";
 import { ISkill } from "@/interfaces/i-home";
 
-export default function Skills() {
+type Props = {
+  status: string;
+  data: ISkill[];
+  reason: any;
+};
+
+export default function Skills({ status, data, reason }: Props) {
   const [showMore, setShowMore] = useState(false);
-  const [data, setData] = useState<ISkill[]>([]);
-  useEffect(() => {
-    fetch("/api/skills")
-      .then((res) => res.json())
-      .then((res) => setData(res));
-  }, []);
   return (
     <div className="flex flex-col items-center p-4 md:p-5">
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold mb-4">
@@ -25,7 +25,7 @@ export default function Skills() {
           if (i > 5 && !showMore) return null;
           return (
             <Card
-              key={skill.id}
+              key={skill._id.toString()}
               mergeClasses={false}
               className="flex flex-col border-2 border-app-primary shadow hover:shadow-lg hover:scale-105 transition-all ease hover:shadow-app-primary/40 rounded-xl items-center justify-center p-2 md:p-5 z-[99]"
             >
@@ -35,10 +35,11 @@ export default function Skills() {
                 title={skill.name}
                 width={48}
                 height={48}
-                priority={true}
+                placeholder="blur"
+                blurDataURL={skill.blurDataUrl || ""}
               />
-              <strong>{skill.name}</strong>
-              <span className="text-sm">{`${skill.rating} / 10`}</span>
+              <strong className="text-center">{skill.name}</strong>
+              <span className="text-sm text-center">{`${skill.rating} / 10`}</span>
             </Card>
           );
         })}
