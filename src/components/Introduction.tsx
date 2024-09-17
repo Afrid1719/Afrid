@@ -23,7 +23,7 @@ export default async function Introduction() {
           <a
             href="/resume.pdf"
             download="Afrid-resume.pdf"
-            className="bg-app-color-6 hover:bg-app-color-5 text-white text-center font-bold py-2 px-2 sm:px-4 rounded md:mt-4"
+            className="text-app-secondary border-2 border-app-secondary  hover:bg-app-secondary hover:text-[#111] transition-all ease-in-out duration-300 text-center font-bold py-2 px-2 sm:px-4 rounded-lg md:mt-4"
           >
             <span className="hidden md:inline">Download</span>
             <span className="inline-block md:hidden w-4 h-4">

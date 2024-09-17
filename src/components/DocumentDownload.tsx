@@ -1,7 +1,6 @@
 "use client";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import toast from "react-hot-toast";
 
 export default function DocumentDownload() {
@@ -16,8 +15,9 @@ export default function DocumentDownload() {
     <button
       className="mr-2 text-app-tertiary hover:text-app-tertiary-dark"
       onClick={handleClick}
+      aria-label="Download Related Document"
     >
-      <FontAwesomeIcon icon={faDownload} />
+      <FontAwesomeIcon icon={faDownload} aria-hidden="true" />
     </button>
   );
 }

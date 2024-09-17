@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 
 const Footer = () => {
   return (
@@ -24,8 +23,10 @@ const Footer = () => {
           <Link
             href="https://www.facebook.com/syed.afridali.75/"
             target="_blank"
+            aria-label="Go to my Facebook Page"
           >
             <svg
+              aria-hidden="true"
               fill="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -41,8 +42,10 @@ const Footer = () => {
             href="https://www.instagram.com/17.afrid.05/"
             target="_blank"
             className="ml-3"
+            aria-label="Go to my Instagram Page"
           >
             <svg
+              aria-hidden="true"
               fill="none"
               stroke="currentColor"
               strokeLinecap="round"
@@ -56,8 +59,14 @@ const Footer = () => {
             </svg>
           </Link>
           {/* Twitter */}
-          <Link href="https://x.com/afrid1719" target="_blank" className="ml-3">
+          <Link
+            href="https://x.com/afrid1719"
+            target="_blank"
+            aria-label="Go to my Twitter Page"
+            className="ml-3"
+          >
             <svg
+              aria-hidden="true"
               fill="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -73,8 +82,10 @@ const Footer = () => {
             href="https://www.linkedin.com/in/syed-afrid-ali-883556118/"
             target="_blank"
             className="ml-3"
+            aria-label="Go to my LinkedIn Page"
           >
             <svg
+              aria-hidden="true"
               fill="currentColor"
               stroke="currentColor"
               strokeLinecap="round"

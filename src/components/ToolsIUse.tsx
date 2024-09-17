@@ -49,7 +49,7 @@ export default function ToolsIUse({ status, data, reason }: Props) {
       {data.length > 6 && (
         <button
           onClick={() => setShowMore(!showMore)}
-          className="bg-app-color-6 hover:bg-app-color-5 text-white font-bold py-2 px-4 rounded mt-1"
+          className="bg-app-secondary hover:bg-app-color-5 text-[#111] transition-all ease-in-out duration-300 font-bold py-2 px-4 rounded mt-1"
         >
           {showMore ? "View Less" : "View More"}
         </button>

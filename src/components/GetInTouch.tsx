@@ -63,7 +63,7 @@ export default function GetInTouch() {
               <div className="md:w-1/2">
                 <label
                   className="block text-gray-200 text-sm font-bold mb-2 ml-4"
-                  htmlFor="Name"
+                  htmlFor="name"
                 >
                   Name
                 </label>
@@ -123,7 +123,7 @@ export default function GetInTouch() {
             </div>
             <button
               type="submit"
-              className="w-full md:w-auto block ml-auto mt-4 bg-app-tertiary hover:bg-app-tertiary-dark text-white font-bold py-2 px-4 rounded"
+              className="w-full md:w-auto block ml-auto mt-4 bg-app-secondary hover:bg-app-color-5 text-[#111] transition-all ease-in-out duration-300 font-bold py-2 px-4 rounded"
             >
               {isSubmitting ? "Sending..." : "Send Message"}
             </button>

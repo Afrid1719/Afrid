@@ -1,13 +1,12 @@
 import { IProject } from "@/interfaces/i-home";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {
   faArrowUpRightFromSquare,
+  faCode,
   faGlobe
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 type Props = {
   status: string;
@@ -55,17 +54,19 @@ export default async function MyProjects({ status, data, reason }: Props) {
                 <Link
                   href={project.codeLink}
                   target="_blank"
-                  className="text-app-secondary hover:text-app-color-6"
+                  className="text-[#111] bg-app-secondary border  border-app-secondary rounded-md px-2 py-1 text-base"
+                  aria-label="View code"
                 >
-                  <FontAwesomeIcon icon={faGithub} />
+                  <FontAwesomeIcon icon={faCode} aria-hidden="true" />
                 </Link>
                 {project.url && (
                   <Link
                     href={project.url}
                     target="_blank"
                     className="text-app-secondary hover:text-app-color-6"
+                    aria-label="View live"
                   >
-                    <FontAwesomeIcon icon={faGlobe} />
+                    <FontAwesomeIcon icon={faGlobe} aria-hidden="true" />
                   </Link>
                 )}
               </div>

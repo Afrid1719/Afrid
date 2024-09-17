@@ -2,7 +2,7 @@ import styles from "./styles/loading.module.css";
 
 export default function PageLoading() {
   return (
-    <div className="flex justify-center items-center h-80 w-full">
+    <div className="flex justify-center items-center grow w-full">
       <div>
         <svg
           viewBox="0 0 240 240"

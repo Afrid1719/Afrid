@@ -1,7 +1,7 @@
 import { IExperience } from "@/interfaces/i-professional";
 import { Fragment } from "react";
-import DocumentDownload from "./DocumentDownload";
 import moment from "moment";
+import DocumentDownload from "./DocumentDownload";
 
 const Timeline = ({ data }: { data: IExperience[] }) => (
   <div className="flex flex-col gap-y-2">
