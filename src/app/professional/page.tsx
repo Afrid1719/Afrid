@@ -1,10 +1,13 @@
 import Timeline from "@/components/Timeline";
 import { IAcademics, IExperience } from "@/interfaces/i-professional";
+import { config } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase, faBook } from "@fortawesome/free-solid-svg-icons";
 import Academics from "@/components/Academics";
 import { getAllExperiences } from "@/models/Experience";
 import { getAllAcademics } from "@/models/Academics";
+
+config.autoAddCss = false;
 
 export default async function Page() {
   const workExperience: IExperience[] = await getAllExperiences();
