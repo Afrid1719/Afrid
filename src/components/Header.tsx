@@ -13,6 +13,7 @@ const Header = ({
     >
       <div className="flex flex-col items-center">
         <a
+          href="/"
           className={`${
             shrunk ? "justify-start" : "justify-center mb-3 md:mb-5"
           } flex title-font font-medium text-gray-900 w-full p-2 md:p-4`}

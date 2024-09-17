@@ -4,19 +4,14 @@ const Footer = () => {
   return (
     <footer className="text-app-tertiary body-font">
       <div className="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
-        <a className="flex title-font font-semibold items-center md:justify-start justify-center">
+        <a
+          href="/"
+          className="flex title-font font-semibold items-center md:justify-start justify-center"
+        >
           <span className="ml-3 text-xl font-mono">Afrid</span>
         </a>
         <p className="text-sm sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-app-tertiary sm:py-2 sm:mt-0 mt-4">
-          © 2023 Afrid —
-          <a
-            href="https://twitter.com/knyttneve"
-            className="ml-1"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            @afrid1719
-          </a>
+          © 2024 Afrid
         </p>
         <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
           {/* Facebook */}
