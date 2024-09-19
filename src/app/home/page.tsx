@@ -2,12 +2,15 @@ import GetInTouch from "@/components/GetInTouch";
 import Greetings from "@/components/Greetings";
 import Introduction from "@/components/Introduction";
 import MyProjects from "@/components/MyProjects";
+import GreetingsSkeleton from "@/components/skeletons/GreetingsSkeleton";
+import IntroductionSkeleton from "@/components/skeletons/IntroductionSkeleton";
 import Skills from "@/components/Skills";
 import ToolsIUse from "@/components/ToolsIUse";
 import { IProject, ISkill, ITool } from "@/interfaces/i-home";
 import { getAllProjects } from "@/models/Project";
 import { getSkills } from "@/models/Skill";
 import { getTools } from "@/models/Tool";
+import { Suspense } from "react";
 
 export default async function Page() {
   const [skills, projects, tools]: PromiseSettledResult<
@@ -25,8 +28,12 @@ export default async function Page() {
   );
   return (
     <>
-      <Greetings />
-      <Introduction />
+      <Suspense fallback={<GreetingsSkeleton />}>
+        <Greetings />
+      </Suspense>
+      <Suspense fallback={<IntroductionSkeleton />}>
+        <Introduction />
+      </Suspense>
       <Skills
         data={skillsResponse}
         status={skills.status}
