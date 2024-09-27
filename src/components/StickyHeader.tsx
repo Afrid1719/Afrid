@@ -8,7 +8,7 @@ import DesktopNav from "./DesktopNav";
 export default function StickyHeader({ showLogout }: { showLogout: boolean }) {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [documentHeight, setDocumentHeight] = useState(0);
-  const [shrunk, setShurnk] = useState<boolean>(false);
+  const [shrunk, setShurnk] = useState<boolean>(true);
   const pathName = usePathname();
   const searchParams = useSearchParams();
 
@@ -26,19 +26,18 @@ export default function StickyHeader({ showLogout }: { showLogout: boolean }) {
         document.querySelector("header").getBoundingClientRect().height || 0
       );
       setDocumentHeight(document.body.scrollHeight);
-      if (documentHeight > window.innerHeight + headerHeight + 72) {
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-          window.removeEventListener("scroll", handleScroll);
-        };
-      }
+      // if (documentHeight > window.innerHeight + headerHeight + 72) {
+      //   window.addEventListener("scroll", handleScroll);
+      //   return () => {
+      //     window.removeEventListener("scroll", handleScroll);
+      //   };
+      // }
     }
   }, [pathName, searchParams, documentHeight, headerHeight]);
 
   return (
     <>
-      <Header shrunk={shrunk} stickyHeight={"72px"} />
-      <DesktopNav shrunk={shrunk} showLogout={showLogout} />
+      <DesktopNav />
     </>
   );
 }

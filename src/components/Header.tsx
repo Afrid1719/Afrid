@@ -1,28 +1,14 @@
-const Header = ({
-  shrunk,
-  stickyHeight
-}: {
-  shrunk: boolean;
-  stickyHeight: string;
-}) => {
+const Header = () => {
   return (
-    <header
-      className={`${
-        shrunk ? `fixed ease md:h-[${stickyHeight}]` : ""
-      } w-full top-0 text-gray-600 mb-3 bg-app-primary z-[100]`}
-    >
+    <header className="w-full top-0 text-gray-600 mb-3 bg-app-primary z-[100]">
       <div className="flex flex-col items-center">
-        <div
-          className={`${
-            shrunk ? "justify-start" : "justify-center mb-3 md:mb-5"
-          } flex title-font font-medium  w-full p-2 md:p-4`}
-        >
+        <div className="flex justify-center mb-3 md:mb-5 title-font font-medium  w-full p-2 md:p-4">
           <a href="/" aria-label="Go to Home Page">
             <svg
               aria-hidden="true"
               className="ease-in-out duration-300"
-              width={shrunk ? "45" : "178.59612922454644"}
-              height={shrunk ? "40" : "176.39125213623046"}
+              width="178.59612922454644"
+              height="176.39125213623046"
               viewBox="0 0 170.85936202417773 168.75"
             >
               <defs id="SvgjsDefs1562"></defs>

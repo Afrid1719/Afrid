@@ -49,7 +49,7 @@ export const routes: IRoute[] = [
   {
     menuName: "Login",
     path: "/login",
-    off: true
+    off: false
   },
   {
     menuName: "Register",
