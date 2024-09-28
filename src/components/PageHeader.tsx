@@ -4,17 +4,17 @@ import StickyHeader from "./StickyHeader";
 import { isAllowed } from "@/utils/access";
 
 export default async function PageHeader() {
-  const showLogout = await isAllowed();
+  const isAdmin = await isAllowed();
   return (
     <>
       <MobileNav
         pageWrapperId="page-wrapper"
         outerContainerId="body-wrapper"
         className="block md:hidden"
-        showLogout={showLogout}
+        showLogout={isAdmin}
       />
       <Suspense>
-        <StickyHeader showLogout={showLogout} />
+        <StickyHeader isAdmin={isAdmin} />
       </Suspense>
     </>
   );

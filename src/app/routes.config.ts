@@ -44,7 +44,7 @@ export const routes: IRoute[] = [
   {
     menuName: "Profile",
     path: "/profile",
-    off: true
+    off: false
   },
   {
     menuName: "Login",

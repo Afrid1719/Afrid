@@ -5,7 +5,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import Header from "./Header";
 import DesktopNav from "./DesktopNav";
 
-export default function StickyHeader({ showLogout }: { showLogout: boolean }) {
+export default function StickyHeader({ isAdmin }: { isAdmin: boolean }) {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [documentHeight, setDocumentHeight] = useState(0);
   const [shrunk, setShurnk] = useState<boolean>(false);
@@ -38,7 +38,7 @@ export default function StickyHeader({ showLogout }: { showLogout: boolean }) {
   return (
     <>
       <Header shrunk={shrunk} stickyHeight={"72px"} />
-      <DesktopNav shrunk={shrunk} showLogout={showLogout} />
+      <DesktopNav shrunk={shrunk} isAdmin={isAdmin} />
     </>
   );
 }
