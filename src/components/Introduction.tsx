@@ -1,6 +1,5 @@
 import { local } from "@/utils/image-placeholder";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ArrowDownToLine } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -26,8 +25,8 @@ export default async function Introduction() {
             className="text-app-secondary border-2 border-app-secondary  hover:bg-app-secondary hover:text-[#111] transition-all ease-in-out duration-300 text-center font-bold py-2 px-2 sm:px-4 rounded-lg md:mt-4"
           >
             <span className="hidden md:inline">Download</span>
-            <span className="inline-block md:hidden w-4 h-4">
-              <FontAwesomeIcon icon={faDownload} />
+            <span className="inline-block md:hidden w-4 h-4 mr-1">
+              <ArrowDownToLine aria-hidden="true" />
             </span>{" "}
             Resume
           </a>

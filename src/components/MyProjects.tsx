@@ -1,10 +1,5 @@
 import { IProject } from "@/interfaces/i-home";
-import {
-  faArrowUpRightFromSquare,
-  faCode,
-  faGlobe
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Code, Globe, SquareArrowOutUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -57,16 +52,16 @@ export default async function MyProjects({ status, data, reason }: Props) {
                   className="text-[#111] bg-app-secondary border  border-app-secondary rounded-md px-2 py-1 text-base"
                   aria-label="View code"
                 >
-                  <FontAwesomeIcon icon={faCode} aria-hidden="true" />
+                  <Code className="w-6 h-6" aria-hidden="true" />
                 </Link>
                 {project.url && (
                   <Link
                     href={project.url}
                     target="_blank"
-                    className="text-app-secondary hover:text-app-color-6"
+                    className="text-app-secondary hover:text-app-color-6 px-2 py-1"
                     aria-label="View live"
                   >
-                    <FontAwesomeIcon icon={faGlobe} aria-hidden="true" />
+                    <Globe className="w-6 h-6" aria-hidden="true" />
                   </Link>
                 )}
               </div>
@@ -77,9 +72,10 @@ export default async function MyProjects({ status, data, reason }: Props) {
       {data.length > 3 && (
         <Link
           href="/projects"
-          className="text-app-secondary hover:text-app-color-6"
+          className="flex flex-row items-end text-app-secondary hover:text-app-color-6"
         >
-          View All Projects <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+          <div className="block">View All Projects</div>{" "}
+          <SquareArrowOutUpRight className="ml-1 w-4 h-4" />
         </Link>
       )}
     </div>

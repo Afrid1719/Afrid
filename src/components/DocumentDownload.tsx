@@ -1,6 +1,6 @@
 "use client";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { ArrowDownToLine } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function DocumentDownload() {
@@ -17,7 +17,7 @@ export default function DocumentDownload() {
       onClick={handleClick}
       aria-label="Download Related Document"
     >
-      <FontAwesomeIcon icon={faDownload} aria-hidden="true" />
+      <ArrowDownToLine className="w-6 h-6" aria-hidden="true" />
     </button>
   );
 }
