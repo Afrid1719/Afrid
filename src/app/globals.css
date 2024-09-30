@@ -36,3 +36,9 @@ input:disabled, input.disabled {
 button.disabled {
   opacity: 0.9;
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
