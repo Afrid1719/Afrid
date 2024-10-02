@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
-import { ChevronDown, ChevronUp, Edit, Plus } from "lucide-react";
+import { ChevronDown, ChevronUp, Edit, Plus, Trash2 } from "lucide-react";
 import { IExperience } from "@/interfaces/i-professional";
 import moment from "moment";
 
@@ -39,9 +39,11 @@ const ExperienceCard = ({ data }: { data: IExperience }) => {
   return (
     <Card className="mb-4 border border-app-color-5 bg-transparent text-app-secondary">
       <CardHeader className="pb-2">
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-center">
           <div>
-            <CardTitle className="text-lg">{data.position}</CardTitle>
+            <CardTitle className="text-lg font-semi-bold">
+              {data.position}
+            </CardTitle>
             <p className="text-app-tertiary">
               {data.company} | {moment(data.startDate).format("MMMM YYYY")} -{" "}
               {data.endDate
@@ -49,19 +51,28 @@ const ExperienceCard = ({ data }: { data: IExperience }) => {
                 : "Present"}
             </p>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-app-secondary hover:bg-white hover:text-app-primary"
-          >
-            <Edit className="h-4 w-4" />
-          </Button>
+          <div className="flex items-center justify-between">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="bg-transparent text-app-color-5 hover:bg-white hover:text-app-primary"
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="bg-transparent text-app-color-5 hover:bg-white hover:text-app-primary"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
         <p className="text-sm mb-2">{data.techs.join(", ")}</p>
         {isExpanded && (
-          <ul className="list-disc list-inside text-sm">
+          <ul className="list-disc list-inside text-sm marker:text-app-tertiary text-white">
             {data.description.map((desc, idx) => (
               <li key={data._id.toString() + idx}>{desc}</li>
             ))}

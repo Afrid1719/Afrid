@@ -19,19 +19,31 @@ import {
 import ExperienceTab from "./ExperienceTab";
 import EducationTab from "./EducationCard";
 import SkillsTab from "./SkillsTab";
+import ProjectsTab from "./ProjectsTab";
+import Image from "next/image";
 
-export default function AdminProfile() {
+export default function AdminProfile({
+  imageUrl,
+  dataUrl
+}: {
+  imageUrl: string;
+  dataUrl: any;
+}) {
   return (
     <div className="p-4 md:p-0">
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="text-center space-y-4">
           <div className="relative inline-block">
-            <Avatar className="w-32 h-32 mx-auto">
-              <AvatarImage
-                src="/placeholder.svg?height=128&width=128"
-                alt="John Doe"
+            <Avatar className="w-40 h-40 md:w-64 md:h-64 mx-auto">
+              <Image
+                src={imageUrl}
+                width={200}
+                height={200}
+                alt="Afrid"
+                placeholder="blur"
+                blurDataURL={dataUrl.base64}
+                className="shadow-xl shadow-slate-950 rounded-full w-40 h-40 md:w-64 md:h-64 object-fill aspect-auto"
               />
-              <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <Button
               variant="secondary"
@@ -42,8 +54,8 @@ export default function AdminProfile() {
             </Button>
           </div>
           <div>
-            <h1 className="text-3xl font-bold">John Doe</h1>
-            <p className="text-xl">Senior Software Engineer</p>
+            <h1 className="text-3xl font-bold">Syed Afrid Ali</h1>
+            <p className="text-xl">Full Stack Web Developer</p>
           </div>
           <div className="flex justify-center space-x-4">
             <Button
@@ -71,19 +83,19 @@ export default function AdminProfile() {
           <div className="container flex flex-col sm:flex-row justify-center items-end space-x-2 space-y-2">
             <Badge
               variant="secondary"
-              className="gap-1 bg-app-tertiary text-app-primary"
+              className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
             >
               <Mail className="w-4 h-4" /> john.doe@example.com
             </Badge>
             <Badge
               variant="secondary"
-              className="gap-1 bg-app-tertiary text-app-primary"
+              className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
             >
               <Phone className="w-4 h-4" /> +1 (555) 123-4567
             </Badge>
             <Badge
               variant="secondary"
-              className="gap-1 bg-app-tertiary text-app-primary"
+              className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
             >
               <MapPin className="w-4 h-4" /> San Francisco, CA
             </Badge>
@@ -127,90 +139,7 @@ export default function AdminProfile() {
             <SkillsTab />
           </TabsContent>
           <TabsContent value="projects" className="mt-6">
-            <Card style={{ backgroundColor: "#79c4f2", color: "#071f35" }}>
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <CardTitle className="flex items-center">
-                    <Folder className="mr-2" />
-                    Projects
-                  </CardTitle>
-                  <Button
-                    style={{ backgroundColor: "#749433", color: "#071f35" }}
-                  >
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add Project
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <div className="flex justify-between items-start">
-                    <h3 className="font-semibold">AI-Powered Task Manager</h3>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      style={{ color: "#071f35" }}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <p className="text-sm">
-                    A smart to-do list application that uses AI to prioritize
-                    tasks.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <Badge
-                      style={{ backgroundColor: "#749433", color: "#071f35" }}
-                    >
-                      React
-                    </Badge>
-                    <Badge
-                      style={{ backgroundColor: "#749433", color: "#071f35" }}
-                    >
-                      Node.js
-                    </Badge>
-                    <Badge
-                      style={{ backgroundColor: "#749433", color: "#071f35" }}
-                    >
-                      TensorFlow.js
-                    </Badge>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between items-start">
-                    <h3 className="font-semibold">Blockchain Voting System</h3>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      style={{ color: "#071f35" }}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <p className="text-sm">
-                    A secure and transparent voting system built on blockchain
-                    technology.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <Badge
-                      style={{ backgroundColor: "#749433", color: "#071f35" }}
-                    >
-                      Solidity
-                    </Badge>
-                    <Badge
-                      style={{ backgroundColor: "#749433", color: "#071f35" }}
-                    >
-                      Ethereum
-                    </Badge>
-                    <Badge
-                      style={{ backgroundColor: "#749433", color: "#071f35" }}
-                    >
-                      Web3.js
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <ProjectsTab />
           </TabsContent>
         </Tabs>
       </div>

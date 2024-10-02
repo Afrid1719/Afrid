@@ -103,9 +103,15 @@ const Skill = ({ data }: { data: ISkill }) => (
     <CardContent className="p-4">
       <div className="flex justify-between items-center mb-2">
         <span className="font-semibold">{data.name}</span>
-        <span className="text-app-tertiary-dark font-semibold">
-          {data.rating * 10}%
-        </span>
+        <div className="flex items-center space-x-2">
+          <span className="text-app-tertiary-dark">{data.rating * 10}%</span>
+          <Button variant="ghost" size="icon" className="h-8 w-8">
+            <Edit className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="icon" className="h-8 w-8">
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
       <Progress value={data.rating * 10} className="w-full bg-app-color-5" />
     </CardContent>
@@ -193,14 +199,14 @@ const Tool = ({ data }: { data: ITool }) => (
       <span className="text-base">{data.name}</span>
       <span>
         <Button
-          variant="default"
+          variant="ghost"
           size="icon"
           className="h-auto w-auto p-1 text-app-color-5 hover:bg-white hover:text-app-primary"
         >
           <Edit className="h-4 w-4" />
         </Button>
         <Button
-          variant="default"
+          variant="ghost"
           size="icon"
           className="ml-2 h-auto w-auto p-1 text-app-color-5 hover:bg-white hover:text-app-primary"
         >
