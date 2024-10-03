@@ -12,6 +12,7 @@
     "@auth/mongodb-adapter": "^3.4.2",
     "@plaiceholder/next": "^3.0.0",
     "@radix-ui/react-avatar": "^1.1.0",
+    "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-progress": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",

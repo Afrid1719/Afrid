@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp, Edit, Plus, Trash2 } from "lucide-react";
 import { IExperience } from "@/interfaces/i-professional";
 import moment from "moment";

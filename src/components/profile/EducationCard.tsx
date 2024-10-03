@@ -1,7 +1,7 @@
 import { Edit, Plus } from "lucide-react";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import Pill from "./Pill";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Pill from "@/components/Pill";
 import { useEffect, useState } from "react";
 import { IAcademics } from "@/interfaces/i-professional";
 

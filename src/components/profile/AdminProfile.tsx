@@ -21,6 +21,9 @@ import EducationTab from "./EducationCard";
 import SkillsTab from "./SkillsTab";
 import ProjectsTab from "./ProjectsTab";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import ImageUploader from "../ImageUploader";
 
 export default function AdminProfile({
   imageUrl,
@@ -29,12 +32,21 @@ export default function AdminProfile({
   imageUrl: string;
   dataUrl: any;
 }) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (isDialogOpen) {
+      document.body.style.width = "100vw";
+    } else {
+      document.body.style.width = "100%";
+    }
+  }, [isDialogOpen]);
   return (
     <div className="p-4 md:p-0">
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="text-center space-y-4">
-          <div className="relative inline-block">
-            <Avatar className="w-40 h-40 md:w-64 md:h-64 mx-auto">
+          <div className="block">
+            <Avatar className="group w-40 h-40 md:w-64 md:h-64 mx-auto relative shadow-md">
               <Image
                 src={imageUrl}
                 width={200}
@@ -42,16 +54,17 @@ export default function AdminProfile({
                 alt="Afrid"
                 placeholder="blur"
                 blurDataURL={dataUrl.base64}
-                className="shadow-xl shadow-slate-950 rounded-full w-40 h-40 md:w-64 md:h-64 object-fill aspect-auto"
+                className="shadow-xl shadow-slate-950 rounded-full w-40 h-40 md:w-64 md:h-64 object-fill aspect-auto group-hover:blur-lg transition-all ease-in-out duration-300"
               />
+              <Button
+                variant="secondary"
+                size="icon"
+                className="invisible group-hover:visible absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white text-app-secondary"
+                onClick={() => setIsDialogOpen(true)}
+              >
+                <Edit className="h-6 w-6" />
+              </Button>
             </Avatar>
-            <Button
-              variant="secondary"
-              size="icon"
-              className="absolute bottom-0 right-0 rounded-full bg-app-color-4 text-app-primary"
-            >
-              <Edit className="h-4 w-4" />
-            </Button>
           </div>
           <div>
             <h1 className="text-3xl font-bold">Syed Afrid Ali</h1>
@@ -143,6 +156,15 @@ export default function AdminProfile({
           </TabsContent>
         </Tabs>
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="bg-app-primary/50 backdrop-blur-lg text-app-secondary mt-4 overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Profile Image</DialogTitle>
+          </DialogHeader>
+          <ImageUploader limit={3} acceptFileType="image/*" />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

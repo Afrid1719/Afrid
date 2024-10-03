@@ -1,4 +1,4 @@
-import AdminProfile from "@/components/AdminProfile";
+import AdminProfile from "@/components/profile/AdminProfile";
 import UserProfile from "@/components/UserProfile";
 import { allowedUsers } from "@/utils/allowed-users";
 import { local } from "@/utils/image-placeholder";

@@ -1,8 +1,8 @@
 import { ISkill, ITool } from "@/interfaces/i-home";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Progress } from "./ui/progress";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Brain,
   ChevronDown,
@@ -12,7 +12,7 @@ import {
   Trash2,
   Wrench
 } from "lucide-react";
-import Pill from "./Pill";
+import Pill from "@/components/Pill";
 
 export default function SkillsTab() {
   return (
