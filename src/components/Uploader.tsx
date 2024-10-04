@@ -1,23 +1,66 @@
 "use client";
 
-import { useState, useCallback, useTransition } from "react";
+import { useState, useCallback, useTransition, useEffect } from "react";
 import { Upload, X } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 
-interface FileWithPreview extends File {
-  preview: string;
+interface IFileWithPreview extends File {
+  preview?: string;
 }
 
-export default function ImageUploader({
-  limit,
-  acceptFileType
-}: {
-  limit: number;
+interface IUploadFormProps {
+  filesLimit?: number;
   acceptFileType: string;
-}) {
-  const [files, setFiles] = useState<FileWithPreview[]>([]);
+  setIsUploadSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface IUploaderProps extends IUploadFormProps {
+  title?: string;
+  isUploaderOpen: boolean;
+  setIsUploaderOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Uploader({
+  isUploaderOpen,
+  setIsUploadSuccess,
+  setIsUploaderOpen,
+  acceptFileType,
+  title = "",
+  filesLimit = 1
+}: IUploaderProps) {
+  useEffect(() => {
+    if (isUploaderOpen) {
+      document.body.style.width = "100vw";
+    } else {
+      document.body.style.width = "100%";
+    }
+  }, [isUploaderOpen]);
+
+  return (
+    <Dialog open={isUploaderOpen} onOpenChange={setIsUploaderOpen}>
+      <DialogContent className="bg-app-primary/50 backdrop-blur-lg text-app-secondary mt-4 overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+        </DialogHeader>
+        <UploadForm
+          filesLimit={filesLimit}
+          acceptFileType={acceptFileType}
+          setIsUploadSuccess={setIsUploadSuccess}
+        />
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function UploadForm({
+  filesLimit,
+  acceptFileType,
+  setIsUploadSuccess
+}: IUploadFormProps) {
+  const [files, setFiles] = useState<IFileWithPreview[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -25,23 +68,24 @@ export default function ImageUploader({
     evt.preventDefault();
     const formData = new FormData(evt.currentTarget);
     startTransition(async () => {
-      if (files.length > limit) {
-        setError("You can only upload up to " + limit + " files");
+      if (files.length > filesLimit) {
+        setError("You can only upload up to " + filesLimit + " files");
         return;
       }
       try {
-        console.log(formData.getAll("files"));
-        const res = await fetch("/api/assets", {
+        const response = await fetch("/api/assets", {
           method: "POST",
           body: formData
         });
-        const json = await res.json();
-        console.group(json);
-        toast.success("Done");
+        const result = await response.json();
+        if (result.success) {
+          toast.success("File(s) uploaded successfully");
+          setIsUploadSuccess(true);
+        }
       } catch (error: unknown) {
         console.error(error);
         setError((error as Error).message);
-        toast.error((error as Error).message);
+        setIsUploadSuccess(false);
       }
     });
   };
@@ -49,7 +93,7 @@ export default function ImageUploader({
   const onDropMultiple = useCallback(
     (acceptedFiles: File[]) => {
       setFiles((prev) => {
-        if (limit === 1) {
+        if (filesLimit === 1) {
           return acceptedFiles.map((file) =>
             Object.assign(file, { preview: URL.createObjectURL(file) })
           );
@@ -64,10 +108,10 @@ export default function ImageUploader({
         ];
       });
     },
-    [limit]
+    [filesLimit]
   );
 
-  const removeFile = (file: FileWithPreview) => {
+  const removeFile = (file: IFileWithPreview) => {
     const newFiles = [...files];
     newFiles.splice(newFiles.indexOf(file), 1);
     setFiles(newFiles);
@@ -93,7 +137,7 @@ export default function ImageUploader({
         >
           <input
             type="file"
-            multiple={limit > 1 ? true : false}
+            multiple={filesLimit > 1 ? true : false}
             onChange={(e) => onDropMultiple(Array.from(e.target.files || []))}
             accept={acceptFileType}
             className="hidden"
