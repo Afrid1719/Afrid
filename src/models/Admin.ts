@@ -1,7 +1,11 @@
 import bcrypt from "bcryptjs";
-import mongoose, { model, Schema } from "mongoose";
+import mongoose, { model, Schema, Types } from "mongoose";
 import { IAdmin } from "@/interfaces/i-admin";
 import { connectDB, disconnectDB } from "@/lib/mongo";
+import { remote } from "@/utils/image-placeholder";
+
+const projection = "-password -__v -updatedAt -createdAt";
+const queryOptions = { lean: true };
 
 export const AdminSchema = new Schema<IAdmin>(
   {
@@ -22,6 +26,27 @@ export const AdminSchema = new Schema<IAdmin>(
       type: String,
       required: [true, "Name is required"]
     },
+    title: {
+      type: String,
+      required: [true, "Title is required"]
+    },
+    imageUrl: {
+      type: String
+    },
+    imageAssetId: {
+      type: String
+    },
+    blurDataUrl: {
+      type: String
+    },
+    resumeUrl: {
+      type: String
+    },
+    introduction: {
+      type: String,
+      minlength: [50, "Introduction is too short"],
+      maxlength: [500, "Introduction is too long"]
+    },
     blocked: {
       type: Boolean,
       default: false
@@ -36,7 +61,22 @@ AdminSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 10);
   }
+
+  if (this.isModified("imageUrl")) {
+    this.blurDataUrl = ((await remote(this.imageUrl)) as any)?.base64;
+    console.log(this.blurDataUrl);
+    this.imageUrl = encodeURIComponent(this.imageUrl);
+  }
+
   next();
+});
+
+AdminSchema.post("find", function (docs: Types.DocumentArray<IAdmin>) {
+  docs.forEach((doc) => {
+    if (doc.imageUrl) {
+      doc.imageUrl = decodeURIComponent(doc.imageUrl);
+    }
+  });
 });
 
 const Admin =
@@ -63,8 +103,6 @@ export async function createAdmin(data: IAdmin) {
     };
   } catch (error) {
     throw error;
-  } finally {
-    await disconnectDB();
   }
 }
 
@@ -79,8 +117,6 @@ export async function getAllAdmins() {
     }));
   } catch (error) {
     throw error;
-  } finally {
-    await disconnectDB();
   }
 }
 
@@ -89,20 +125,30 @@ export async function getAdminByEmailOrId(
 ): Promise<Omit<IAdmin, "password"> | null> {
   try {
     await connectDB();
-    const admin = await Admin.findOne({
-      $or: [{ email: query }, { _id: query }]
-    });
-    return admin
-      ? {
-          id: admin._id.toString(),
-          email: admin.email,
-          name: admin.name,
-          blocked: admin.blocked
-        }
-      : null;
+    let isObjectId = mongoose.Types.ObjectId.isValid(query);
+    const admin = isObjectId
+      ? await Admin.findOne({ _id: query }, projection, queryOptions)
+      : await Admin.findOne({ email: query }, projection, queryOptions);
+    admin.id = admin._id.toString();
+    delete admin._id;
+    return admin || null;
   } catch (error) {
     throw error;
-  } finally {
-    await disconnectDB();
+  }
+}
+
+export async function updateAdmin(id: string, data: Partial<IAdmin>) {
+  try {
+    await connectDB();
+    const admin = await Admin.findByIdAndUpdate(id, data, {
+      ...queryOptions,
+      new: true,
+      runValidators: true
+    }).select(projection);
+    admin.id = admin._id.toString();
+    delete admin._id;
+    return admin;
+  } catch (error) {
+    throw error;
   }
 }

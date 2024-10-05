@@ -2,8 +2,8 @@ import "server-only";
 
 import { NextRequest } from "next/server";
 import { decode } from "next-auth/jwt";
-import { allowedUsers } from "./allowed-users";
 import { cookies } from "next/headers";
+import { getAdminByEmailOrId } from "@/models/Admin";
 
 export async function decodeSession(token: string) {
   try {
@@ -31,5 +31,6 @@ export async function isAllowed(req?: NextRequest) {
   if (!session) {
     return false;
   }
-  return allowedUsers.includes(session.email);
+  const admin = await getAdminByEmailOrId(session.email);
+  return admin && !admin?.blocked;
 }

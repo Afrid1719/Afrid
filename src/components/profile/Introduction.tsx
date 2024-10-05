@@ -11,9 +11,11 @@ import {
   Twitter,
   Edit
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Uploader from "@/components/Uploader";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
+import { UploadApiResponse } from "cloudinary";
 
 export default function Introduction({
   imageUrl,
@@ -84,16 +86,22 @@ function AvatarSection({
   dataUrl: any;
 }) {
   const [isUploaderOpen, setIsUploaderOpen] = useState(false);
-  const [isUploadSuccess, setIsUploadSuccess] = useState(false);
-
-  useEffect(() => {
-    if (isUploadSuccess) {
-      setIsUploaderOpen(false);
+  const session = useSession();
+  const updateAdmin = async (data: any) => {
+    try {
+      const res: UploadApiResponse = await data[0].value.json();
+      await fetch(`/api/admins/${session.data.user.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          imageUrl: res.secure_url
+        })
+      });
       toast.success("Profile image updated successfully");
-
-      // Need to implement refreshing of the latest image
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong");
     }
-  }, [isUploadSuccess]);
+  };
 
   return (
     <div className="block">
@@ -121,7 +129,7 @@ function AvatarSection({
         isUploaderOpen={isUploaderOpen}
         setIsUploaderOpen={setIsUploaderOpen}
         acceptFileType="image/*"
-        setIsUploadSuccess={setIsUploadSuccess}
+        onUploadComplete={updateAdmin}
       />
     </div>
   );

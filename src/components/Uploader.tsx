@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useCallback, useTransition, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Upload, X } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import toast from "react-hot-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 
 interface IFileWithPreview extends File {
@@ -14,19 +13,19 @@ interface IFileWithPreview extends File {
 interface IUploadFormProps {
   filesLimit?: number;
   acceptFileType: string;
-  setIsUploadSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsUploaderOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onUploadComplete: (data: any) => Promise<void>;
 }
 
 interface IUploaderProps extends IUploadFormProps {
   title?: string;
   isUploaderOpen: boolean;
-  setIsUploaderOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Uploader({
   isUploaderOpen,
-  setIsUploadSuccess,
   setIsUploaderOpen,
+  onUploadComplete,
   acceptFileType,
   title = "",
   filesLimit = 1
@@ -48,7 +47,8 @@ export default function Uploader({
         <UploadForm
           filesLimit={filesLimit}
           acceptFileType={acceptFileType}
-          setIsUploadSuccess={setIsUploadSuccess}
+          onUploadComplete={onUploadComplete}
+          setIsUploaderOpen={setIsUploaderOpen}
         />
       </DialogContent>
     </Dialog>
@@ -58,36 +58,60 @@ export default function Uploader({
 function UploadForm({
   filesLimit,
   acceptFileType,
-  setIsUploadSuccess
+  onUploadComplete,
+  setIsUploaderOpen
 }: IUploadFormProps) {
   const [files, setFiles] = useState<IFileWithPreview[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
 
-  const handleUpload = (evt: React.FormEvent<HTMLFormElement>) => {
+  const handleUpload = async (evt: React.FormEvent<HTMLFormElement>) => {
+    setError(null);
+    setIsPending(true);
+
     evt.preventDefault();
-    const formData = new FormData(evt.currentTarget);
-    startTransition(async () => {
-      if (files.length > filesLimit) {
-        setError("You can only upload up to " + filesLimit + " files");
-        return;
-      }
-      try {
-        const response = await fetch("/api/assets", {
-          method: "POST",
-          body: formData
+
+    if (files.length > filesLimit) {
+      setError("You can only upload up to " + filesLimit + " files");
+      return;
+    }
+
+    let uploadPromises = [];
+    for (const file of files) {
+      let formData = new FormData();
+      formData.append("file", file);
+      const uploadFn = fetch("/api/assets", {
+        method: "POST",
+        body: formData
+      });
+      uploadPromises.push(uploadFn);
+    }
+
+    try {
+      const uploadResponses = await Promise.allSettled(uploadPromises);
+      let successfulUploads = uploadResponses.filter(
+        (item) => item.status === "fulfilled"
+      );
+      if (successfulUploads.length !== uploadPromises.length) {
+        let failedUploads = uploadResponses.filter(
+          (item) => item.status === "rejected"
+        );
+        let errorMessage = "";
+        failedUploads.forEach((item) => {
+          errorMessage += item.reason.message + "\n";
         });
-        const result = await response.json();
-        if (result.success) {
-          toast.success("File(s) uploaded successfully");
-          setIsUploadSuccess(true);
-        }
-      } catch (error: unknown) {
-        console.error(error);
-        setError((error as Error).message);
-        setIsUploadSuccess(false);
+        setError(errorMessage);
       }
-    });
+      if (successfulUploads.length > 0) {
+        await onUploadComplete(successfulUploads);
+        setIsUploaderOpen(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setError((error as Error).message);
+    }
+
+    setIsPending(false);
   };
 
   const onDropMultiple = useCallback(

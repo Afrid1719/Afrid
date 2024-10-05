@@ -20,10 +20,7 @@ export const config: MiddlewareConfig = {
 };
 
 export async function middleware(req: NextRequest) {
-  if (
-    protectedRoutes.some((item) => req.nextUrl.pathname.startsWith(item)) &&
-    !(await isAllowed(req))
-  ) {
+  if (protectedRoutes.some((item) => req.nextUrl.pathname.startsWith(item))) {
     return NextResponse.redirect(new URL("/home", req.url));
   }
 }
