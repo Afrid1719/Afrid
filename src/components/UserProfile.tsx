@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function UserProfile() {
+export default function UserProfile({ user }: { user: any }) {
   return (
     <div>
       {/* <span>{session?.user?.name}</span>

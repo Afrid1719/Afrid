@@ -1,7 +1,9 @@
 import AdminProfile from "@/components/profile/AdminProfile";
 import UserProfile from "@/components/UserProfile";
+import { IAdminWOPassword } from "@/interfaces/i-admin";
+import { getAdminByEmailOrId } from "@/models/Admin";
+import { getUserByEmailOrId } from "@/models/User";
 import { isAllowed } from "@/utils/access";
-import { local } from "@/utils/image-placeholder";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -9,11 +11,12 @@ export default async function Page() {
   const session = await getServerSession();
   if (!session) return redirect("/login");
   const isAdmin = await isAllowed();
-  const imageUrl = isAdmin && "/me-intro-2-modified.png";
-  const dataUrl: any = isAdmin && (await local(imageUrl));
+  let userData = isAdmin
+    ? await getAdminByEmailOrId(session.user.email)
+    : await getUserByEmailOrId(session.user.email);
   return isAdmin ? (
-    <AdminProfile imageUrl={imageUrl} dataUrl={dataUrl} />
+    <AdminProfile user={userData as IAdminWOPassword} />
   ) : (
-    <UserProfile />
+    <UserProfile user={userData} />
   );
 }

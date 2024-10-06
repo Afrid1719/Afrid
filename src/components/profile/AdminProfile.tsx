@@ -7,18 +7,13 @@ import EducationTab from "./EducationCard";
 import SkillsTab from "./SkillsTab";
 import ProjectsTab from "./ProjectsTab";
 import Introduction from "./Introduction";
+import { IAdminWOPassword } from "@/interfaces/i-admin";
 
-export default function AdminProfile({
-  imageUrl,
-  dataUrl
-}: {
-  imageUrl: string;
-  dataUrl: any;
-}) {
+export default function AdminProfile({ user }: { user: IAdminWOPassword }) {
   return (
     <div className="p-4 md:p-0">
       <div className="max-w-4xl mx-auto space-y-8">
-        <Introduction imageUrl={imageUrl} dataUrl={dataUrl} />
+        <Introduction user={user} />
         <Tabs defaultValue="experience" className="w-full">
           <TabsList className="w-auto h-auto flex justify-between bg-transparent mx-auto p-1 border border-app-primary">
             <TabsTrigger

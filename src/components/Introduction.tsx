@@ -1,22 +1,22 @@
-import { local } from "@/utils/image-placeholder";
+import { IAdminWOPassword } from "@/interfaces/i-admin";
+import { getAdminByEmailOrId } from "@/models/Admin";
 import { ArrowDownToLine } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function Introduction() {
-  const imageUrl = "/me-intro-2-modified.png";
-  const dataUrl: any = await local(imageUrl);
+  const user: IAdminWOPassword = await getAdminByEmailOrId("admin@mail.com");
   return (
     <div className="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
       <article className="flex flex-col justify-center items-center md:flex-row gap-y-4 ">
         <section className="flex justify-center items-center gap-3 md:flex-col md:w-1/2">
           <Image
-            src={imageUrl}
+            src={user.image?.secureUrl || ""}
             width={200}
             height={200}
             alt="Afrid"
-            placeholder="blur"
-            blurDataURL={dataUrl.base64}
+            placeholder={!!user?.blurDataUrl ? "blur" : "empty"}
+            blurDataURL={user?.blurDataUrl || ""}
             className="shadow-xl shadow-slate-950 rounded-full w-40 h-40 md:w-64 md:h-64 object-fill aspect-auto"
           />
           <a

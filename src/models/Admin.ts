@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import mongoose, { model, Schema, Types } from "mongoose";
-import { IAdmin } from "@/interfaces/i-admin";
-import { connectDB, disconnectDB } from "@/lib/mongo";
+import { IAdmin, IAdminWOPassword } from "@/interfaces/i-admin";
+import { connectDB } from "@/lib/mongo";
 import { remote } from "@/utils/image-placeholder";
 
 const projection = "-password -__v -updatedAt -createdAt";
@@ -30,17 +30,24 @@ export const AdminSchema = new Schema<IAdmin>(
       type: String,
       required: [true, "Title is required"]
     },
-    imageUrl: {
-      type: String
-    },
-    imageAssetId: {
-      type: String
+    image: {
+      url: String,
+      secureUrl: String,
+      publicId: String,
+      width: Number,
+      height: Number,
+      resourceType: String
     },
     blurDataUrl: {
       type: String
     },
-    resumeUrl: {
-      type: String
+    resume: {
+      url: String,
+      secureUrl: String,
+      publicId: String,
+      width: Number,
+      height: Number,
+      resourceType: String
     },
     introduction: {
       type: String,
@@ -62,10 +69,19 @@ AdminSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, 10);
   }
 
-  if (this.isModified("imageUrl")) {
-    this.blurDataUrl = ((await remote(this.imageUrl)) as any)?.base64;
-    console.log(this.blurDataUrl);
-    this.imageUrl = encodeURIComponent(this.imageUrl);
+  if (!this.$isEmpty("image")) {
+    if (this.isModified("image.url")) {
+      this.blurDataUrl = ((await remote(this.image.url)) as any).base64;
+      this.image.url = encodeURIComponent(this.image.url);
+      this.image.secureUrl = encodeURIComponent(this.image.secureUrl);
+    }
+  }
+
+  if (!this.$isEmpty("resume")) {
+    if (this.isModified("resume.url")) {
+      this.resume.url = encodeURIComponent(this.resume.url);
+      this.resume.secureUrl = encodeURIComponent(this.resume.secureUrl);
+    }
   }
 
   next();
@@ -73,8 +89,13 @@ AdminSchema.pre("save", async function (next) {
 
 AdminSchema.post("find", function (docs: Types.DocumentArray<IAdmin>) {
   docs.forEach((doc) => {
-    if (doc.imageUrl) {
-      doc.imageUrl = decodeURIComponent(doc.imageUrl);
+    if (!doc.image) {
+      doc.image.url = decodeURIComponent(doc.image?.url || "");
+      doc.image.secureUrl = decodeURIComponent(doc.image?.secureUrl || "");
+    }
+    if (!doc.resume) {
+      doc.resume.url = decodeURIComponent(doc.resume?.url || "");
+      doc.resume.secureUrl = decodeURIComponent(doc.resume?.secureUrl || "");
     }
   });
 });
@@ -85,7 +106,7 @@ const Admin =
 
 export default Admin;
 
-/******* ADMIN FUNCTIONS */
+/******* ADMIN FUNCTIONS ***********/
 
 export async function createAdmin(data: IAdmin) {
   try {
@@ -110,11 +131,14 @@ export async function getAllAdmins() {
   try {
     await connectDB();
     const admins = await Admin.find();
-    return admins.map((admin) => ({
-      id: admin._id.toString(),
-      email: admin.email,
-      name: admin.name
-    }));
+    return admins.map((admin) => {
+      let ob = {
+        id: admin._id.toString(),
+        ...admin
+      };
+      delete ob._id;
+      return ob;
+    });
   } catch (error) {
     throw error;
   }
@@ -122,11 +146,11 @@ export async function getAllAdmins() {
 
 export async function getAdminByEmailOrId(
   query: string
-): Promise<Omit<IAdmin, "password"> | null> {
+): Promise<IAdminWOPassword | null> {
   try {
     await connectDB();
     let isObjectId = mongoose.Types.ObjectId.isValid(query);
-    const admin = isObjectId
+    let admin = isObjectId
       ? await Admin.findOne({ _id: query }, projection, queryOptions)
       : await Admin.findOne({ email: query }, projection, queryOptions);
     admin.id = admin._id.toString();

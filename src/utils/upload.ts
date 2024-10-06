@@ -8,7 +8,7 @@ import streamifier from "streamifier";
 
 export const CLOUDINARY_OPTIONS: UploadApiOptions = {
   use_filename: true,
-  unique_filename: true,
+  unique_filename: false,
   overwrite: true,
   resource_type: "auto",
   folder: process.env.CLOUDINARY_FOLDER,
@@ -37,4 +37,17 @@ export function uploadToCloudinary(
         .pipe(uploadStream);
     }
   );
+}
+
+export function deleteFromCloudinary(publicId: string) {
+  cloudinary.config(CLOUDINARY_OPTIONS);
+  return new Promise<void>((resolve, reject) => {
+    cloudinary.uploader.destroy(publicId, (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+  });
 }

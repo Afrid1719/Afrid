@@ -11,22 +11,16 @@ import {
   Twitter,
   Edit
 } from "lucide-react";
-import { useState } from "react";
+import { startTransition, useCallback, useState } from "react";
 import Uploader from "@/components/Uploader";
 import toast from "react-hot-toast";
-import { useSession } from "next-auth/react";
 import { UploadApiResponse } from "cloudinary";
+import { IAdminWOPassword } from "@/interfaces/i-admin";
 
-export default function Introduction({
-  imageUrl,
-  dataUrl
-}: {
-  imageUrl: string;
-  dataUrl: any;
-}) {
+export default function Introduction({ user }: { user: IAdminWOPassword }) {
   return (
     <div className="text-center space-y-4">
-      <AvatarSection imageUrl={imageUrl} dataUrl={dataUrl} />
+      <AvatarSection user={user} />
       <div>
         <h1 className="text-3xl font-bold">Syed Afrid Ali</h1>
         <p className="text-xl">Full Stack Web Developer</p>
@@ -78,41 +72,57 @@ export default function Introduction({
   );
 }
 
-function AvatarSection({
-  imageUrl,
-  dataUrl
-}: {
-  imageUrl: string;
-  dataUrl: any;
-}) {
+function AvatarSection({ user }: { user: IAdminWOPassword }) {
   const [isUploaderOpen, setIsUploaderOpen] = useState(false);
-  const session = useSession();
-  const updateAdmin = async (data: any) => {
-    try {
-      const res: UploadApiResponse = await data[0].value.json();
-      await fetch(`/api/admins/${session.data.user.id}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          imageUrl: res.secure_url
-        })
-      });
-      toast.success("Profile image updated successfully");
-    } catch (err) {
-      console.log(err);
-      toast.error("Something went wrong");
-    }
-  };
+  const [localUser, setLocalUser] = useState<IAdminWOPassword>(user);
+
+  const memoizedSetIsUploaderOpen = useCallback(
+    (value: boolean) => {
+      setIsUploaderOpen(value);
+    },
+    [setIsUploaderOpen]
+  );
+
+  const updateAdmin = useCallback(
+    async (data: any) => {
+      try {
+        const res: UploadApiResponse = await data[0].value.json();
+        const response = await fetch(`/api/admins/${user.id}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            image: {
+              publicId: res.public_id,
+              secureUrl: res.secure_url,
+              url: res.secure_url,
+              resourceType: res.resource_type,
+              width: res.width,
+              height: res.height
+            }
+          })
+        });
+        const updatedAdmin: IAdminWOPassword = await response.json();
+        startTransition(() => {
+          setLocalUser({ ...localUser, ...updatedAdmin });
+        });
+        toast.success("Profile image updated successfully");
+      } catch (err) {
+        console.log(err);
+        toast.error("Something went wrong");
+      }
+    },
+    [user.id]
+  );
 
   return (
     <div className="block">
       <Avatar className="group w-40 h-40 md:w-64 md:h-64 mx-auto relative shadow-md">
         <Image
-          src={imageUrl}
+          src={localUser.image?.secureUrl || ""}
           width={200}
           height={200}
           alt="Afrid"
-          placeholder="blur"
-          blurDataURL={dataUrl.base64}
+          placeholder={!!localUser?.blurDataUrl ? "blur" : "empty"}
+          blurDataURL={localUser?.blurDataUrl || ""}
           className="shadow-xl shadow-slate-950 rounded-full w-40 h-40 md:w-64 md:h-64 object-fill aspect-auto group-hover:blur-lg transition-all ease-in-out duration-300"
         />
         <Button
@@ -127,7 +137,7 @@ function AvatarSection({
       <Uploader
         title="Profile Image"
         isUploaderOpen={isUploaderOpen}
-        setIsUploaderOpen={setIsUploaderOpen}
+        setIsUploaderOpen={memoizedSetIsUploaderOpen}
         acceptFileType="image/*"
         onUploadComplete={updateAdmin}
       />

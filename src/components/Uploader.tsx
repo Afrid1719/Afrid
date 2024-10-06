@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, memo } from "react";
 import { Upload, X } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
@@ -13,7 +13,7 @@ interface IFileWithPreview extends File {
 interface IUploadFormProps {
   filesLimit?: number;
   acceptFileType: string;
-  setIsUploaderOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsUploaderOpen: (value: boolean) => void;
   onUploadComplete: (data: any) => Promise<void>;
 }
 
@@ -22,7 +22,9 @@ interface IUploaderProps extends IUploadFormProps {
   isUploaderOpen: boolean;
 }
 
-export default function Uploader({
+export default memo(RawUploader);
+
+function RawUploader({
   isUploaderOpen,
   setIsUploaderOpen,
   onUploadComplete,

@@ -1,6 +1,10 @@
 import mongoose, { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 import { IUser } from "@/interfaces/i-user";
+import { connectDB } from "@/lib/mongo";
+
+const projection = "-password -__v -updatedAt -createdAt";
+const queryOptions = { lean: true };
 
 const UserSchema = new Schema<IUser>(
   {
@@ -43,3 +47,20 @@ const User =
   (mongoose.models?.User as mongoose.Model<IUser>) || model("User", UserSchema);
 
 export default User;
+
+/******* USER FUNCTIONS ***********/
+
+export async function getUserByEmailOrId(query: string) {
+  try {
+    await connectDB();
+    let isObjectId = mongoose.Types.ObjectId.isValid(query);
+    const user = isObjectId
+      ? await User.findOne({ _id: query }, projection, queryOptions)
+      : await User.findOne({ email: query }, projection, queryOptions);
+    user.id = user._id.toString();
+    delete user._id;
+    return user || null;
+  } catch (error) {
+    throw error;
+  }
+}
