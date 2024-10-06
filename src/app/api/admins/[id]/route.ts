@@ -17,13 +17,16 @@ export async function PUT(
     zAdminUpdateRequest.parse(data);
     // Check if the data to update is the image
     if ("image" in data) {
-      const existingAdmin = await getAdminByEmailOrId(params.id);
-      if (!!existingAdmin && !!existingAdmin.image?.publicId) {
-        if (existingAdmin.image.publicId !== data.image.publicId) {
-          // Delete the old image
-          await deleteFromCloudinary(existingAdmin.image.publicId);
-        }
-      }
+      /*** Commented code takes a long time to run resulting in TimeoutError ***/
+
+      //   const existingAdmin = await getAdminByEmailOrId(params.id);
+      //   if (!!existingAdmin && !!existingAdmin.image?.publicId) {
+      //     if (existingAdmin.image.publicId !== data.image.publicId) {
+      //       // Delete the old image
+      //       await deleteFromCloudinary(existingAdmin.image.publicId);
+      //     }
+      //   }
+
       data.blurDataUrl = ((await remote(data.image.secureUrl)) as any)?.base64;
     }
     const res = await updateAdmin(params.id, data);
