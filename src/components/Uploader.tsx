@@ -91,13 +91,14 @@ function UploadForm({
 
     try {
       const uploadResponses = await Promise.allSettled(uploadPromises);
-      let successfulUploads = uploadResponses.filter(
-        (item) => item.status === "fulfilled"
-      );
+      let successfulUploads: PromiseFulfilledResult<Response>[] =
+        uploadResponses.filter(
+          (item) => item.status === "fulfilled"
+        ) as PromiseFulfilledResult<Response>[];
       if (successfulUploads.length !== uploadPromises.length) {
-        let failedUploads = uploadResponses.filter(
+        let failedUploads: PromiseRejectedResult[] = uploadResponses.filter(
           (item) => item.status === "rejected"
-        );
+        ) as PromiseRejectedResult[];
         let errorMessage = "";
         failedUploads.forEach((item) => {
           errorMessage += item.reason.message + "\n";

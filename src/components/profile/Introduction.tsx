@@ -110,7 +110,7 @@ function AvatarSection({ user }: { user: IAdminWOPassword }) {
         toast.error("Something went wrong");
       }
     },
-    [user.id]
+    [user.id, localUser]
   );
 
   return (
