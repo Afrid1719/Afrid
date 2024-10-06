@@ -91,6 +91,7 @@ function AvatarSection({ user }: { user: IAdminWOPassword }) {
           method: "PUT",
           body: JSON.stringify({
             image: {
+              assetId: res.asset_id,
               publicId: res.public_id,
               secureUrl: res.secure_url,
               url: res.secure_url,

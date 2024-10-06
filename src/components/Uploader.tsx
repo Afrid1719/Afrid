@@ -68,6 +68,7 @@ function UploadForm({
   const [isPending, setIsPending] = useState(false);
 
   const handleUpload = async (evt: React.FormEvent<HTMLFormElement>) => {
+    const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`;
     setError(null);
     setIsPending(true);
 
@@ -78,14 +79,25 @@ function UploadForm({
       return;
     }
 
+    const response = await fetch("/api/cloudinary-signature");
+    const { signature, timestamp } = await response.json();
     let uploadPromises = [];
     for (const file of files) {
       let formData = new FormData();
       formData.append("file", file);
-      const uploadFn = fetch("/api/assets", {
+      formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
+      formData.append("timestamp", timestamp);
+      formData.append("signature", signature);
+      formData.append(
+        "upload_preset",
+        process.env.NEXT_PUBLIC_SIGNED_UPLOAD_PRESET
+      );
+
+      let uploadFn = fetch(url, {
         method: "POST",
         body: formData
       });
+
       uploadPromises.push(uploadFn);
     }
 

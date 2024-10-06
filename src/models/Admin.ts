@@ -31,6 +31,7 @@ export const AdminSchema = new Schema<IAdmin>(
       required: [true, "Title is required"]
     },
     image: {
+      assetId: String,
       url: String,
       secureUrl: String,
       publicId: String,

@@ -12,9 +12,9 @@ export const CLOUDINARY_OPTIONS: UploadApiOptions = {
   overwrite: true,
   resource_type: "auto",
   folder: process.env.CLOUDINARY_FOLDER,
-  api_key: process.env.CLOUDINARY_API_KEY,
+  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
 };
 
 export function uploadToCloudinary(
