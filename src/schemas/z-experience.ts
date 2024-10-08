@@ -4,11 +4,11 @@ export const zExperienceCreateRequest = z.object({
   position: z
     .string()
     .min(3, { message: "Position must be at least 3 characters" })
-    .max(30, { message: "Position must be at most 30 characters" }),
+    .max(50, { message: "Position must be at most 50 characters" }),
   company: z
     .string()
     .min(5, { message: "Company must be at least 5 characters" })
-    .max(50, { message: "Company must be at most 50 characters" }),
+    .max(100, { message: "Company must be at most 100 characters" }),
   startDate: z
     .date()
     .max(new Date(), { message: "Start date must be in the past" }),

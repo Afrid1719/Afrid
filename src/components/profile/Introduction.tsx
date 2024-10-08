@@ -21,52 +21,61 @@ export default function Introduction({ user }: { user: IAdminWOPassword }) {
   return (
     <div className="text-center space-y-4">
       <AvatarSection user={user} />
-      <div>
-        <h1 className="text-3xl font-bold">Syed Afrid Ali</h1>
-        <p className="text-xl">Full Stack Web Developer</p>
-      </div>
-      <div className="flex justify-center space-x-4">
+      <div className="group border border-transparent hover:border-app-secondary rounded-md space-y-4 p-4 relative ease-in duration-200">
         <Button
-          variant="outline"
+          variant="ghost"
           size="icon"
-          style={{ color: "#79c4f2", borderColor: "#79c4f2" }}
+          className="invisible group-hover:visible bg-transparent text-app-color-5 hover:bg-white hover:text-app-primary absolute top-2 right-2"
         >
-          <Github className="h-4 w-4" />
+          <Edit className="h-4 w-4" />
         </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          style={{ color: "#79c4f2", borderColor: "#79c4f2" }}
-        >
-          <Linkedin className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          style={{ color: "#79c4f2", borderColor: "#79c4f2" }}
-        >
-          <Twitter className="h-4 w-4" />
-        </Button>
-      </div>
-      <div className="container flex flex-col sm:flex-row justify-center items-end space-x-2 space-y-2">
-        <Badge
-          variant="secondary"
-          className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
-        >
-          <Mail className="w-4 h-4" /> john.doe@example.com
-        </Badge>
-        <Badge
-          variant="secondary"
-          className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
-        >
-          <Phone className="w-4 h-4" /> +1 (555) 123-4567
-        </Badge>
-        <Badge
-          variant="secondary"
-          className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
-        >
-          <MapPin className="w-4 h-4" /> San Francisco, CA
-        </Badge>
+        <div>
+          <h1 className="text-3xl font-bold">Syed Afrid Ali</h1>
+          <p className="text-xl">Full Stack Web Developer</p>
+        </div>
+        <div className="flex justify-center space-x-4">
+          <Button
+            variant="outline"
+            size="icon"
+            style={{ color: "#79c4f2", borderColor: "#79c4f2" }}
+          >
+            <Github className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            style={{ color: "#79c4f2", borderColor: "#79c4f2" }}
+          >
+            <Linkedin className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            style={{ color: "#79c4f2", borderColor: "#79c4f2" }}
+          >
+            <Twitter className="h-4 w-4" />
+          </Button>
+        </div>
+        <div className="container flex flex-col sm:flex-row justify-center items-center space-x-2 space-y-2 md:space-y-0">
+          <Badge
+            variant="secondary"
+            className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
+          >
+            <Mail className="w-4 h-4" /> john.doe@example.com
+          </Badge>
+          <Badge
+            variant="secondary"
+            className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
+          >
+            <Phone className="w-4 h-4" /> +1 (555) 123-4567
+          </Badge>
+          <Badge
+            variant="secondary"
+            className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
+          >
+            <MapPin className="w-4 h-4" /> San Francisco, CA
+          </Badge>
+        </div>
       </div>
     </div>
   );

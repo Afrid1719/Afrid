@@ -8,13 +8,13 @@ export const ExperienceSchema = new mongoose.Schema<IExperience>(
       type: String,
       required: [true, "Position is required"],
       minlength: [3, "Position must be at least 3 characters"],
-      maxlength: [30, "Position must be at most 50 characters"]
+      maxlength: [50, "Position must be at most 50 characters"]
     },
     company: {
       type: String,
       required: [true, "Company is required"],
       minlength: [5, "Company must be at least 5 characters"],
-      maxlength: [50, "Company must be at most 50 characters"]
+      maxlength: [100, "Company must be at most 100 characters"]
     },
     startDate: {
       type: SchemaTypes.Date,

@@ -4,9 +4,13 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp, Edit, Plus, Trash2 } from "lucide-react";
 import { IExperience } from "@/interfaces/i-professional";
 import moment from "moment";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import ExperienceFormWrapper from "../forms/ExperienceForm";
 
 export default function ExperienceTab() {
   const [experiences, setExperiences] = useState<IExperience[]>([]);
+  const [isExperienceFormOpen, setIsExperienceFormOpen] =
+    useState<boolean>(false);
 
   useEffect(() => {
     async function getExperiences() {
@@ -21,7 +25,10 @@ export default function ExperienceTab() {
   return (
     <>
       <div className="flex justify-end mb-4">
-        <Button className="bg-app-secondary text-app-primary hover:bg-app-secondary/70">
+        <Button
+          className="bg-app-secondary text-app-primary hover:bg-app-secondary/70"
+          onClick={() => setIsExperienceFormOpen(true)}
+        >
           <Plus className="mr-2 h-4 w-4" />
           Add Experience
         </Button>
@@ -29,6 +36,19 @@ export default function ExperienceTab() {
       {experiences.map((experience) => (
         <ExperienceCard key={experience._id.toString()} data={experience} />
       ))}
+      <Dialog
+        open={isExperienceFormOpen}
+        onOpenChange={setIsExperienceFormOpen}
+      >
+        <DialogContent className="bg-app-primary/50 backdrop-blur-lg text-app-secondary m-2 mt-4 overflow-y-auto w-3/4 p-4 md:p-6 rounded-md">
+          <DialogHeader>
+            <DialogTitle>
+              {true ? "Edit Experience" : "Add Experience"}
+            </DialogTitle>
+          </DialogHeader>
+          <ExperienceFormWrapper />
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
