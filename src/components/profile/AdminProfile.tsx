@@ -8,6 +8,7 @@ import SkillsTab from "./SkillsTab";
 import ProjectsTab from "./ProjectsTab";
 import Introduction from "./Introduction";
 import { IAdminWOPassword } from "@/interfaces/i-admin";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 export default function AdminProfile({ user }: { user: IAdminWOPassword }) {
   return (
@@ -15,32 +16,35 @@ export default function AdminProfile({ user }: { user: IAdminWOPassword }) {
       <div className="max-w-4xl mx-auto space-y-8">
         <Introduction user={user} />
         <Tabs defaultValue="experience" className="w-full">
-          <TabsList className="w-auto h-auto flex justify-between bg-transparent mx-auto p-1 border border-app-primary">
-            <TabsTrigger
-              value="experience"
-              className="grow text-base text-white data-[state=active]:bg-app-primary data-[state=active]:text-white"
-            >
-              Experience
-            </TabsTrigger>
-            <TabsTrigger
-              value="education"
-              className="grow text-base text-white data-[state=active]:bg-app-primary data-[state=active]:text-white"
-            >
-              Education
-            </TabsTrigger>
-            <TabsTrigger
-              value="skills"
-              className="grow text-base text-white data-[state=active]:bg-app-primary data-[state=active]:text-white"
-            >
-              Skills
-            </TabsTrigger>
-            <TabsTrigger
-              value="projects"
-              className="grow text-base text-white data-[state=active]:bg-app-primary data-[state=active]:text-white"
-            >
-              Projects
-            </TabsTrigger>
-          </TabsList>
+          <ScrollArea>
+            <TabsList className="w-auto h-auto flex justify-between bg-transparent mx-auto p-1 border border-app-primary">
+              <TabsTrigger
+                value="experience"
+                className="grow text-base text-white data-[state=active]:bg-app-primary data-[state=active]:text-white"
+              >
+                Experience
+              </TabsTrigger>
+              <TabsTrigger
+                value="education"
+                className="grow text-base text-white data-[state=active]:bg-app-primary data-[state=active]:text-white"
+              >
+                Education
+              </TabsTrigger>
+              <TabsTrigger
+                value="skills"
+                className="grow text-base text-white data-[state=active]:bg-app-primary data-[state=active]:text-white"
+              >
+                Skills
+              </TabsTrigger>
+              <TabsTrigger
+                value="projects"
+                className="grow text-base text-white data-[state=active]:bg-app-primary data-[state=active]:text-white"
+              >
+                Projects
+              </TabsTrigger>
+            </TabsList>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
           <TabsContent value="experience" className="mt-4">
             <ExperienceTab />
           </TabsContent>

@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import Footer from "@/components/Footer";
 import AuthProvider from "@/components/AuthProvider";
-import { Toaster } from "react-hot-toast";
 import PageHeader from "../components/PageHeader";
 import ParticlesAnimation from "@/components/ParticlesAnimation";
+import { Toaster } from "@/components/ui/toaster";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -34,12 +34,13 @@ export default async function RootLayout({
             {children}
           </main>
           <Footer />
-          <Toaster
+          {/* <Toaster
             position="top-center"
             reverseOrder={false}
             gutter={8}
             toastOptions={{ duration: 3000 }}
-          />
+          /> */}
+          <Toaster />
           <ParticlesAnimation />
         </body>
       </AuthProvider>

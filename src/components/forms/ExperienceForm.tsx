@@ -15,20 +15,84 @@ import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import moment from "moment";
-import { CalendarIcon, Plus, X } from "lucide-react";
+import { CalendarIcon, Loader2, Plus, X } from "lucide-react";
 import { Calendar } from "../ui/calendar";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Label } from "../ui/label";
 import { TagInput } from "../ui/taginput";
+import { Textarea } from "../ui/textarea";
+import { IExperience } from "@/interfaces/i-professional";
+import OverlayDialog from "../OverlayDialog";
 
-export default function ExperienceFormWrapper() {
+interface ExperienceFormProps {
+  onSubmit: (values: z.infer<typeof zExperienceCreateRequest>) => Promise<void>;
+  onCancel: () => void;
+  experience?: IExperience;
+}
+
+interface WrapperProps extends Omit<ExperienceFormProps, "onSubmit"> {
+  isExperienceFormOpen: boolean;
+  setIsExperienceFormOpen: (value: boolean) => void;
+}
+
+export default function ExperienceFormWrapper({
+  isExperienceFormOpen,
+  setIsExperienceFormOpen,
+  onCancel,
+  experience
+}: WrapperProps) {
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof zExperienceCreateRequest>) => {
+      if (experience) {
+        await fetch(`/api/experiences/${experience._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+      } else {
+        await fetch("/api/experiences", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+      }
+    },
+    [experience]
+  );
+
+  return (
+    <OverlayDialog
+      title={experience ? "Edit Experience" : "Add Experience"}
+      open={isExperienceFormOpen}
+      onOpenChange={setIsExperienceFormOpen}
+    >
+      <ExperienceForm
+        onSubmit={onSubmit}
+        onCancel={onCancel}
+        experience={experience}
+      />
+    </OverlayDialog>
+  );
+}
+
+function ExperienceForm({
+  onSubmit,
+  onCancel,
+  experience
+}: ExperienceFormProps) {
   const form = useForm<z.infer<typeof zExperienceCreateRequest>>({
     resolver: zodResolver(zExperienceCreateRequest),
     defaultValues: {
-      position: "",
-      company: "",
-      description: [""],
-      techs: [""]
+      position: experience?.position || "",
+      company: experience?.company || "",
+      startDate: experience?.startDate || undefined,
+      endDate: experience?.endDate || undefined,
+      description: experience?.description || [""],
+      techs: experience?.techs || [""]
     }
   });
 
@@ -43,26 +107,19 @@ export default function ExperienceFormWrapper() {
   });
 
   const [tags, setTags] = useState<string[]>([]);
-
   const { setValue } = form;
 
-  const onSubmit = (
-    evt: Event,
-    values: z.infer<typeof zExperienceCreateRequest>
-  ) => {};
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(
-          (data) => console.log(data),
-          (error) => console.log(error)
-        )}
-        className="space-y-4 lg:space-y-8 m-2"
+        onSubmit={form.handleSubmit(onSubmit, (error) => console.log(error))}
+        className="space-y-4"
       >
         {/* Position  */}
         <FormField
           control={form.control}
           name="position"
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Position</FormLabel>
@@ -77,6 +134,7 @@ export default function ExperienceFormWrapper() {
         <FormField
           control={form.control}
           name="company"
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Company</FormLabel>
@@ -91,6 +149,7 @@ export default function ExperienceFormWrapper() {
         <FormField
           control={form.control}
           name="startDate"
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Start Date</FormLabel>
@@ -98,6 +157,7 @@ export default function ExperienceFormWrapper() {
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
+                      disabled={form.formState.isSubmitting}
                       variant={"outline"}
                       className={cn(
                         "w-[240px] pl-3 text-left font-normal",
@@ -125,6 +185,7 @@ export default function ExperienceFormWrapper() {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
+                    disabled={{ after: new Date() }}
                     initialFocus
                   />
                 </PopoverContent>
@@ -144,6 +205,7 @@ export default function ExperienceFormWrapper() {
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
+                      disabled={form.formState.isSubmitting}
                       variant={"outline"}
                       className={cn(
                         "w-[240px] pl-3 text-left font-normal",
@@ -171,9 +233,6 @@ export default function ExperienceFormWrapper() {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
                     initialFocus
                   />
                 </PopoverContent>
@@ -190,11 +249,16 @@ export default function ExperienceFormWrapper() {
               key={item.id}
               control={form.control}
               name={`description.${index}`}
+              disabled={form.formState.isSubmitting}
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormControl>
                     <div className="flex items-center mt-2">
-                      <Input
+                      {/* <Input
+                      {...field}
+                      placeholder={`Description ${index + 1}`}
+                    /> */}
+                      <Textarea
                         {...field}
                         placeholder={`Description ${index + 1}`}
                       />
@@ -219,6 +283,7 @@ export default function ExperienceFormWrapper() {
             variant="outline"
             size="sm"
             onClick={() => appendDesc("")}
+            disabled={form.formState.isSubmitting}
             className="mt-2"
           >
             <Plus className="h-4 w-4 mr-2" />
@@ -239,6 +304,7 @@ export default function ExperienceFormWrapper() {
                   placeholder="Enter a topic"
                   tags={tags}
                   className="sm:min-w-[450px]"
+                  disabled={form.formState.isSubmitting}
                   setTags={(newTags) => {
                     setTags(newTags);
                     setValue("techs", newTags as [string, ...string[]]);
@@ -255,6 +321,8 @@ export default function ExperienceFormWrapper() {
             type="button"
             size="sm"
             className="bg-app-secondary text-app-primary hover:text-white hover:shadow-lg"
+            onClick={onCancel}
+            disabled={form.formState.isSubmitting}
           >
             Close
           </Button>
@@ -262,8 +330,13 @@ export default function ExperienceFormWrapper() {
             type="submit"
             size="sm"
             className="bg-app-secondary text-app-primary hover:text-white hover:shadow-lg"
+            disabled={form.formState.isSubmitting}
           >
-            Save
+            {form.formState.isSubmitting ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              "Save"
+            )}
           </Button>
         </div>
       </form>

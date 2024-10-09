@@ -12,7 +12,7 @@ interface TagInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
   (props, ref) => {
-    const { placeholder, tags, setTags, className } = props;
+    const { placeholder, tags, setTags, className, disabled = false } = props;
 
     const [inputValue, setInputValue] = React.useState("");
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -70,6 +70,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           className={className}
+          disabled={disabled}
         />
       </div>
     );
