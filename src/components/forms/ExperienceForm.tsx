@@ -33,35 +33,44 @@ interface ExperienceFormProps {
 interface WrapperProps extends Omit<ExperienceFormProps, "onSubmit"> {
   isExperienceFormOpen: boolean;
   setIsExperienceFormOpen: (value: boolean) => void;
+  setShouldFetch: (value: boolean) => void;
 }
 
 export default function ExperienceFormWrapper({
   isExperienceFormOpen,
   setIsExperienceFormOpen,
+  setShouldFetch,
   onCancel,
   experience
 }: WrapperProps) {
   const onSubmit = useCallback(
     async (data: z.infer<typeof zExperienceCreateRequest>) => {
-      if (experience) {
-        await fetch(`/api/experiences/${experience._id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        });
-      } else {
-        await fetch("/api/experiences", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        });
+      try {
+        if (experience) {
+          await fetch(`/api/experiences/${experience._id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+          });
+          setShouldFetch(true);
+        } else {
+          await fetch("/api/experiences", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+          });
+          setShouldFetch(true);
+        }
+        setIsExperienceFormOpen(false);
+      } catch (err) {
+        console.log((err as Error).message);
       }
     },
-    [experience]
+    [experience, setShouldFetch, setIsExperienceFormOpen]
   );
 
   return (
@@ -89,8 +98,10 @@ function ExperienceForm({
     defaultValues: {
       position: experience?.position || "",
       company: experience?.company || "",
-      startDate: experience?.startDate || undefined,
-      endDate: experience?.endDate || undefined,
+      startDate: experience?.startDate
+        ? moment(experience?.startDate).toDate()
+        : undefined,
+      endDate: experience?.endDate ? new Date(experience.endDate) : undefined,
       description: experience?.description || [""],
       techs: experience?.techs || [""]
     }
@@ -186,6 +197,9 @@ function ExperienceForm({
                     selected={field.value}
                     onSelect={field.onChange}
                     disabled={{ after: new Date() }}
+                    defaultMonth={
+                      field.value ? new Date(field.value) : new Date()
+                    }
                     initialFocus
                   />
                 </PopoverContent>
@@ -233,6 +247,9 @@ function ExperienceForm({
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
+                    defaultMonth={
+                      field.value ? new Date(field.value) : new Date()
+                    }
                     initialFocus
                   />
                 </PopoverContent>
@@ -333,7 +350,9 @@ function ExperienceForm({
             disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> {"Saving..."}
+              </>
             ) : (
               "Save"
             )}

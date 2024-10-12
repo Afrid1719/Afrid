@@ -9,10 +9,20 @@ export const zExperienceCreateRequest = z.object({
     .string()
     .min(5, { message: "Company must be at least 5 characters" })
     .max(100, { message: "Company must be at most 100 characters" }),
-  startDate: z
-    .date()
-    .max(new Date(), { message: "Start date must be in the past" }),
-  endDate: z.date().optional(),
+  startDate: z.preprocess((arg) => {
+    if (typeof arg === "string") {
+      const date = new Date(arg); // Convert string to Date
+      return isNaN(date.getTime()) ? undefined : date; // Return undefined if invalid
+    }
+    return arg; // If already a Date, return as-is
+  }, z.date().max(new Date(), { message: "Start date must be in the past" })), // Ensure the value is a valid Date
+  endDate: z.preprocess((arg) => {
+    if (typeof arg === "string") {
+      const date = new Date(arg); // Convert string to Date
+      return isNaN(date.getTime()) ? undefined : date; // Return undefined if invalid
+    }
+    return arg; // If already a Date, return as-is
+  }, z.date().optional()),
   description: z
     .array(z.string())
     .min(1, { message: "Description is required" }),

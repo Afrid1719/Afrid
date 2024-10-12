@@ -12,7 +12,7 @@ export default function ExperienceTab() {
   const [experiences, setExperiences] = useState<IExperience[]>([]);
   const [openAddExperienceForm, setOpenAddExperienceForm] =
     useState<boolean>(false);
-  const [shouldFetch, setShouldFetch] = useState<boolean>(false);
+  const [shouldFetch, setShouldFetch] = useState<boolean>(undefined);
 
   const memoizedOpenFormHandle = useCallback((value: boolean) => {
     setOpenAddExperienceForm(value);
@@ -29,7 +29,13 @@ export default function ExperienceTab() {
       setExperiences(json);
     }
 
-    getExperiences();
+    if (shouldFetch || shouldFetch === undefined) {
+      getExperiences();
+    }
+
+    return () => {
+      setShouldFetch(false);
+    };
   }, [shouldFetch]);
 
   return (
@@ -54,6 +60,7 @@ export default function ExperienceTab() {
         isExperienceFormOpen={openAddExperienceForm}
         setIsExperienceFormOpen={memoizedOpenFormHandle}
         onCancel={() => memoizedOpenFormHandle(false)}
+        setShouldFetch={memoizedShouldFetch}
       />
     </>
   );
@@ -173,6 +180,7 @@ const ExperienceCard = ({
         setIsExperienceFormOpen={memoizedOpenFormHandle}
         onCancel={() => memoizedOpenFormHandle(false)}
         experience={data}
+        setShouldFetch={setShouldFetch}
       />
       <ConfirmationDialog
         title="Do you really want to delete this experience?"
