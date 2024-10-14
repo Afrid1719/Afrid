@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { socialLogins } from "@/utils/social-logins";
-import { Eye, EyeOff } from "lucide-react";
+import { LuEye as Eye, LuEyeOff as EyeOff } from "react-icons/lu";
 
 const initialState = {
   email: "",

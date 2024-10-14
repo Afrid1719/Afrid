@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect, memo } from "react";
-import { Upload, X } from "lucide-react";
+import { LuUpload as Upload, LuX as X } from "react-icons/lu";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";

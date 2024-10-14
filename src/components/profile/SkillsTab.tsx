@@ -4,14 +4,14 @@ import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  Brain,
-  ChevronDown,
-  ChevronUp,
-  Edit,
-  Plus,
-  Trash2,
-  Wrench
-} from "lucide-react";
+  LuBrain as Brain,
+  LuChevronDown as ChevronDown,
+  LuChevronUp as ChevronUp,
+  LuPlus as Plus,
+  LuTrash2 as Trash2,
+  LuWrench as Wrench
+} from "react-icons/lu";
+import { FiEdit as Edit } from "react-icons/fi";
 import Pill from "@/components/Pill";
 
 export default function SkillsTab() {

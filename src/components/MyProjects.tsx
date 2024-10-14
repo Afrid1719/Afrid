@@ -1,5 +1,6 @@
 import { IProject } from "@/interfaces/i-home";
-import { Code, Globe, SquareArrowOutUpRight } from "lucide-react";
+import { LuCode as Code, LuGlobe as Globe } from "react-icons/lu";
+import { FaArrowUpRightFromSquare as SquareArrowOutUpRight } from "react-icons/fa6";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -75,7 +76,7 @@ export default async function MyProjects({ status, data, reason }: Props) {
           className="flex flex-row items-end text-app-secondary hover:text-app-color-6"
         >
           <div className="block">View All Projects</div>{" "}
-          <SquareArrowOutUpRight className="ml-1 w-4 h-4" />
+          <SquareArrowOutUpRight className="ml-2 mb-1 w-4 h-4" />
         </Link>
       )}
     </div>

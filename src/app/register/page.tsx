@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { register } from "@/actions/register-user";
 import toast from "react-hot-toast";
-import { Eye, EyeOff } from "lucide-react";
+import { LuEye as Eye, LuEyeOff as EyeOff } from "react-icons/lu";
 
 type ACTIONTYPE =
   | { type: "set_password"; payload: string }

@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "./input";
 import { Button } from "./button";
-import { X } from "lucide-react";
+import { LuX as X } from "react-icons/lu";
 import { cn } from "@/lib/utils";
 
 interface TagInputProps extends React.InputHTMLAttributes<HTMLInputElement> {

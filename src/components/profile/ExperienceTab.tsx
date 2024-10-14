@@ -1,7 +1,13 @@
 import { useCallback, useEffect, useState, memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, Edit, Plus, Trash2 } from "lucide-react";
+import {
+  LuChevronDown as ChevronDown,
+  LuChevronUp as ChevronUp,
+  LuPlus as Plus,
+  LuTrash2 as Trash2
+} from "react-icons/lu";
+import { FiEdit as Edit } from "react-icons/fi";
 import { IExperience } from "@/interfaces/i-professional";
 import moment from "moment";
 import ExperienceFormWrapper from "../forms/ExperienceForm";

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDownToLine } from "lucide-react";
+import { LuArrowDownToLine as ArrowDownToLine } from "react-icons/lu";
 import toast from "react-hot-toast";
 
 export default function DocumentDownload() {

@@ -17,7 +17,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
-import { Loader2, Plus, X } from "lucide-react";
+import { LuX as X, LuPlus as Plus, LuLoader2 as Loader2 } from "react-icons/lu";
 import { Separator } from "../ui/separator";
 import toast from "react-hot-toast";
 import {

@@ -1,4 +1,5 @@
-import { Edit, Plus } from "lucide-react";
+import { LuPlus as Plus } from "react-icons/lu";
+import { FiEdit as Edit } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Pill from "@/components/Pill";

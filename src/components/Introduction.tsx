@@ -1,6 +1,6 @@
 import { IAdminWOPassword } from "@/interfaces/i-admin";
 import { getAdminByEmailOrId } from "@/models/Admin";
-import { ArrowDownToLine } from "lucide-react";
+import { LuArrowDownToLine as ArrowDownToLine } from "react-icons/lu";
 import Image from "next/image";
 import Link from "next/link";
 

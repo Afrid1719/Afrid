@@ -15,7 +15,12 @@ import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import moment from "moment";
-import { CalendarIcon, Loader2, Plus, X } from "lucide-react";
+import {
+  LuX as X,
+  LuPlus as Plus,
+  LuLoader2 as Loader2,
+  LuCalendar as CalendarIcon
+} from "react-icons/lu";
 import { Calendar } from "../ui/calendar";
 import { useCallback, useState } from "react";
 import { Label } from "../ui/label";

@@ -1,5 +1,11 @@
-import { ChevronDown, ChevronUp, Edit, Plus, Trash2 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  LuChevronDown as ChevronDown,
+  LuChevronUp as ChevronUp,
+  LuPlus as Plus,
+  LuTrash2 as Trash2
+} from "react-icons/lu";
+import { FiEdit as Edit } from "react-icons/fi";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";

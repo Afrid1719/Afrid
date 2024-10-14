@@ -3,7 +3,8 @@ import { IAcademics, IExperience } from "@/interfaces/i-professional";
 import Academics from "@/components/Academics";
 import { getAllExperiences } from "@/models/Experience";
 import { getAllAcademics } from "@/models/Academics";
-import { BriefcaseBusiness, GraduationCap } from "lucide-react";
+import { LuGraduationCap as GraduationCap } from "react-icons/lu";
+import { MdOutlineBusinessCenter as BriefcaseBusiness } from "react-icons/md";
 
 export default async function Page() {
   const workExperience: IExperience[] = await getAllExperiences();
