@@ -10,7 +10,15 @@ export interface IAdmin {
   resume: IAsset;
   blurDataUrl?: string;
   introduction: string;
+  phone: string;
+  socialLinks: ISocialLinks[];
+  location: string;
   blocked: boolean;
+}
+
+export interface ISocialLinks {
+  name: string;
+  link: string;
 }
 
 export interface IAdminWOPassword extends Omit<IAdmin, "password"> {}

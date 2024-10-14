@@ -51,10 +51,26 @@ export const AdminSchema = new Schema<IAdmin>(
       resourceType: String
     },
     introduction: {
-      type: String,
-      minlength: [50, "Introduction is too short"],
-      maxlength: [500, "Introduction is too long"]
+      type: String
     },
+    phone: {
+      type: String,
+      match: [/^\+[0-9]{11,13}$/, "Phone number is invalid"]
+    },
+    socialLinks: [
+      {
+        type: new Schema(
+          {
+            name: String,
+            link: String
+          },
+          {
+            _id: false
+          }
+        )
+      }
+    ],
+    location: String,
     blocked: {
       type: Boolean,
       default: false
@@ -85,6 +101,15 @@ AdminSchema.pre("save", async function (next) {
     }
   }
 
+  if (this.isModified("socialLinks")) {
+    this.socialLinks = this.socialLinks.map((socialLink) => {
+      return {
+        name: socialLink.name,
+        link: encodeURIComponent(socialLink.link)
+      };
+    });
+  }
+
   next();
 });
 
@@ -97,6 +122,14 @@ AdminSchema.post("find", function (docs: Types.DocumentArray<IAdmin>) {
     if (!doc.resume) {
       doc.resume.url = decodeURIComponent(doc.resume?.url || "");
       doc.resume.secureUrl = decodeURIComponent(doc.resume?.secureUrl || "");
+    }
+    if (doc.socialLinks.length > 0) {
+      doc.socialLinks = doc.socialLinks.map((socialLink) => {
+        return {
+          name: socialLink.name,
+          link: decodeURIComponent(socialLink.link)
+        };
+      });
     }
   });
 });
@@ -135,7 +168,7 @@ export async function getAllAdmins() {
     return admins.map((admin) => {
       let ob = {
         id: admin._id.toString(),
-        ...admin
+        ...admin.toObject()
       };
       delete ob._id;
       return ob;

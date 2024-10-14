@@ -5,8 +5,8 @@ import { ChevronDown, ChevronUp, Edit, Plus, Trash2 } from "lucide-react";
 import { IExperience } from "@/interfaces/i-professional";
 import moment from "moment";
 import ExperienceFormWrapper from "../forms/ExperienceForm";
-import { useToast } from "@/hooks/use-toast";
 import ConfirmationDialog from "../ConfirmationDialog";
+import toast from "react-hot-toast";
 
 export default function ExperienceTab() {
   const [experiences, setExperiences] = useState<IExperience[]>([]);
@@ -73,7 +73,6 @@ const ExperienceCard = ({
   data: IExperience;
   setShouldFetch: (value: boolean) => void;
 }) => {
-  const { toast } = useToast();
   const [isExpanded, setIsExpanded] = useState(false);
   const [openEditExperienceForm, setOpenEditExperienceForm] =
     useState<boolean>(false);
@@ -94,21 +93,14 @@ const ExperienceCard = ({
     const json = await response.json();
     if (json?.error) {
       console.log(json.error);
-      toast({
-        title: "Uh, oh! Something went wrong.",
-        description: json.error.message,
-        variant: "destructive"
-      });
+      toast.error(json.error.message);
     } else {
       console.log(json);
-      toast({
-        title: "Success!",
-        description: "Experience deleted successfully."
-      });
+      toast.success("Experience deleted successfully.");
       setShouldFetch(true);
     }
     setConfirmDelete(false);
-  }, [data._id, toast, setShouldFetch]);
+  }, [data._id, setShouldFetch]);
 
   return (
     <>

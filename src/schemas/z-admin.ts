@@ -13,12 +13,24 @@ export const zAdminCreateRequest = z.object({
   name: z.string().regex(/^[a-zA-Z\s]*$/, "Name can only contain alphabets"),
   title: z.string().regex(/^[a-zA-Z\s]*$/, "Title can only contain alphabets"),
   image: z.object({ url: z.string().url("Image URL is invalid") }).optional(),
-  resume: z.object({ url: z.string().url("Resume URL is invalid") }).optional(),
-  introduction: z
+  resume: z
+    .object({ url: z.string().url("Resume URL is invalid").optional() })
+    .optional(),
+  introduction: z.string().optional(),
+  phone: z
     .string()
-    .min(50, "Introduction is too short")
-    .max(500, "Introduction is too long")
-    .optional()
+    .regex(/^\+[0-9]{11,13}$/, "Phone number is invalid")
+    .optional(),
+  location: z.string().optional(),
+  socialLinks: z
+    .array(
+      z.object({
+        name: z.string().optional(),
+        link: z.string().url("URL is invalid").optional()
+      })
+    )
+    .optional(),
+  blocked: z.boolean().optional()
 });
 
 export const zAdminUpdateRequest = zAdminCreateRequest

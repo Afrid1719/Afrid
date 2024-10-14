@@ -23,6 +23,7 @@ import { TagInput } from "../ui/taginput";
 import { Textarea } from "../ui/textarea";
 import { IExperience } from "@/interfaces/i-professional";
 import OverlayDialog from "../OverlayDialog";
+import toast from "react-hot-toast";
 
 interface ExperienceFormProps {
   onSubmit: (values: z.infer<typeof zExperienceCreateRequest>) => Promise<void>;
@@ -46,28 +47,33 @@ export default function ExperienceFormWrapper({
   const onSubmit = useCallback(
     async (data: z.infer<typeof zExperienceCreateRequest>) => {
       try {
+        let res;
         if (experience) {
-          await fetch(`/api/experiences/${experience._id}`, {
+          res = await fetch(`/api/experiences/${experience._id}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json"
             },
             body: JSON.stringify(data)
           });
-          setShouldFetch(true);
         } else {
-          await fetch("/api/experiences", {
+          res = await fetch("/api/experiences", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
             },
             body: JSON.stringify(data)
           });
-          setShouldFetch(true);
         }
+        if (!res.ok) {
+          throw new Error(await res.json());
+        }
+        toast("Experience saved");
+        setShouldFetch(true);
         setIsExperienceFormOpen(false);
       } catch (err) {
         console.log((err as Error).message);
+        toast((err as Error).message);
       }
     },
     [experience, setShouldFetch, setIsExperienceFormOpen]
@@ -271,10 +277,6 @@ function ExperienceForm({
                 <FormItem className="w-full">
                   <FormControl>
                     <div className="flex items-center mt-2">
-                      {/* <Input
-                      {...field}
-                      placeholder={`Description ${index + 1}`}
-                    /> */}
                       <Textarea
                         {...field}
                         placeholder={`Description ${index + 1}`}

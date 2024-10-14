@@ -2,81 +2,25 @@ import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { FiEdit as Edit } from "react-icons/fi";
 import {
-  Mail,
-  Phone,
-  MapPin,
-  Github,
-  Linkedin,
-  Twitter,
-  Edit
-} from "lucide-react";
-import { startTransition, useCallback, useState } from "react";
+  LuMail as Mail,
+  LuPhone as Phone,
+  LuMapPin as MapPin
+} from "react-icons/lu";
+import { startTransition, useCallback, useEffect, useState } from "react";
 import Uploader from "@/components/Uploader";
 import toast from "react-hot-toast";
 import { UploadApiResponse } from "cloudinary";
 import { IAdminWOPassword } from "@/interfaces/i-admin";
+import InformationFormWrapper from "../forms/InformationForm";
+import { SocialLinksList } from "@/utils/social-link-list";
 
 export default function Introduction({ user }: { user: IAdminWOPassword }) {
   return (
     <div className="text-center space-y-4">
       <AvatarSection user={user} />
-      <div className="group border border-transparent hover:border-app-secondary rounded-md space-y-4 p-4 relative ease-in duration-200">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="invisible group-hover:visible bg-transparent text-app-color-5 hover:bg-white hover:text-app-primary absolute top-2 right-2"
-        >
-          <Edit className="h-4 w-4" />
-        </Button>
-        <div>
-          <h1 className="text-3xl font-bold">Syed Afrid Ali</h1>
-          <p className="text-xl">Full Stack Web Developer</p>
-        </div>
-        <div className="flex justify-center space-x-4">
-          <Button
-            variant="outline"
-            size="icon"
-            style={{ color: "#79c4f2", borderColor: "#79c4f2" }}
-          >
-            <Github className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            style={{ color: "#79c4f2", borderColor: "#79c4f2" }}
-          >
-            <Linkedin className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            style={{ color: "#79c4f2", borderColor: "#79c4f2" }}
-          >
-            <Twitter className="h-4 w-4" />
-          </Button>
-        </div>
-        <div className="container flex flex-col sm:flex-row justify-center items-center space-x-2 space-y-2 md:space-y-0">
-          <Badge
-            variant="secondary"
-            className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
-          >
-            <Mail className="w-4 h-4" /> john.doe@example.com
-          </Badge>
-          <Badge
-            variant="secondary"
-            className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
-          >
-            <Phone className="w-4 h-4" /> +1 (555) 123-4567
-          </Badge>
-          <Badge
-            variant="secondary"
-            className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
-          >
-            <MapPin className="w-4 h-4" /> San Francisco, CA
-          </Badge>
-        </div>
-      </div>
+      <InformationSection user={user} />
     </div>
   );
 }
@@ -150,6 +94,98 @@ function AvatarSection({ user }: { user: IAdminWOPassword }) {
         setIsUploaderOpen={memoizedSetIsUploaderOpen}
         acceptFileType="image/*"
         onUploadComplete={updateAdmin}
+      />
+    </div>
+  );
+}
+
+function InformationSection({ user }: { user: IAdminWOPassword }) {
+  const [open, setOpen] = useState(undefined);
+  const [adminData, setAdminData] = useState(user);
+  const [shouldFetch, setShouldFetch] = useState<boolean>(undefined);
+
+  const memoizedSetOpen = useCallback(
+    (value: boolean) => {
+      setOpen(value);
+    },
+    [setOpen]
+  );
+
+  const memoizedShouldFetch = useCallback((value: boolean) => {
+    setShouldFetch(value);
+  }, []);
+
+  useEffect(() => {
+    async function getAdminInfo() {
+      const data = await fetch(`/api/admins/${user.id}`);
+      const json = await data.json();
+      setAdminData(json);
+    }
+
+    if (shouldFetch || shouldFetch === undefined) {
+      getAdminInfo();
+    }
+
+    return () => {
+      setShouldFetch(false);
+    };
+  }, [user.id, shouldFetch]);
+
+  return (
+    <div className="group border border-transparent hover:border-app-secondary rounded-md space-y-4 p-4 relative ease-in duration-200">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="invisible group-hover:visible bg-transparent text-app-color-5 hover:bg-white hover:text-app-primary absolute top-2 right-2"
+        onClick={() => setOpen(true)}
+      >
+        <Edit className="h-4 w-4" />
+      </Button>
+      <div>
+        <h1 className="text-3xl font-bold">{adminData.name}</h1>
+        <p className="text-xl">{adminData.title}</p>
+      </div>
+      <div className="flex justify-center space-x-4">
+        {adminData.socialLinks.map((socialLink, index) => {
+          const { name } = socialLink;
+          const SocialIcon = SocialLinksList[name];
+          return (
+            <Button
+              key={`${socialLink.name}-${index}`}
+              variant="outline"
+              size="icon"
+              className="text-app-secondary border-app-secondary bg-transparent hover:bg-white hover:text-app-primary"
+            >
+              {SocialIcon}
+            </Button>
+          );
+        })}
+      </div>
+      <div className="container flex flex-col sm:flex-row justify-center items-center space-x-2 space-y-2 md:space-y-0">
+        <Badge
+          variant="secondary"
+          className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
+        >
+          <Mail className="w-4 h-4" /> {adminData.email}
+        </Badge>
+        <Badge
+          variant="secondary"
+          className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
+        >
+          <Phone className="w-4 h-4" /> {adminData.phone}
+        </Badge>
+        <Badge
+          variant="secondary"
+          className="gap-1 bg-app-tertiary text-app-primary hover:bg-app-primary hover:text-white"
+        >
+          <MapPin className="w-4 h-4" /> {adminData.location}
+        </Badge>
+      </div>
+      <InformationFormWrapper
+        isInformationFormOpen={open}
+        user={adminData}
+        setIsInformationFormOpen={memoizedSetOpen}
+        setShouldFetch={memoizedShouldFetch}
       />
     </div>
   );

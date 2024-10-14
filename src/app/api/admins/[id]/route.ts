@@ -3,7 +3,7 @@ import { getAdminByEmailOrId, updateAdmin } from "@/models/Admin";
 import { zAdminUpdateRequest } from "@/schemas/z-admin";
 import { success } from "@/utils/response";
 import { NextRequest } from "next/server";
-import { authorizedController } from "../../controller";
+import { authorizedController, unauthorizedController } from "../../controller";
 import { remote } from "@/utils/image-placeholder";
 import { deleteFromCloudinary } from "@/utils/upload";
 import { revalidatePath } from "next/cache";
@@ -35,4 +35,15 @@ export async function PUT(
     return success(res);
   };
   return await authorizedController(req, fn);
+}
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const fn = async function () {
+    const data = await getAdminByEmailOrId(params.id);
+    return success(data);
+  };
+  return await unauthorizedController(fn);
 }
