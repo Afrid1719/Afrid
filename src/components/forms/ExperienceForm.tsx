@@ -321,11 +321,11 @@ function ExperienceForm({
           name="techs"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Topics</FormLabel>
+              <FormLabel>Technology</FormLabel>
               <FormControl>
                 <TagInput
                   {...field}
-                  placeholder="Enter a topic"
+                  placeholder="Enter a technology"
                   tags={tags}
                   className="sm:min-w-[450px]"
                   disabled={form.formState.isSubmitting}

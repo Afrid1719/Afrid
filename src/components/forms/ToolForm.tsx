@@ -37,7 +37,7 @@ const ToolForm: React.FC<ToolFormProps> = ({ tool, onSubmit, onCancel }) => {
     resolver: zodResolver(zToolCreateRequest),
     defaultValues: {
       name: tool?.name || "",
-      icon: tool?.icon || "",
+      icon: tool?.icon || undefined,
       rating: tool?.rating || 0
     }
   });
