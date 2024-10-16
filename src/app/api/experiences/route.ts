@@ -2,7 +2,7 @@ import { createExperience, getAllExperiences } from "@/models/Experience";
 import { success } from "@/utils/response";
 import { authorizedController, unauthorizedController } from "../controller";
 import { NextRequest } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function GET() {
   const fn = async function () {
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     const data = await req.json();
     const res = await createExperience(data);
     revalidatePath("/professional");
-    revalidatePath("/profile");
+    revalidateTag("profile.experiences");
     return success(res);
   };
   return await authorizedController(req, fn);

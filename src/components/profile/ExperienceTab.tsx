@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useEffect, useState, memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,7 +31,9 @@ export default function ExperienceTab() {
 
   useEffect(() => {
     async function getExperiences() {
-      const data = await fetch(`/api/experiences`);
+      const data = await fetch(`/api/experiences`, {
+        next: { tags: ["profile.experiences"] }
+      });
       const json = await data.json();
       setExperiences(json);
     }

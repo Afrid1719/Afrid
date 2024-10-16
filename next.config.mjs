@@ -1,4 +1,10 @@
 import withPlaiceholder from '@plaiceholder/next';
+import analyzer from "@next/bundle-analyzer"    
+
+const withBundleAnalyzer = analyzer({
+    enabled: process.env.ANALYZE === 'true'
+})
+
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -28,4 +34,4 @@ const nextConfig = {
     }
 }
 
-export default withPlaiceholder(nextConfig);
+export default withBundleAnalyzer(withPlaiceholder(nextConfig));

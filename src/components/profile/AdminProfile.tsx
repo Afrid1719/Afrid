@@ -1,14 +1,12 @@
-"use client";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import ExperienceTab from "./ExperienceTab";
-import EducationTab from "./EducationCard";
 import SkillsTab from "./SkillsTab";
 import ProjectsTab from "./ProjectsTab";
 import Introduction from "./Introduction";
 import { IAdminWOPassword } from "@/interfaces/i-admin";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import AcademicsTab from "./AcademicsTab";
 
 export default function AdminProfile({ user }: { user: IAdminWOPassword }) {
   return (
@@ -25,10 +23,10 @@ export default function AdminProfile({ user }: { user: IAdminWOPassword }) {
                 Experience
               </TabsTrigger>
               <TabsTrigger
-                value="education"
+                value="academics"
                 className="grow text-base text-white data-[state=active]:bg-app-primary data-[state=active]:text-white"
               >
-                Education
+                Academics
               </TabsTrigger>
               <TabsTrigger
                 value="skills"
@@ -48,8 +46,8 @@ export default function AdminProfile({ user }: { user: IAdminWOPassword }) {
           <TabsContent value="experience" className="mt-4">
             <ExperienceTab />
           </TabsContent>
-          <TabsContent value="education" className="mt-6">
-            <EducationTab />
+          <TabsContent value="academics" className="mt-6">
+            <AcademicsTab />
           </TabsContent>
           <TabsContent value="skills" className="mt-6">
             <SkillsTab />

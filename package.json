@@ -32,7 +32,7 @@
     "cloudinary": "^2.5.0",
     "clsx": "^2.1.1",
     "csstype": "^3.0.10",
-    "date-fns": "^4.1.0",
+    "date-fns": "^3.0.0",
     "dayjs": "^1.11.10",
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
@@ -61,6 +61,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^14.2.15",
     "@types/bcryptjs": "^2.4.6",
     "@types/lodash": "^4.17.7",
     "@types/node": "20.6.0",

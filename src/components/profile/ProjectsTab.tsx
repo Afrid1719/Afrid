@@ -1,3 +1,4 @@
+"use client";
 import {
   LuChevronDown as ChevronDown,
   LuChevronUp as ChevronUp,

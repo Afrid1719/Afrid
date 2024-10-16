@@ -73,7 +73,7 @@ export default function ExperienceFormWrapper({
         if (!res.ok) {
           throw new Error(await res.json());
         }
-        toast("Experience saved");
+        toast.success("Experience saved");
         setShouldFetch(true);
         setIsExperienceFormOpen(false);
       } catch (err) {
