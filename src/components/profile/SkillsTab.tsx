@@ -17,6 +17,7 @@ import Pill from "@/components/Pill";
 import SkillFormWrapper from "@/components/forms/SkillForm";
 import toast from "react-hot-toast";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
+import ToolFormWrapper from "../forms/ToolForm";
 
 export default function SkillsTab() {
   return (
@@ -238,55 +239,96 @@ const Skill = ({
 
 const ToolsSection = () => {
   const [tools, setTools] = useState<ITool[]>([]);
+  const [isToolFormOpen, setIsToolFormOpen] = useState(false);
+  const [shouldFetch, setShouldFetch] = useState(undefined);
+
+  const o_setIsToolFormOpen = useCallback(
+    (value: boolean) => setIsToolFormOpen(value),
+    []
+  );
+
+  const o_setShouldFetch = useCallback(
+    (value: boolean) => setShouldFetch(value),
+    []
+  );
 
   useEffect(() => {
     async function getTools() {
-      const data = await fetch(`/api/tools`);
+      const data = await fetch(`/api/tools`, {
+        next: { tags: ["profile.tools"] }
+      });
       const json = await data.json();
       setTools(json);
     }
 
-    getTools();
-  }, []);
+    if (shouldFetch || shouldFetch === undefined) {
+      getTools();
+    }
 
+    return () => {
+      setShouldFetch(false);
+    };
+  }, [shouldFetch]);
   return (
-    <Card className="mt-4 border-app-color-5 bg-transparent text-app-secondary">
-      <CardHeader>
-        <div className="flex justify-between items-center">
-          <CardTitle className="flex items-center">
-            <Wrench className="mr-2" />
-            Tools
-          </CardTitle>
-          <Button
-            variant="outline"
-            size="sm"
-            className="bg-app-secondary text-app-primary hover:bg-app-secondary/70 border-none"
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            Add Tool
-          </Button>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <ToolsList tools={tools} />
-      </CardContent>
-    </Card>
+    <>
+      <Card className="mt-4 border-app-color-5 bg-transparent text-app-secondary">
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <CardTitle className="flex items-center">
+              <Wrench className="mr-2" />
+              Tools
+            </CardTitle>
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-app-secondary text-app-primary hover:bg-app-secondary/70 border-none"
+              onClick={() => setIsToolFormOpen(true)}
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Add Tool
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <MemoizedToolsList tools={tools} setShouldFetch={o_setShouldFetch} />
+        </CardContent>
+      </Card>
+      <ToolFormWrapper
+        isToolFormOpen={isToolFormOpen}
+        setIsToolFormOpen={o_setIsToolFormOpen}
+        setShouldFetch={o_setShouldFetch}
+      />
+    </>
   );
 };
 
-const ToolsList = ({ tools }: { tools: ITool[] }) => {
+const ToolsList = ({
+  tools,
+  setShouldFetch
+}: {
+  tools: ITool[];
+  setShouldFetch: (value: boolean) => void;
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {isExpanded
           ? tools.map((tool: ITool) => (
-              <Tool key={tool._id.toString()} data={tool} />
+              <Tool
+                key={tool._id.toString()}
+                data={tool}
+                setShouldFetch={setShouldFetch}
+              />
             ))
           : tools
               .slice(0, 5)
               .map((tool: ITool) => (
-                <Tool key={tool._id.toString()} data={tool} />
+                <Tool
+                  key={tool._id.toString()}
+                  data={tool}
+                  setShouldFetch={setShouldFetch}
+                />
               ))}
       </div>
       <Button
@@ -311,26 +353,76 @@ const ToolsList = ({ tools }: { tools: ITool[] }) => {
   );
 };
 
-const Tool = ({ data }: { data: ITool }) => (
-  <Pill>
-    <span className="inline-flex justify-between w-full">
-      <span className="text-base">{data.name}</span>
-      <span>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-auto w-auto p-1 text-app-color-5 hover:bg-white hover:text-app-primary"
-        >
-          <Edit className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="ml-2 h-auto w-auto p-1 text-app-color-5 hover:bg-white hover:text-app-primary"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      </span>
-    </span>
-  </Pill>
-);
+const MemoizedToolsList = memo(ToolsList);
+
+const Tool = ({
+  data,
+  setShouldFetch
+}: {
+  data: ITool;
+  setShouldFetch: (value: boolean) => void;
+}) => {
+  const [isEditToolFormOpen, setIsEditToolFormOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const onDelete = useCallback(async () => {
+    const response = await fetch(`/api/tools/${data._id.toString()}`, {
+      method: "DELETE"
+    });
+    const json = await response.json();
+    if (json?.error) {
+      console.log(json.error);
+      toast.error(json.error.message);
+    } else {
+      toast.success("Tool deleted successfully.");
+      setShouldFetch(true);
+    }
+    setConfirmDelete(false);
+  }, [data._id, setShouldFetch]);
+
+  const memoizedSetConfirmDelete = useCallback(
+    (value: boolean) => setConfirmDelete(value),
+    []
+  );
+
+  return (
+    <>
+      <Pill>
+        <span className="inline-flex justify-between w-full">
+          <span className="text-base">{data.name}</span>
+          <span>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-auto w-auto p-1 text-app-color-5 hover:bg-white hover:text-app-primary"
+              onClick={() => setIsEditToolFormOpen(true)}
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="ml-2 h-auto w-auto p-1 text-app-color-5 hover:bg-white hover:text-app-primary"
+              onClick={() => setConfirmDelete(true)}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </span>
+        </span>
+      </Pill>
+      <ToolFormWrapper
+        isToolFormOpen={isEditToolFormOpen}
+        setIsToolFormOpen={setIsEditToolFormOpen}
+        setShouldFetch={setShouldFetch}
+        tool={data}
+      />
+      <ConfirmationDialog
+        title="Do you really want to delete this tool?"
+        onConfirm={onDelete}
+        confirmText="Yes, Delete"
+        isOpen={confirmDelete}
+        setIsOpen={memoizedSetConfirmDelete}
+      />
+    </>
+  );
+};
