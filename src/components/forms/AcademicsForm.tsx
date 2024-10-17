@@ -125,13 +125,16 @@ function AcademicsForm({ academics, onSubmit, onCancel }: FormProps) {
         <Controller
           control={form.control}
           name="level"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <>
               <FormItem>
                 <FormLabel>Level</FormLabel>
                 <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    disabled={form.formState.isSubmitting}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a level" />
                     </SelectTrigger>
@@ -155,7 +158,6 @@ function AcademicsForm({ academics, onSubmit, onCancel }: FormProps) {
         <FormField
           control={form.control}
           name="degree"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Degree</FormLabel>
@@ -163,6 +165,7 @@ function AcademicsForm({ academics, onSubmit, onCancel }: FormProps) {
                 <Input
                   placeholder="Masters of Computer Application"
                   {...field}
+                  disabled={form.formState.isSubmitting}
                 />
               </FormControl>
               <FormMessage />
@@ -173,12 +176,15 @@ function AcademicsForm({ academics, onSubmit, onCancel }: FormProps) {
         <FormField
           control={form.control}
           name="institutionName"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Institution Name</FormLabel>
               <FormControl>
-                <Input placeholder="The Park English School" {...field} />
+                <Input
+                  placeholder="The Park English School"
+                  {...field}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -188,12 +194,16 @@ function AcademicsForm({ academics, onSubmit, onCancel }: FormProps) {
         <FormField
           control={form.control}
           name="institutionImage"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Institution Image</FormLabel>
               <FormControl>
-                <Input type="url" placeholder="https://........." {...field} />
+                <Input
+                  type="url"
+                  placeholder="https://........."
+                  {...field}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -203,12 +213,16 @@ function AcademicsForm({ academics, onSubmit, onCancel }: FormProps) {
         <FormField
           control={form.control}
           name="startYear"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Start Year</FormLabel>
               <FormControl>
-                <Input type="number" min={2002} {...field} />
+                <Input
+                  type="number"
+                  min={2002}
+                  {...field}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -222,7 +236,12 @@ function AcademicsForm({ academics, onSubmit, onCancel }: FormProps) {
             <FormItem className="flex flex-col">
               <FormLabel>End Year</FormLabel>
               <FormControl>
-                <Input type="number" min={2002} {...field} />
+                <Input
+                  type="number"
+                  min={2002}
+                  {...field}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -236,7 +255,12 @@ function AcademicsForm({ academics, onSubmit, onCancel }: FormProps) {
             <FormItem className="flex flex-col">
               <FormLabel>Marks Obtained</FormLabel>
               <FormControl>
-                <Input {...field} type="number" min={0} />
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -250,7 +274,12 @@ function AcademicsForm({ academics, onSubmit, onCancel }: FormProps) {
             <FormItem className="flex flex-col">
               <FormLabel>Marks Out Of</FormLabel>
               <FormControl>
-                <Input {...field} type="number" min={0} />
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

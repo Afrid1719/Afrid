@@ -119,12 +119,15 @@ function InformationForm({ onSubmit, onCancel, user }: InformationFormProps) {
         <FormField
           control={form.control}
           name="name"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Syed Afrid Ali" {...field} />
+                <Input
+                  placeholder="Syed Afrid Ali"
+                  {...field}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -134,12 +137,15 @@ function InformationForm({ onSubmit, onCancel, user }: InformationFormProps) {
         <FormField
           control={form.control}
           name="title"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="Full Stack Engineer" {...field} />
+                <Input
+                  placeholder="Full Stack Engineer"
+                  {...field}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -149,12 +155,15 @@ function InformationForm({ onSubmit, onCancel, user }: InformationFormProps) {
         <FormField
           control={form.control}
           name="introduction"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Introduction</FormLabel>
               <FormControl>
-                <Textarea placeholder="Introduction goes here..." {...field} />
+                <Textarea
+                  placeholder="Introduction goes here..."
+                  {...field}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -164,12 +173,16 @@ function InformationForm({ onSubmit, onCancel, user }: InformationFormProps) {
         <FormField
           control={form.control}
           name="phone"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Phone</FormLabel>
               <FormControl>
-                <Input type="tel" placeholder="+91 xxxxx xxxxx" {...field} />
+                <Input
+                  type="tel"
+                  placeholder="+91 xxxxx xxxxx"
+                  {...field}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -179,12 +192,15 @@ function InformationForm({ onSubmit, onCancel, user }: InformationFormProps) {
         <FormField
           control={form.control}
           name="location"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Location</FormLabel>
               <FormControl>
-                <Input placeholder="Kolkata, India" {...field} />
+                <Input
+                  placeholder="Kolkata, India"
+                  {...field}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -199,7 +215,6 @@ function InformationForm({ onSubmit, onCancel, user }: InformationFormProps) {
                 key={`socialLinks.${index}.name`}
                 control={form.control}
                 name={`socialLinks.${index}.name` as const}
-                disabled={form.formState.isSubmitting}
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormControl>
@@ -207,6 +222,7 @@ function InformationForm({ onSubmit, onCancel, user }: InformationFormProps) {
                         <Select
                           onValueChange={field.onChange}
                           value={field.value}
+                          disabled={form.formState.isSubmitting}
                         >
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select a social link" />
@@ -241,11 +257,14 @@ function InformationForm({ onSubmit, onCancel, user }: InformationFormProps) {
                 key={`socialLinks.${index}.link`}
                 control={form.control}
                 name={`socialLinks.${index}.link` as const}
-                disabled={form.formState.isSubmitting}
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormControl>
-                      <Input {...field} placeholder="Icon Url" />
+                      <Input
+                        {...field}
+                        placeholder="Icon Url"
+                        disabled={form.formState.isSubmitting}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

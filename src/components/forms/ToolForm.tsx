@@ -17,7 +17,7 @@ import { LuLoader2 as Loader2 } from "react-icons/lu";
 import { useCallback } from "react";
 import toast from "react-hot-toast";
 import { zToolCreateRequest } from "@/schemas/z-tool";
-import { Slider } from "../ui/slider";
+import { Slider } from "@/components/ui/slider";
 
 interface ToolFormProps {
   tool?: ITool;

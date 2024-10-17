@@ -141,12 +141,15 @@ function ExperienceForm({
         <FormField
           control={form.control}
           name="position"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Position</FormLabel>
               <FormControl>
-                <Input placeholder="Software Engineer" {...field} />
+                <Input
+                  placeholder="Software Engineer"
+                  {...field}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -156,12 +159,15 @@ function ExperienceForm({
         <FormField
           control={form.control}
           name="company"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Company</FormLabel>
               <FormControl>
-                <Input placeholder="ABC Company Ltd." {...field} />
+                <Input
+                  placeholder="ABC Company Ltd."
+                  {...field}
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -277,13 +283,13 @@ function ExperienceForm({
               key={item.id}
               control={form.control}
               name={`description.${index}`}
-              disabled={form.formState.isSubmitting}
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormControl>
                     <div className="flex items-center mt-2">
                       <Textarea
                         {...field}
+                        disabled={form.formState.isSubmitting}
                         placeholder={`Description ${index + 1}`}
                       />
                       <Button

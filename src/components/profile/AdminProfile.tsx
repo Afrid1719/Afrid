@@ -1,12 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import ExperienceTab from "./ExperienceTab";
-import SkillsTab from "./SkillsTab";
-import ProjectsTab from "./ProjectsTab";
-import Introduction from "./Introduction";
+import ExperienceTab from "@/components/profile/ExperienceTab";
+import SkillsTab from "@/components/profile/SkillsTab";
+import ProjectsTab from "@/components/profile/ProjectsTab";
+import Introduction from "@/components/profile/Introduction";
+import AcademicsTab from "@/components/profile/AcademicsTab";
 import { IAdminWOPassword } from "@/interfaces/i-admin";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import AcademicsTab from "./AcademicsTab";
 
 export default function AdminProfile({ user }: { user: IAdminWOPassword }) {
   return (
