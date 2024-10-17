@@ -11,11 +11,16 @@ export const zProjectCreateRequest = z.object({
     .max(500, { message: "Description must be at most 500 characters" }),
   preview: z
     .string()
-    .url({ message: "Preview must be a valid URL" })
+    .nullable()
+    .or(z.string().url({ message: "Preview must be a valid URL" }))
     .optional(),
   codeLink: z.string().url({ message: "Code link must be a valid URL" }),
-  url: z.string().url({ message: "URL must be a valid URL" }).optional(),
-  techs: z.array(z.string()).min(1, { message: "Techs is required" })
+  url: z
+    .string()
+    .nullable()
+    .or(z.string().url({ message: "Must be a valid URL" }))
+    .optional(),
+  techs: z.array(z.string()).min(1, { message: "Techs are required" })
 });
 
 export const zProjectUpdateRequest = z.object({
@@ -31,12 +36,17 @@ export const zProjectUpdateRequest = z.object({
     .optional(),
   preview: z
     .string()
-    .url({ message: "Preview must be a valid URL" })
+    .nullable()
+    .or(z.string().url({ message: "Preview must be a valid URL" }))
     .optional(),
   codeLink: z
     .string()
     .url({ message: "Code link must be a valid URL" })
     .optional(),
-  url: z.string().url({ message: "URL must be a valid URL" }).optional(),
+  url: z
+    .string()
+    .nullable()
+    .or(z.string().url({ message: "Must be a valid URL" }))
+    .optional(),
   techs: z.array(z.string()).optional()
 });

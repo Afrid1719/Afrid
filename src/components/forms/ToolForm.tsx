@@ -37,7 +37,7 @@ const ToolForm: React.FC<ToolFormProps> = ({ tool, onSubmit, onCancel }) => {
     resolver: zodResolver(zToolCreateRequest),
     defaultValues: {
       name: tool?.name || "",
-      icon: tool?.icon || undefined,
+      icon: tool?.icon || "",
       rating: tool?.rating || 0
     }
   });
@@ -52,12 +52,15 @@ const ToolForm: React.FC<ToolFormProps> = ({ tool, onSubmit, onCancel }) => {
         <FormField
           control={form.control}
           name="name"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter the name of the tool" {...field} />
+                <Input
+                  disabled={form.formState.isSubmitting}
+                  placeholder="Enter the name of the tool"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -67,13 +70,13 @@ const ToolForm: React.FC<ToolFormProps> = ({ tool, onSubmit, onCancel }) => {
         <FormField
           control={form.control}
           name="icon"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Icon</FormLabel>
               <FormControl>
                 <Input
                   type="url"
+                  disabled={form.formState.isSubmitting}
                   placeholder="Enter the URL of the tool image/icon"
                   {...field}
                 />
@@ -86,7 +89,6 @@ const ToolForm: React.FC<ToolFormProps> = ({ tool, onSubmit, onCancel }) => {
         <Controller
           control={form.control}
           name="rating"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Rating</FormLabel>
@@ -94,6 +96,7 @@ const ToolForm: React.FC<ToolFormProps> = ({ tool, onSubmit, onCancel }) => {
                 <div className="relative">
                   <Slider
                     value={[field.value]}
+                    disabled={form.formState.isSubmitting}
                     onValueChange={(val) => field.onChange(val[0])}
                     min={0}
                     max={10}

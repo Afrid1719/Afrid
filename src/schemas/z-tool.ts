@@ -7,9 +7,8 @@ export const zToolCreateRequest = z.object({
     .max(30, { message: "Name must be at most 30 characters" }),
   icon: z
     .string()
-    .url({ message: "URL must be a valid URL" })
     .nullable()
-    .optional(),
+    .or(z.string().url({ message: "Icon must be a valid URL" })),
   rating: z.number({ message: "Rating must be a number" }).optional()
 });
 
@@ -21,8 +20,8 @@ export const zToolUpdateRequest = z.object({
     .optional(),
   icon: z
     .string()
-    .url({ message: "URL must be a valid URL" })
     .nullable()
+    .or(z.string().url({ message: "Icon must be a valid URL" }))
     .optional(),
   rating: z.number({ message: "Rating must be a number" }).optional()
 });

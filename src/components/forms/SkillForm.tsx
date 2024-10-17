@@ -110,12 +110,15 @@ function SkillForm({ skill, onSubmit, onCancel }: FormProps) {
         <FormField
           control={form.control}
           name="name"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter the name of the skill" {...field} />
+                <Input
+                  disabled={form.formState.isSubmitting}
+                  placeholder="Enter the name of the skill"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -125,13 +128,13 @@ function SkillForm({ skill, onSubmit, onCancel }: FormProps) {
         <FormField
           control={form.control}
           name="icon"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Icon</FormLabel>
               <FormControl>
                 <Input
                   type="url"
+                  disabled={form.formState.isSubmitting}
                   placeholder="Enter the url for the skill or brand icon"
                   {...field}
                 />
@@ -144,13 +147,13 @@ function SkillForm({ skill, onSubmit, onCancel }: FormProps) {
         <Controller
           control={form.control}
           name="rating"
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Rating</FormLabel>
               <FormControl>
                 <div className="relative">
                   <Slider
+                    disabled={form.formState.isSubmitting}
                     value={[field.value]}
                     onValueChange={(val) => field.onChange(val[0])}
                     min={0}
