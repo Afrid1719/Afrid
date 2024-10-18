@@ -67,7 +67,7 @@ const MobileNav = (props: Props) => {
   const { status } = useSession();
   const router = useRouter();
   const pathName = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLoginLogout = async (
     evt: React.MouseEvent<HTMLAnchorElement>
