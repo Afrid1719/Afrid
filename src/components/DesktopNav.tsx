@@ -7,10 +7,10 @@ import { useRouter } from "next/navigation";
 
 const DesktopNav = ({
   shrunk,
-  showLogout
+  isAdmin
 }: {
   shrunk: boolean;
-  showLogout: boolean;
+  isAdmin: boolean;
 }) => {
   const { status } = useSession();
   const router = useRouter();
@@ -39,6 +39,7 @@ const DesktopNav = ({
           .filter((route) => !route.off)
           .map((route: IRoute, $idx: number) => {
             if (route.path !== "/login") {
+              if (route.path === "/profile" && !isAdmin) return null;
               return (
                 <Link
                   key={`route-${$idx}`}
@@ -48,20 +49,19 @@ const DesktopNav = ({
                   {route.menuName}
                 </Link>
               );
-            } else {
-              return (
-                <Link
-                  key="route-loginlogout"
-                  href="#"
-                  onClick={handleLoginLogout}
-                  className="inline-block px-2 py-0.5 mr-3 text-app-secondary nav-links--desktop"
-                >
-                  {status === "authenticated" ? "Logout" : "Login"}
-                </Link>
-              );
             }
+            return (
+              <Link
+                key="route-loginlogout"
+                href="#"
+                onClick={handleLoginLogout}
+                className="inline-block px-2 py-0.5 mr-3 text-app-secondary nav-links--desktop"
+              >
+                {status === "authenticated" ? "Logout" : "Login"}
+              </Link>
+            );
           })}
-        {showLogout && (
+        {isAdmin && (
           <button
             key="route-logout"
             onClick={async () => await signOut()}

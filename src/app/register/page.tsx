@@ -2,10 +2,9 @@
 import { useReducer, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { register } from "@/actions/register-user";
 import toast from "react-hot-toast";
+import { LuEye as Eye, LuEyeOff as EyeOff } from "react-icons/lu";
 
 type ACTIONTYPE =
   | { type: "set_password"; payload: string }
@@ -150,9 +149,9 @@ export default function Page() {
                 }
               >
                 {showPassword ? (
-                  <FontAwesomeIcon icon={faEye} />
+                  <EyeOff className="w-6 h-6" />
                 ) : (
-                  <FontAwesomeIcon icon={faEyeSlash} />
+                  <Eye className="w-6 h-6" />
                 )}
               </button>
             </div>
@@ -194,9 +193,9 @@ export default function Page() {
                 }
               >
                 {showConfirmPassword ? (
-                  <FontAwesomeIcon icon={faEye} />
+                  <EyeOff className="w-6 h-6" />
                 ) : (
-                  <FontAwesomeIcon icon={faEyeSlash} />
+                  <Eye className="w-6 h-6" />
                 )}
               </button>
             </div>

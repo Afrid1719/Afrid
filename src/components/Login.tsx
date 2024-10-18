@@ -1,14 +1,13 @@
 "use client";
 
 import React, { FormEvent, useReducer } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { socialLogins } from "@/utils/social-logins";
+import { LuEye as Eye, LuEyeOff as EyeOff } from "react-icons/lu";
 
 const initialState = {
   email: "",
@@ -139,9 +138,9 @@ const Login = ({
               }
             >
               {showPassword ? (
-                <FontAwesomeIcon icon={faEye} />
+                <EyeOff className="w-6 h-6" />
               ) : (
-                <FontAwesomeIcon icon={faEyeSlash} />
+                <Eye className="w-6 h-6" />
               )}
             </button>
           </div>

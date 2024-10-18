@@ -1,5 +1,6 @@
+import { AcademicLevel } from "@/enums/academic-level";
+import { parse } from "path";
 import { z } from "zod";
-import { AcademicLevel } from "@/models/Academics";
 
 export const zAcademicsCreateRequest = z.object({
   level: z.nativeEnum(AcademicLevel, { message: "Level is required" }),
@@ -21,8 +22,18 @@ export const zAcademicsCreateRequest = z.object({
     .string()
     .length(4, { message: "End year must be a valid year" })
     .optional(),
-  marksObtained: z.number().optional(),
-  marksOutOf: z.number().optional()
+  marksObtained: z.preprocess((arg) => {
+    if (typeof arg === "string") {
+      return parseInt(arg, 10);
+    }
+    return arg;
+  }, z.number().optional()),
+  marksOutOf: z.preprocess((arg) => {
+    if (typeof arg === "string") {
+      return parseInt(arg, 10);
+    }
+    return arg;
+  }, z.number().optional())
 });
 
 export const zAcademicsUpdateRequest = zAcademicsCreateRequest

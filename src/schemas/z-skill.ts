@@ -5,7 +5,11 @@ export const zSkillCreateRequest = z.object({
     .string()
     .min(1, { message: "Name is required" })
     .max(30, { message: "Name must be at most 30 characters" }),
-  icon: z.string().url({ message: "Icon must be a valid URL" }).optional(),
+  icon: z
+    .string()
+    .nullable()
+    .or(z.string().url({ message: "Icon must be a valid URL" }))
+    .optional(),
   rating: z
     .number()
     .min(1, { message: "Rating must be at least 1" })
@@ -18,7 +22,11 @@ export const zSkillUpdateRequest = z.object({
     .min(1, { message: "Name is required" })
     .max(30, { message: "Name must be at most 30 characters" })
     .optional(),
-  icon: z.string().url({ message: "Icon must be a valid URL" }).optional(),
+  icon: z
+    .string()
+    .nullable()
+    .or(z.string().url({ message: "Icon must be a valid URL" }))
+    .optional(),
   rating: z
     .number()
     .min(1, { message: "Rating must be at least 1" })

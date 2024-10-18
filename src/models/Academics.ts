@@ -1,16 +1,7 @@
+import { AcademicLevel } from "@/enums/academic-level";
 import { IAcademics } from "@/interfaces/i-professional";
 import { connectDB } from "@/lib/mongo";
 import mongoose, { Schema, Types } from "mongoose";
-
-export enum AcademicLevel {
-  HigherSecondary = "Higher Secondary",
-  Secondary = "Secondary",
-  Diploma = "Diploma",
-  Bachelors = "Bachelors",
-  Masters = "Masters",
-  PhD = "PhD",
-  Certification = "Certification"
-}
 
 const AcademicsSchema = new Schema<IAcademics>(
   {

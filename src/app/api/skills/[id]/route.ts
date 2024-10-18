@@ -4,6 +4,7 @@ import { zSkillUpdateRequest } from "@/schemas/z-skill";
 import { success } from "@/utils/response";
 import { NextRequest } from "next/server";
 import { authorizedController } from "../../controller";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function PUT(
   req: NextRequest,
@@ -13,6 +14,8 @@ export async function PUT(
     const data: Partial<ISkill> = await req.json();
     zSkillUpdateRequest.parse(data);
     const updatedSkill = await updateSkill(params.id, data);
+    revalidateTag("profile.skills");
+    revalidatePath("/home");
     return success(updatedSkill);
   };
   return await authorizedController(req, fn);
@@ -24,6 +27,8 @@ export async function DELETE(
 ) {
   const fn = async function () {
     const res = await deleteSkill(params.id);
+    revalidateTag("profile.skills");
+    revalidatePath("/home");
     return success(res);
   };
   return await authorizedController(req, fn);

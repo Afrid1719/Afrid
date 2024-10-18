@@ -2,7 +2,6 @@
 
 import { connectDB, disconnectDB } from "@/lib/mongo";
 import User from "@/models/User";
-import bcrypt from "bcryptjs";
 
 export const register = async (
   values: Record<"name" | "email" | "password", string>
