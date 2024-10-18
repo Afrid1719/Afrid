@@ -1,6 +1,6 @@
 "use client";
 import React, { useReducer } from "react";
-import Card from "./Card";
+import Card from "@/components/Card";
 import Image from "next/image";
 
 const initialState = {

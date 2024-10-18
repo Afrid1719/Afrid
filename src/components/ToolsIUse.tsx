@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ITool } from "@/interfaces/i-home";
-import Card from "./Card";
+import Card from "@/components/Card";
 
 type Props = {
   status: string;

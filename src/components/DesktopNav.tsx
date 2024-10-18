@@ -4,6 +4,7 @@ import { IRoute } from "@/interfaces/i-routes";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const DesktopNav = ({
   shrunk,
@@ -25,6 +26,12 @@ const DesktopNav = ({
       router.push("/login");
     }
   };
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.refresh();
+    }
+  }, [status, router]);
 
   return (
     <div
