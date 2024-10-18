@@ -4,13 +4,14 @@ import { IRoute } from "@/interfaces/i-routes";
 import Link from "next/link";
 import { slide as Menu } from "react-burger-menu";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type Props = {
   pageWrapperId: string;
   outerContainerId: string;
   className: string;
-  showLogout: boolean;
+  isAdmin: boolean;
 };
 
 var mobileNavStyles = {
@@ -65,6 +66,9 @@ var mobileNavStyles = {
 const MobileNav = (props: Props) => {
   const { status } = useSession();
   const router = useRouter();
+  const pathName = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
+
   const handleLoginLogout = async (
     evt: React.MouseEvent<HTMLAnchorElement>
   ) => {
@@ -76,16 +80,23 @@ const MobileNav = (props: Props) => {
     }
   };
 
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathName]);
+
   return (
     <Menu
       styles={mobileNavStyles}
       right
       burgerButtonClassName={props.className}
+      isOpen={isMenuOpen}
+      onStateChange={({ isOpen }) => setIsMenuOpen(isOpen)}
     >
       {routes
         .filter((route) => !route.off)
         .map((route: IRoute, $idx: number) => {
           if (route.path !== "/login") {
+            if (route.path === "/profile" && !props.isAdmin) return null;
             return (
               <Link
                 key={`route-${$idx}`}
@@ -108,7 +119,7 @@ const MobileNav = (props: Props) => {
             );
           }
         })}
-      {props.showLogout && (
+      {props.isAdmin && (
         <a
           key="route-logout"
           onClick={async () => await signOut()}
