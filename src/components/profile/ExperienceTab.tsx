@@ -104,7 +104,6 @@ const ExperienceCard = ({
       console.log(json.error);
       toast.error(json.error.message);
     } else {
-      console.log(json);
       toast.success("Experience deleted successfully.");
       setShouldFetch(true);
     }

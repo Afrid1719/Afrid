@@ -9,15 +9,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { LuLoader2 as Loader2 } from "react-icons/lu";
 import { useCallback } from "react";
 import toast from "react-hot-toast";
 import { ISkill } from "@/interfaces/i-home";
 import { zSkillCreateRequest } from "@/schemas/z-skill";
-import { Slider } from "../ui/slider";
+import { Slider } from "@/components/ui/slider";
 
 interface WrapperProps {
   isSkillFormOpen: boolean;

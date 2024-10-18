@@ -22,7 +22,7 @@ import {
   LuCalendar as CalendarIcon
 } from "react-icons/lu";
 import { Calendar } from "../ui/calendar";
-import { useCallback, useState } from "react";
+import { startTransition, useCallback, useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { TagInput } from "../ui/taginput";
 import { Textarea } from "../ui/textarea";
@@ -130,6 +130,12 @@ function ExperienceForm({
 
   const [tags, setTags] = useState<string[]>([]);
   const { setValue } = form;
+  const techValues = form.getValues("techs");
+
+  // Sync tags with form state
+  useEffect(() => {
+    setTags(techValues || []);
+  }, [techValues]);
 
   return (
     <Form {...form}>
@@ -337,7 +343,15 @@ function ExperienceForm({
                   disabled={form.formState.isSubmitting}
                   setTags={(newTags) => {
                     setTags(newTags);
-                    setValue("techs", newTags as [string, ...string[]]);
+                    startTransition(() => {
+                      setValue(
+                        "techs",
+                        newTags.length
+                          ? (newTags as [string, ...string[]])
+                          : [],
+                        { shouldValidate: true }
+                      );
+                    });
                   }}
                 />
               </FormControl>
