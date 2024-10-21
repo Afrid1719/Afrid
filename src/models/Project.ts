@@ -1,4 +1,4 @@
-import { IProject } from "@/interfaces/i-home";
+import { IPaginationResult, IProject } from "@/interfaces/i-home";
 import { connectDB, disconnectDB } from "@/lib/mongo";
 import mongoose, { model, Schema, Types } from "mongoose";
 
@@ -17,15 +17,23 @@ export const ProjectSchema = new Schema<IProject>(
       type: [String],
       required: [true, "Techs is required"]
     },
+    createdOn: {
+      type: Date,
+      default: Date.now
+    },
     preview: {
       // URL for preview image
       type: String,
-      default: "https://via.placeholder.com/800x800"
+      default: "https://via.placeholder.com/1200x800"
     },
     codeLink: {
       // Most likely a github URL
       type: String,
       required: [true, "Code link is required"]
+    },
+    images: {
+      type: [String],
+      default: ["https://via.placeholder.com/1200x800"]
     },
     url: String
   },
@@ -77,13 +85,46 @@ export async function createProject(project: IProject) {
   }
 }
 
-export async function getAllProjects() {
+export async function getAllProjects(
+  pageNumber = 1,
+  pageSize = 2,
+  query = ""
+): Promise<IPaginationResult<IProject>> {
   try {
     await connectDB();
-    const projects = await Project.find()
-      .sort({ createdAt: -1 })
-      .select("-__v -updatedAt");
-    return projects;
+    let matchStage = query ? { name: { $regex: query, $options: "i" } } : {};
+    let results = await Project.aggregate([
+      { $match: matchStage },
+      { $sort: { createdOn: -1, name: 1 } },
+      {
+        $facet: {
+          data: [
+            { $skip: (pageNumber - 1) * pageSize },
+            { $limit: pageSize },
+            {
+              $project: {
+                __v: 0,
+                updatedAt: 0,
+                createdAt: 0
+              }
+            }
+          ],
+          totalCount: [{ $count: "count" }]
+        }
+      }
+    ]);
+    results = JSON.parse(JSON.stringify(results));
+    return {
+      data: results[0].data,
+      totalCount: results[0].totalCount[0].count,
+      totalPages: Math.ceil(results[0].totalCount[0].count / pageSize),
+      currentPage: pageNumber,
+      prevPage: pageNumber > 1 ? pageNumber - 1 : null,
+      nextPage:
+        pageNumber < results[0].totalCount[0].count / pageSize
+          ? pageNumber + 1
+          : null
+    };
   } catch (error) {
     throw error;
   } finally {
