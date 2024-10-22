@@ -15,8 +15,9 @@ export interface IProject extends mongoose.Document {
   codeLink: string;
   url?: string;
   techs: string[];
-  images: string[];
+  images?: string[];
   blurDataUrl?: string; // For image optimization, server generated
+  createdOn?: Date;
   [key: string]: any;
 }
 

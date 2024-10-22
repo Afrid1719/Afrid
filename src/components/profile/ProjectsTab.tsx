@@ -1,22 +1,32 @@
 "use client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem
+} from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   LuChevronDown as ChevronDown,
   LuChevronUp as ChevronUp,
   LuPlus as Plus,
-  LuTrash2 as Trash2
+  LuTrash2 as Trash2,
+  LuCalendar as Calendar,
+  LuEye as Eye
 } from "react-icons/lu";
+import { BsPlusCircle } from "react-icons/bs";
 import { FiEdit as Edit } from "react-icons/fi";
 import { memo, startTransition, useCallback, useEffect, useState } from "react";
-import { IProject } from "@/interfaces/i-home";
+import { IPaginationResult, IProject } from "@/interfaces/i-home";
 import Image from "next/image";
 import ProjectFormWrapper from "@/components/forms/ProjectForm";
 import toast from "react-hot-toast";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import Uploader from "@/components/Uploader";
 import { UploadApiResponse } from "cloudinary";
+import moment from "moment";
+import ImageOverlay from "../ImageOverlay";
 
 export default function ProjectsTab() {
   const [projects, setProjects] = useState<IProject[]>([]);
@@ -35,11 +45,11 @@ export default function ProjectsTab() {
 
   useEffect(() => {
     async function getProjects() {
-      const data = await fetch(`/api/projects`, {
+      const data = await fetch(`/api/projects?pageSize=100`, {
         next: { tags: ["profile.projects"] }
       });
-      const json = await data.json();
-      setProjects(json);
+      const json: IPaginationResult<IProject> = await data.json();
+      setProjects(json.data);
     }
 
     if (shouldFetch || shouldFetch === undefined) {
@@ -134,7 +144,17 @@ const ProjectCard = ({
   const [isProjectEdiFormOpen, setIsProjectEditFormOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [isPreviewUploaderOpen, setIsPreviewUploaderOpen] = useState(false);
+  const [isScreenshotsUploaderOpen, setIsScreenshotsUploaderOpen] =
+    useState(false);
   const [localData, setLocalData] = useState(data);
+  const [imageOverlay, setImageOverlay] = useState<{
+    open: boolean;
+    image: string;
+  }>({ open: false, image: "" });
+  const [asPreview, setAsPreview] = useState<{ open: boolean; image: string }>({
+    open: false,
+    image: ""
+  });
 
   const o_setIsPreviewUploaderOpen = useCallback(
     (value: boolean) => setIsPreviewUploaderOpen(value),
@@ -148,6 +168,21 @@ const ProjectCard = ({
 
   const o_setIsProjectEditOpen = useCallback(
     (value: boolean) => setIsProjectEditFormOpen(value),
+    []
+  );
+
+  const o_setIsScreenshotsUploaderOpen = useCallback(
+    (value: boolean) => setIsScreenshotsUploaderOpen(value),
+    []
+  );
+
+  const closeSetPreview = useCallback(
+    (value: boolean) => setAsPreview({ open: value, image: "" }),
+    []
+  );
+
+  const closeImageOverlay = useCallback(
+    (value: boolean) => setImageOverlay({ open: value, image: "" }),
     []
   );
 
@@ -170,7 +205,7 @@ const ProjectCard = ({
     async (uploadResults: any) => {
       try {
         const res: UploadApiResponse = await uploadResults[0].value.json();
-        const response = await fetch(`/api/projects/${data._id}`, {
+        const response = await fetch(`/api/projects/${localData._id}`, {
           method: "PUT",
           body: JSON.stringify({
             preview: res.secure_url
@@ -186,8 +221,61 @@ const ProjectCard = ({
         toast.error("Something went wrong");
       }
     },
-    [data._id, localData]
+    [localData]
   );
+
+  const onScreenshotsUpload = useCallback(
+    async (uploadResults: any) => {
+      try {
+        let images: string[] = localData.images || [];
+        for (const result of uploadResults) {
+          const res: UploadApiResponse = await result.value.json();
+          images = [...images, res.secure_url];
+        }
+        const response = await fetch(`/api/projects/${localData._id}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            images
+          })
+        });
+        const updatedProject = await response.json();
+        startTransition(() => {
+          setLocalData({ ...localData, ...updatedProject });
+        });
+        toast.success("Screenshots added successfully.");
+      } catch (err) {
+        console.log(err);
+        toast.error("Something went wrong");
+      }
+    },
+    [localData]
+  );
+
+  const onPreviewSet = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `/api/projects/${localData._id}/set-preview`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            preview: asPreview.image
+          })
+        }
+      );
+      const updatedProject = await response.json();
+      startTransition(() => {
+        setLocalData({ ...localData, ...updatedProject });
+      });
+      toast.success("Project preview changed successfully.");
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong");
+    }
+  }, [localData, asPreview]);
+
+  useEffect(() => {
+    setLocalData(data);
+  }, [data]);
 
   return (
     <>
@@ -217,7 +305,7 @@ const ProjectCard = ({
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-col space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="group relative">
                 <Image
                   src={localData.preview}
@@ -228,16 +316,39 @@ const ProjectCard = ({
                   className="rounded-xl w-full h-auto object-cover"
                   style={{ aspectRatio: 2 / 1 }}
                 />
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="invisible group-hover:visible absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white text-app-secondary"
-                  onClick={() => o_setIsPreviewUploaderOpen(true)}
-                >
-                  <Edit className="h-6 w-6" />
-                </Button>
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center w-full h-full">
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="invisible group-hover:visible rounded-full bg-white text-app-secondary"
+                    onClick={() => o_setIsPreviewUploaderOpen(true)}
+                  >
+                    <Edit className="h-6 w-6" />
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="invisible group-hover:visible ml-2 rounded-full bg-white text-app-secondary"
+                    onClick={() =>
+                      setImageOverlay({
+                        open: true,
+                        image: localData.preview
+                      })
+                    }
+                  >
+                    <Eye className="h-6 w-6" />
+                  </Button>
+                </div>
               </div>
-              <p className="text-sm">{localData.description}</p>
+              <div className="flex flex-col space-y-2">
+                <p className="text-sm">{localData.description}</p>
+                <div className="flex text-sm">
+                  <Calendar className="mr-2" size={16} />
+                  <span className="mr-4">
+                    {moment(localData.createdOn).format("DD-MM-YYYY")}
+                  </span>
+                </div>
+              </div>
             </div>
             <div className="flex flex-wrap gap-2">
               {localData.techs.map((tech, index) => (
@@ -248,6 +359,86 @@ const ProjectCard = ({
                   {tech}
                 </Badge>
               ))}
+            </div>
+            <div className="w-full flex flex-col space-y-2">
+              <div className="ml-1">Screenshots</div>
+              <Carousel
+                opts={{
+                  align: "start"
+                }}
+                className="w-full"
+              >
+                <CarouselContent>
+                  {localData?.images?.map((image, index) => (
+                    <CarouselItem
+                      key={index}
+                      className="basis-full sm:basis-1/2 lg:basis-1/3 group relative"
+                    >
+                      <div className="p-1">
+                        <Card className="bg-transparent">
+                          <CardContent className="flex items-center justify-center p-2">
+                            <div className="">
+                              <Image
+                                src={image}
+                                width={1920}
+                                height={1080}
+                                alt={`${localData.name} Screenshot ${
+                                  index + 1
+                                }`}
+                                className="w-full h-32 object-contain rounded-lg"
+                              />
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center w-full h-full">
+                        <Button
+                          variant="secondary"
+                          size="default"
+                          className="invisible group-hover:visible font-semibold bg-app-color-5 text-app-primary hover:bg-app-color-4"
+                          onClick={() => setAsPreview({ open: true, image })}
+                        >
+                          Set as Preview
+                        </Button>
+                        <Button
+                          variant="secondary"
+                          size="icon"
+                          className="invisible group-hover:visible ml-2 rounded-full bg-white text-app-secondary"
+                          onClick={() =>
+                            setImageOverlay({
+                              open: true,
+                              image
+                            })
+                          }
+                        >
+                          <Eye className="h-6 w-6" />
+                        </Button>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                  <CarouselItem
+                    key="add-more-images"
+                    className="flex items-center justify-center basis-full sm:basis-1/2 lg:basis-1/3"
+                  >
+                    <div className="p-1">
+                      <Card className="bg-transparent border-none">
+                        <CardContent className="flex items-center justify-center p-2">
+                          <div className="flex justify-center items-center w-full h-24 md:h-32">
+                            <Button
+                              className="px-4 py-4 bg-[#222]"
+                              onClick={() =>
+                                o_setIsScreenshotsUploaderOpen(true)
+                              }
+                            >
+                              <BsPlusCircle className="w-8 h-8 text-app-tertiary" />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                </CarouselContent>
+              </Carousel>
             </div>
           </div>
         </CardContent>
@@ -265,6 +456,14 @@ const ProjectCard = ({
         isOpen={confirmDelete}
         setIsOpen={o_setConfirmDelete}
       />
+      <ConfirmationDialog
+        title="Are you sure you want to make this image as the project preview?"
+        onConfirm={onPreviewSet}
+        confirmText="Yes"
+        isOpen={asPreview.open}
+        setIsOpen={closeSetPreview}
+      />
+      {/* Preview Uploader */}
       <Uploader
         isUploaderOpen={isPreviewUploaderOpen}
         setIsUploaderOpen={o_setIsPreviewUploaderOpen}
@@ -272,6 +471,22 @@ const ProjectCard = ({
         title="Preview Images"
         filesLimit={1}
         onUploadComplete={onPreviewUpload}
+      />
+      {/* Screenshots Uploader */}
+      <Uploader
+        isUploaderOpen={isScreenshotsUploaderOpen}
+        setIsUploaderOpen={o_setIsScreenshotsUploaderOpen}
+        acceptFileType="image/*"
+        title="Screenshots"
+        filesLimit={10}
+        onUploadComplete={onScreenshotsUpload}
+      />
+
+      {/* Image Overlay */}
+      <ImageOverlay
+        open={imageOverlay.open}
+        onOpenChange={closeImageOverlay}
+        image={imageOverlay.image}
       />
     </>
   );

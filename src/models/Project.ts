@@ -1,6 +1,6 @@
 import { IPaginationResult, IProject } from "@/interfaces/i-home";
 import { connectDB, disconnectDB } from "@/lib/mongo";
-import mongoose, { model, Schema, Types } from "mongoose";
+import mongoose, { model, Schema, SchemaTypes, Types } from "mongoose";
 
 export const ProjectSchema = new Schema<IProject>(
   {
@@ -18,8 +18,7 @@ export const ProjectSchema = new Schema<IProject>(
       required: [true, "Techs is required"]
     },
     createdOn: {
-      type: Date,
-      default: Date.now
+      type: SchemaTypes.Date
     },
     preview: {
       // URL for preview image
@@ -33,7 +32,7 @@ export const ProjectSchema = new Schema<IProject>(
     },
     images: {
       type: [String],
-      default: ["https://via.placeholder.com/1200x800"]
+      default: []
     },
     url: String
   },
@@ -53,16 +52,20 @@ ProjectSchema.pre("save", function (next) {
   next();
 });
 
-ProjectSchema.post("find", function (docs: Types.DocumentArray<IProject>) {
-  docs.forEach((doc) => {
-    if (doc.codeLink) {
-      doc.codeLink = decodeURIComponent(doc.codeLink);
-    }
-    if (doc.preview) {
-      doc.preview = decodeURIComponent(doc.preview);
-    }
-  });
-});
+ProjectSchema.post(
+  "find",
+  function (docs: Types.DocumentArray<IProject>, next) {
+    docs.forEach((doc) => {
+      if (doc.codeLink) {
+        doc.codeLink = decodeURIComponent(doc.codeLink);
+      }
+      if (doc.preview) {
+        doc.preview = decodeURIComponent(doc.preview);
+      }
+    });
+    next();
+  }
+);
 
 export const Project =
   (mongoose.models?.Project as mongoose.Model<IProject>) ||
@@ -115,7 +118,11 @@ export async function getAllProjects(
     ]);
     results = JSON.parse(JSON.stringify(results));
     return {
-      data: results[0].data,
+      data: results[0].data.map((project: IProject) => ({
+        ...project,
+        codeLink: decodeURIComponent(project.codeLink),
+        preview: decodeURIComponent(project.preview)
+      })),
       totalCount: results[0].totalCount[0].count,
       totalPages: Math.ceil(results[0].totalCount[0].count / pageSize),
       currentPage: pageNumber,
@@ -166,12 +173,14 @@ export async function updateProject(id: string, data: Partial<IProject>) {
   try {
     await connectDB();
     const project = await Project.findByIdAndUpdate(id, data, {
-      new: true
+      new: true,
+      lean: true
     }).select("-__v -updatedAt");
     if (!project) {
       throw new Error("Project not found");
     }
-    return project;
+
+    return { ...project, preview: decodeURIComponent(project.preview) };
   } catch (error) {
     throw error;
   } finally {

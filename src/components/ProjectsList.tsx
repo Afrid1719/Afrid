@@ -126,7 +126,7 @@ export default function ProjectsList({
               >
                 <Carousel className="w-full">
                   <CarouselContent>
-                    {project.images?.length > 0 &&
+                    {project?.images?.length > 0 ? (
                       project.images.map((image, index) => (
                         <CarouselItem key={index}>
                           <div className="p-4 pb-0">
@@ -139,7 +139,20 @@ export default function ProjectsList({
                             />
                           </div>
                         </CarouselItem>
-                      ))}
+                      ))
+                    ) : (
+                      <CarouselItem>
+                        <div className="p-4 pb-0">
+                          <Image
+                            src={project.preview}
+                            width={1200}
+                            height={800}
+                            alt={`${project.name} - Image`}
+                            className="w-full h-64 object-cover rounded-md"
+                          />
+                        </div>
+                      </CarouselItem>
+                    )}
                   </CarouselContent>
                   <CarouselPrevious className="bg-gray-800 text-gray-100 hover:bg-gray-700" />
                   <CarouselNext className="bg-gray-800 text-gray-100 hover:bg-gray-700" />

@@ -17,7 +17,18 @@ import { TagInput } from "@/components/ui/taginput";
 import { startTransition, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import OverlayDialog from "@/components/OverlayDialog";
-import { LuLoader2 as Loader2 } from "react-icons/lu";
+import {
+  LuLoader2 as Loader2,
+  LuCalendar as CalendarIcon
+} from "react-icons/lu";
+import moment from "moment";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
 
 interface ProjectFormProps {
   onSubmit: (values: z.infer<typeof zProjectCreateRequest>) => Promise<void>;
@@ -97,7 +108,10 @@ function ProjectForm({ onSubmit, onCancel, project }: ProjectFormProps) {
       description: project?.description || "",
       codeLink: project?.codeLink || "",
       url: project?.url || "",
-      techs: project?.techs || []
+      techs: project?.techs || [],
+      createdOn: project?.createdOn
+        ? moment(project.createdOn).toDate()
+        : undefined
     }
   });
 
@@ -149,6 +163,57 @@ function ProjectForm({ onSubmit, onCancel, project }: ProjectFormProps) {
                   disabled={form.formState.isSubmitting}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="createdOn"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Created On</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      disabled={form.formState.isSubmitting}
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        moment(field.value).calendar(null, {
+                          sameDay: "[Today]",
+                          nextDay: "[Tomorrow]",
+                          nextWeek: "dddd",
+                          lastDay: "[Yesterday]",
+                          lastWeek: "[Last] dddd",
+                          sameElse: "DD-MM-YYYY"
+                        })
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={{ after: new Date() }}
+                    defaultMonth={
+                      field.value ? new Date(field.value) : new Date()
+                    }
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}

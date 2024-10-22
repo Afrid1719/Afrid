@@ -4,21 +4,32 @@ import Introduction from "@/components/Introduction";
 import MyProjects from "@/components/MyProjects";
 import Skills from "@/components/Skills";
 import ToolsIUse from "@/components/ToolsIUse";
-import { IProject, ISkill, ITool } from "@/interfaces/i-home";
+import {
+  IPaginationResult,
+  IProject,
+  ISkill,
+  ITool
+} from "@/interfaces/i-home";
 import { getAllProjects } from "@/models/Project";
 import { getSkills } from "@/models/Skill";
 import { getTools } from "@/models/Tool";
 
 export default async function Page() {
   const [skills, projects, tools]: PromiseSettledResult<
-    ISkill[] | IProject[] | ITool[]
-  >[] = await Promise.allSettled([getSkills(), getAllProjects(), getTools()]);
+    ISkill[] | IPaginationResult<IProject> | ITool[]
+  >[] = await Promise.allSettled([
+    getSkills(),
+    getAllProjects(1, 4),
+    getTools()
+  ]);
 
   const skillsResponse = JSON.parse(
     JSON.stringify((skills as PromiseFulfilledResult<ISkill[]>)?.value)
   );
   const projectsResponse = JSON.parse(
-    JSON.stringify((projects as PromiseFulfilledResult<IProject[]>)?.value)
+    JSON.stringify(
+      (projects as PromiseFulfilledResult<IPaginationResult<IProject>>)?.value
+    )
   );
   const toolsResponse = JSON.parse(
     JSON.stringify((tools as PromiseFulfilledResult<ITool[]>)?.value)
@@ -33,7 +44,7 @@ export default async function Page() {
         reason={(skills as PromiseRejectedResult)?.reason}
       />
       <MyProjects
-        data={projectsResponse}
+        data={projectsResponse.data}
         status={projectsResponse.status}
         reason={(projectsResponse as PromiseRejectedResult)?.reason}
       />
