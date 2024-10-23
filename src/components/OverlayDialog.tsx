@@ -21,7 +21,7 @@ export default function OverlayDialog({
 }: React.PropsWithChildren<OverlayDialogProps>) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-app-primary/50 backdrop-blur-lg text-app-secondary w-5/6 m-2 h-[80%] mt-4 p-4 md:p-6 rounded-md ml-0">
+      <DialogContent className="bg-app-primary/50 backdrop-blur-lg text-app-secondary w-5/6 m-2 h-[80%] mt-4 p-4 md:p-6 rounded-md ml-0 z-150">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>

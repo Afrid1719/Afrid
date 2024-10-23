@@ -26,7 +26,8 @@ import { IPaginationResult, IProject } from "@/interfaces/i-home";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { debounce } from "lodash";
-import PageLoading from "./PageLoading";
+import PageLoading from "@/components/PageLoading";
+import ImageOverlay from "@/components/ImageOverlay";
 
 export default function ProjectsList({
   data
@@ -39,6 +40,13 @@ export default function ProjectsList({
   const [inputValue, setInputValue] = useState("");
   const [filteredProjects, setFilteredProjects] = useState(data.data);
   const [loading, setLoading] = useState(false);
+  const [imageOverlay, setImageOverlay] = useState<{
+    open: boolean;
+    image: string;
+  }>({
+    open: false,
+    image: ""
+  });
   const projectsPerPage = 2;
 
   // Debounce the search term input to delay API calls
@@ -56,6 +64,10 @@ export default function ProjectsList({
     setInputValue(value); // Update input value instantly
     debouncedSearch(value); // Debounce API call
   };
+
+  const closeImageOverlay = useCallback(() => {
+    setImageOverlay({ open: false, image: "" });
+  }, []);
 
   // Fetch projects based on current page or search term
   const fetchProjects = useCallback(async () => {
@@ -129,7 +141,15 @@ export default function ProjectsList({
                     {project?.images?.length > 0 ? (
                       project.images.map((image, index) => (
                         <CarouselItem key={index}>
-                          <div className="p-4 pb-0">
+                          <div
+                            className="p-4 pb-0 cursor-pointer"
+                            onClick={() =>
+                              setImageOverlay({
+                                open: true,
+                                image
+                              })
+                            }
+                          >
                             <Image
                               src={image}
                               width={1200}
@@ -244,6 +264,12 @@ export default function ProjectsList({
           <ChevronRight className="ml-2" size={16} />
         </Button>
       </div>
+      {/* Image Overlay */}
+      <ImageOverlay
+        open={imageOverlay.open}
+        onOpenChange={closeImageOverlay}
+        image={imageOverlay.image}
+      />
     </div>
   );
 }

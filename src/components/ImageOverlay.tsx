@@ -17,7 +17,7 @@ export default function ImageOverlay({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {title && <DialogHeader>{title}</DialogHeader>}
-      <DialogContent className="bg-[#111]/40 backdrop-blur-md max-w-none w-full h-[70vh] lg:h-[75vh] border-none flex justify-center items-center">
+      <DialogContent className="bg-[#111]/40 backdrop-blur-md max-w-none w-full h-[70vh] lg:h-[75vh] border-none flex justify-center items-center z-[150]">
         <Image
           src={image}
           width={1920}
