@@ -1,12 +1,12 @@
-import UnderDevelopment from "@/components/UnderDevelopment";
+import ProjectsList from "@/components/ProjectsList";
+import { IPaginationResult, IProject } from "@/interfaces/i-home";
+import { getAllProjects } from "@/models/Project";
 
-export default function Page() {
+export default async function Page() {
+  const projects: IPaginationResult<IProject> = await getAllProjects();
   return (
     <div className="flex flex-col gap-y-4 justify-center items-center w-full h-full">
-      <UnderDevelopment />
-      <div className="w-4/5 text-center">
-        The page is under development. Please visit after some time.
-      </div>
+      <ProjectsList data={projects} />
     </div>
   );
 }

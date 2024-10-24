@@ -1,5 +1,6 @@
 import { ISkill } from "@/interfaces/i-home";
 import { connectDB, disconnectDB } from "@/lib/mongo";
+import { PLACEHOLDER_IMG } from "@/utils/constants";
 import { remote } from "@/utils/image-placeholder";
 import mongoose, { Types } from "mongoose";
 
@@ -12,7 +13,7 @@ export const SkillSchema = new mongoose.Schema<ISkill>(
     },
     icon: {
       type: String,
-      default: "https://via.placeholder.com/64"
+      default: PLACEHOLDER_IMG
     },
     blurDataUrl: {
       type: String

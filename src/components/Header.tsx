@@ -9,7 +9,7 @@ const Header = ({
     <header
       className={`${
         shrunk ? `fixed ease md:h-[${stickyHeight}]` : ""
-      } w-full top-0 text-gray-600 mb-3 bg-app-primary z-[49]`}
+      } w-full top-0 text-gray-600 mb-3 bg-app-primary z-[100]`}
     >
       <div className="flex flex-col items-center">
         <div

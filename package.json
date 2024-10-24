@@ -35,6 +35,8 @@
     "csstype": "^3.0.10",
     "date-fns": "^3.0.0",
     "dayjs": "^1.11.10",
+    "embla-carousel-react": "^8.3.0",
+    "framer-motion": "^11.11.9",
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "moment": "^2.30.1",

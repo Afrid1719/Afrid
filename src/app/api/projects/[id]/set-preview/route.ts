@@ -1,10 +1,10 @@
+import { authorizedController } from "@/app/api/controller";
 import { IProject } from "@/interfaces/i-home";
-import { deleteProject, updateProject } from "@/models/Project";
+import { updateProject } from "@/models/Project";
 import { zProjectUpdateRequest } from "@/schemas/z-project";
 import { success } from "@/utils/response";
-import { NextRequest } from "next/server";
-import { authorizedController } from "@/app/api/controller";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { NextRequest } from "next/server";
 
 export async function PUT(
   req: NextRequest,
@@ -17,21 +17,7 @@ export async function PUT(
     revalidatePath("/home");
     revalidateTag("profile.projects");
     revalidateTag("projects.list");
-    return success(res);
-  };
-  return await authorizedController(req, fn);
-}
-
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const fn = async function () {
-    const res = await deleteProject(params.id);
-    revalidatePath("/home");
-    revalidateTag("profile.projects");
-    revalidateTag("projects.list");
-    return success(res);
+    return success({ preview: res.preview });
   };
   return await authorizedController(req, fn);
 }

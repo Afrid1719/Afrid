@@ -1,5 +1,5 @@
 import { useFieldArray, useForm } from "react-hook-form";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { zExperienceCreateRequest } from "@/schemas/z-experience";
 import { z } from "zod";
@@ -10,9 +10,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from "../ui/form";
-import { Button } from "../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import moment from "moment";
 import {
@@ -21,13 +25,13 @@ import {
   LuLoader2 as Loader2,
   LuCalendar as CalendarIcon
 } from "react-icons/lu";
-import { Calendar } from "../ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 import { startTransition, useCallback, useEffect, useState } from "react";
-import { Label } from "../ui/label";
-import { TagInput } from "../ui/taginput";
-import { Textarea } from "../ui/textarea";
+import { Label } from "@/components/ui/label";
+import { TagInput } from "@/components/ui/taginput";
+import { Textarea } from "@/components/ui/textarea";
 import { IExperience } from "@/interfaces/i-professional";
-import OverlayDialog from "../OverlayDialog";
+import OverlayDialog from "@/components/OverlayDialog";
 import toast from "react-hot-toast";
 
 interface ExperienceFormProps {
@@ -112,7 +116,9 @@ function ExperienceForm({
       startDate: experience?.startDate
         ? moment(experience?.startDate).toDate()
         : undefined,
-      endDate: experience?.endDate ? new Date(experience.endDate) : undefined,
+      endDate: experience?.endDate
+        ? moment(experience.endDate).toDate()
+        : undefined,
       description: experience?.description || [""],
       techs: experience?.techs || [""]
     }

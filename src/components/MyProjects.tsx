@@ -50,7 +50,7 @@ export default async function MyProjects({ status, data, reason }: Props) {
                 <Link
                   href={project.codeLink}
                   target="_blank"
-                  className="text-[#111] bg-app-secondary border  border-app-secondary rounded-md px-2 py-1 text-base"
+                  className="text-[#111] bg-app-secondary border border-app-secondary rounded-md px-2 py-1 text-base"
                   aria-label="View code"
                 >
                   <Code className="w-6 h-6" aria-hidden="true" />

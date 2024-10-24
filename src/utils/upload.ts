@@ -7,8 +7,8 @@ import {
 import streamifier from "streamifier";
 
 export const CLOUDINARY_OPTIONS: UploadApiOptions = {
-  use_filename: true,
-  unique_filename: false,
+  use_filename: false,
+  unique_filename: true,
   overwrite: true,
   resource_type: "auto",
   folder: process.env.CLOUDINARY_FOLDER,
