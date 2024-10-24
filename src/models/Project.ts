@@ -204,3 +204,27 @@ export async function deleteProject(id: string) {
     await disconnectDB();
   }
 }
+
+export async function deleteProjectScreenshot(id: string, image: string) {
+  try {
+    await connectDB();
+    const project = await Project.findById(id);
+    if (!project) {
+      throw new Error("Project not found");
+    }
+    if (project.preview === image) {
+      project.preview = "https://via.placeholder.com/1200x800";
+    }
+    project.images = project.images.filter((img) => img !== image);
+    // Replace preview url with placeholder if given url matches
+    const updatedProject = await Project.findByIdAndUpdate(
+      project._id,
+      project,
+      { lean: true, projection: "-__v -updatedAt", new: true }
+    );
+
+    return updatedProject;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -16,6 +16,7 @@ export async function PUT(
     const res = await updateProject(params.id, data);
     revalidatePath("/home");
     revalidateTag("profile.projects");
+    revalidateTag("projects.list");
     return success({ preview: res.preview });
   };
   return await authorizedController(req, fn);

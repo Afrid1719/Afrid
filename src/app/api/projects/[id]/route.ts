@@ -3,7 +3,7 @@ import { deleteProject, updateProject } from "@/models/Project";
 import { zProjectUpdateRequest } from "@/schemas/z-project";
 import { success } from "@/utils/response";
 import { NextRequest } from "next/server";
-import { authorizedController } from "../../controller";
+import { authorizedController } from "@/app/api/controller";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function PUT(
@@ -16,6 +16,7 @@ export async function PUT(
     const res = await updateProject(params.id, data);
     revalidatePath("/home");
     revalidateTag("profile.projects");
+    revalidateTag("projects.list");
     return success(res);
   };
   return await authorizedController(req, fn);
@@ -29,6 +30,7 @@ export async function DELETE(
     const res = await deleteProject(params.id);
     revalidatePath("/home");
     revalidateTag("profile.projects");
+    revalidateTag("projects.list");
     return success(res);
   };
   return await authorizedController(req, fn);

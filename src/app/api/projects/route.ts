@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
     const res = await createProject(data);
     revalidatePath("/home");
     revalidateTag("profile.projects");
+    revalidateTag("projects.list");
     return created(res);
   };
   return await authorizedController(req, fn);

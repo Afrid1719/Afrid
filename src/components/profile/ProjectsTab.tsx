@@ -12,6 +12,7 @@ import {
   LuChevronUp as ChevronUp,
   LuPlus as Plus,
   LuTrash2 as Trash2,
+  LuTrash as Trash,
   LuCalendar as Calendar,
   LuEye as Eye
 } from "react-icons/lu";
@@ -147,6 +148,10 @@ const ProjectCard = ({
   const [isScreenshotsUploaderOpen, setIsScreenshotsUploaderOpen] =
     useState(false);
   const [localData, setLocalData] = useState(data);
+  const [confirmDeleteScreenshot, setConfirmDeleteScreenshot] = useState<{
+    open: boolean;
+    image: string;
+  }>({ open: false, image: "" });
   const [imageOverlay, setImageOverlay] = useState<{
     open: boolean;
     image: string;
@@ -173,6 +178,11 @@ const ProjectCard = ({
 
   const o_setIsScreenshotsUploaderOpen = useCallback(
     (value: boolean) => setIsScreenshotsUploaderOpen(value),
+    []
+  );
+
+  const o_setConfirmDeleteScreenshot = useCallback(
+    (value: boolean) => setConfirmDeleteScreenshot({ open: value, image: "" }),
     []
   );
 
@@ -238,11 +248,15 @@ const ProjectCard = ({
             images
           })
         });
-        const updatedProject = await response.json();
-        startTransition(() => {
-          setLocalData({ ...localData, ...updatedProject });
-        });
-        toast.success("Screenshots added successfully.");
+        if (response.ok) {
+          const updatedProject = await response.json();
+          startTransition(() => {
+            setLocalData({ ...localData, ...updatedProject });
+          });
+          toast.success("Screenshot added successfully.");
+        } else {
+          toast.error("Something went wrong");
+        }
       } catch (err) {
         console.log(err);
         toast.error("Something went wrong");
@@ -272,6 +286,32 @@ const ProjectCard = ({
       toast.error("Something went wrong");
     }
   }, [localData, asPreview]);
+
+  const onDeleteScreenshot = useCallback(async () => {
+    try {
+      const query = new URLSearchParams();
+      query.append("image", confirmDeleteScreenshot.image);
+      const response = await fetch(
+        `/api/projects/${localData._id}/remove-image?${query.toString()}`,
+        {
+          method: "DELETE"
+        }
+      );
+      if (response.ok) {
+        const updatedProject = await response.json();
+        startTransition(() => {
+          setLocalData({ ...localData, ...updatedProject });
+        });
+        toast.success("Screenshot removed successfully.");
+      } else {
+        const err = (response as any)?.message || "Something went wrong";
+        toast.error(err);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong");
+    }
+  }, [localData, confirmDeleteScreenshot]);
 
   useEffect(() => {
     setLocalData(data);
@@ -377,7 +417,7 @@ const ProjectCard = ({
                       <div className="p-1">
                         <Card className="bg-transparent">
                           <CardContent className="flex items-center justify-center p-2">
-                            <div className="">
+                            <div className="relative">
                               <Image
                                 src={image}
                                 width={1920}
@@ -387,19 +427,26 @@ const ProjectCard = ({
                                 }`}
                                 className="w-full h-32 object-contain rounded-lg"
                               />
+                              {localData.preview === image && (
+                                <div className="absolute bottom-0 left-0 w-full bg-app-primary/80 text-app-color-5 text-center text-sm rounded-t-sm">
+                                  Preview
+                                </div>
+                              )}
                             </div>
                           </CardContent>
                         </Card>
                       </div>
                       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center w-full h-full">
-                        <Button
-                          variant="secondary"
-                          size="default"
-                          className="invisible group-hover:visible font-semibold bg-app-color-5 text-app-primary hover:bg-app-color-4"
-                          onClick={() => setAsPreview({ open: true, image })}
-                        >
-                          Set as Preview
-                        </Button>
+                        {localData.preview !== image && (
+                          <Button
+                            variant="secondary"
+                            size="default"
+                            className="invisible group-hover:visible font-semibold bg-app-color-5 text-app-primary hover:bg-app-color-4"
+                            onClick={() => setAsPreview({ open: true, image })}
+                          >
+                            Set as Preview
+                          </Button>
+                        )}
                         <Button
                           variant="secondary"
                           size="icon"
@@ -412,6 +459,21 @@ const ProjectCard = ({
                           }
                         >
                           <Eye className="h-6 w-6" />
+                        </Button>
+                      </div>
+                      <div className="absolute right-2 top-2">
+                        <Button
+                          variant="secondary"
+                          size="icon"
+                          className="invisible group-hover:visible bg-transparent hover:bg-transparent"
+                          onClick={() =>
+                            setConfirmDeleteScreenshot({
+                              open: true,
+                              image
+                            })
+                          }
+                        >
+                          <Trash className="h-5 w-5 text-red-500" />
                         </Button>
                       </div>
                     </CarouselItem>
@@ -449,12 +511,21 @@ const ProjectCard = ({
         setShouldFetch={setShouldFetch}
         project={localData}
       />
+      {/* Delete Project Confirmation */}
       <ConfirmationDialog
         title="Do you really want to delete this project?"
         onConfirm={onDelete}
         confirmText="Yes, Delete"
         isOpen={confirmDelete}
         setIsOpen={o_setConfirmDelete}
+      />
+      {/* Delete Screenshot Confirmation */}
+      <ConfirmationDialog
+        title="Do you really want to delete this screenshot?"
+        onConfirm={onDeleteScreenshot}
+        confirmText="Yes, Delete"
+        isOpen={confirmDeleteScreenshot.open}
+        setIsOpen={o_setConfirmDeleteScreenshot}
       />
       <ConfirmationDialog
         title="Are you sure you want to make this image as the project preview?"

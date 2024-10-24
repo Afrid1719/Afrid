@@ -78,7 +78,9 @@ export default function ProjectsList({
     queryParams.set("pageSize", projectsPerPage.toString());
 
     try {
-      const res = await fetch(`/api/projects?${queryParams.toString()}`);
+      const res = await fetch(`/api/projects?${queryParams.toString()}`, {
+        next: { tags: ["projects.list"] }
+      });
       if (res.ok) {
         const data = await res.json();
         setPageData(data);
