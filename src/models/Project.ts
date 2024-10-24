@@ -1,5 +1,6 @@
 import { IPaginationResult, IProject } from "@/interfaces/i-home";
 import { connectDB, disconnectDB } from "@/lib/mongo";
+import { PLACEHOLDER_IMG } from "@/utils/constants";
 import mongoose, { model, Schema, SchemaTypes, Types } from "mongoose";
 
 export const ProjectSchema = new Schema<IProject>(
@@ -23,7 +24,7 @@ export const ProjectSchema = new Schema<IProject>(
     preview: {
       // URL for preview image
       type: String,
-      default: "https://via.placeholder.com/1200x800"
+      default: PLACEHOLDER_IMG
     },
     codeLink: {
       // Most likely a github URL
@@ -213,7 +214,7 @@ export async function deleteProjectScreenshot(id: string, image: string) {
       throw new Error("Project not found");
     }
     if (project.preview === image) {
-      project.preview = "https://via.placeholder.com/1200x800";
+      project.preview = PLACEHOLDER_IMG;
     }
     project.images = project.images.filter((img) => img !== image);
     // Replace preview url with placeholder if given url matches
