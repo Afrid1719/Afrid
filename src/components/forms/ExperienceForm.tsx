@@ -120,7 +120,7 @@ function ExperienceForm({
         ? moment(experience.endDate).toDate()
         : undefined,
       description: experience?.description || [""],
-      techs: experience?.techs || [""]
+      techs: experience?.techs || []
     }
   });
 
@@ -220,7 +220,7 @@ function ExperienceForm({
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 z-[200]" align="start">
                   <Calendar
                     mode="single"
                     selected={field.value}
@@ -271,7 +271,7 @@ function ExperienceForm({
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 z-[200]" align="start">
                   <Calendar
                     mode="single"
                     selected={field.value}
