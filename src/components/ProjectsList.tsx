@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -32,6 +32,7 @@ export default function ProjectsList({
 }: {
   data: IPaginationResult<IProject>;
 }) {
+  const initialRender = useRef(true);
   const [pageData, setPageData] = useState(data);
   const [currentPage, setCurrentPage] = useState(data.currentPage);
   const [searchTerm, setSearchTerm] = useState("");
@@ -45,7 +46,7 @@ export default function ProjectsList({
     open: false,
     image: ""
   });
-  const projectsPerPage = 2;
+  const projectsPerPage = 5;
 
   // Debounce the search term input to delay API calls
   const debouncedSearch = useMemo(
@@ -95,6 +96,10 @@ export default function ProjectsList({
   }, [currentPage, searchTerm]);
 
   useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
+    }
     fetchProjects();
   }, [fetchProjects]);
 

@@ -36,6 +36,7 @@ export default function BlogPosts({
   const [loading, setLoading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const [shouldFetch, setShouldFetch] = useState(false);
+  const initialRender = useRef(true);
   const blogsPerPage = 10;
 
   // Debounce the search term input to delay API calls
@@ -87,7 +88,12 @@ export default function BlogPosts({
   }, [currentPage, searchTerm]);
 
   useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
+    }
     fetchBlogs();
+    console.log("First useEffect");
   }, [searchTerm, fetchBlogs]);
 
   useEffect(() => {
