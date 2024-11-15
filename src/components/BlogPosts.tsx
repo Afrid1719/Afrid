@@ -144,7 +144,7 @@ export default function BlogPosts({
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
             {filteredBlogs.map((blog, index) => (
               <MemoizedBlogCard
                 blog={blog}
@@ -222,7 +222,7 @@ function BlogCard({
     <>
       <motion.article
         key={blog._id}
-        className="relative overflow-hidden rounded-lg shadow-lg bg-gray-800 min-w-[280px]"
+        className="relative overflow-hidden rounded-lg shadow-lg bg-gray-800"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: index * 0.1 }}
