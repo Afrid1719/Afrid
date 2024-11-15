@@ -138,23 +138,29 @@ export default function BlogPosts({
             </Button>
           </motion.section>
         </div>
-        <motion.div
-          className="w-full mx-auto mb-12 flex justify-center items-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-            {filteredBlogs.map((blog, index) => (
-              <MemoizedBlogCard
-                blog={blog}
-                key={blog._id}
-                index={index}
-                setShouldFetch={o_setShouldFetch}
-              />
-            ))}
-          </div>
-        </motion.div>
+        {data.totalCount <= 0 ? (
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-center">
+            No Blogs Found
+          </h2>
+        ) : (
+          <motion.div
+            className="w-full mx-auto mb-12 flex justify-center items-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+              {filteredBlogs.map((blog, index) => (
+                <MemoizedBlogCard
+                  blog={blog}
+                  key={blog._id}
+                  index={index}
+                  setShouldFetch={o_setShouldFetch}
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
         <div className="mt-12 w-full lg:w-3/4 flex justify-between items-center">
           <Button
             variant="outline"
