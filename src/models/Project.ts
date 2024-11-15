@@ -91,7 +91,7 @@ export async function createProject(project: IProject) {
 
 export async function getAllProjects(
   pageNumber = 1,
-  pageSize = 2,
+  pageSize = 10,
   query = ""
 ): Promise<IPaginationResult<IProject>> {
   try {
@@ -118,6 +118,16 @@ export async function getAllProjects(
       }
     ]);
     results = JSON.parse(JSON.stringify(results));
+    if (results[0].data.length === 0) {
+      return {
+        data: [],
+        totalCount: 0,
+        totalPages: 0,
+        currentPage: pageNumber,
+        prevPage: null,
+        nextPage: null
+      };
+    }
     return {
       data: results[0].data.map((project: IProject) => ({
         ...project,

@@ -79,7 +79,10 @@ function UploadForm({
       return;
     }
 
-    const response = await fetch("/api/cloudinary-signature");
+    const response = await fetch("/api/cloudinary-signature", {
+      method: "POST",
+      body: JSON.stringify({})
+    });
     const { signature, timestamp } = await response.json();
     let uploadPromises = [];
     for (const file of files) {

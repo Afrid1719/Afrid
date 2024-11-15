@@ -29,6 +29,18 @@ export interface ITool extends mongoose.Document {
   [key: string]: any;
 }
 
+export interface IBlog {
+  _id?: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  readTime: number;
+  image?: string;
+  blurDataUrl?: string;
+  tags: string[];
+  createdAt: Date;
+}
+
 export interface IPaginationResult<T> {
   data: T[];
   totalCount: number;

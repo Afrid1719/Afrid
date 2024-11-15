@@ -53,6 +53,7 @@
     "react-hook-form": "^7.53.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.3.0",
+    "react-markdown": "^9.0.1",
     "react-tailwindcss-datepicker": "^1.6.6",
     "react-type-animation": "^3.2.0",
     "server-only": "^0.0.1",
@@ -65,6 +66,7 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^14.2.15",
+    "@tailwindcss/typography": "^0.5.15",
     "@types/bcryptjs": "^2.4.6",
     "@types/lodash": "^4.17.7",
     "@types/node": "20.6.0",

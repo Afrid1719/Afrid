@@ -2,15 +2,12 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  LuSearch as Search,
   LuCode as Code,
   LuExternalLink as ExternalLink,
   LuCalendar as Calendar,
-  LuUser as User,
   LuChevronLeft as ChevronLeft,
   LuChevronRight as ChevronRight
 } from "react-icons/lu";
@@ -28,6 +25,7 @@ import toast from "react-hot-toast";
 import { debounce } from "lodash";
 import PageLoading from "@/components/PageLoading";
 import ImageOverlay from "@/components/ImageOverlay";
+import SearchBar from "@/components/SearchBar";
 
 export default function ProjectsList({
   data
@@ -109,19 +107,11 @@ export default function ProjectsList({
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen text-gray-100">
       <section className="mb-12 flex justify-center items-center">
-        <div className="relative w-[60%] mx-auto">
-          <Input
-            type="text"
-            placeholder="Search projects..."
-            value={inputValue}
-            onChange={handleInputChange}
-            className="pl-10 bg-app-primary border border-app-primary text-gray-100 focus:ring-sky-600 focus:border-sky-600"
-          />
-          <Search
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-            size={20}
-          />
-        </div>
+        <SearchBar
+          inputValue={inputValue}
+          handleInputChange={handleInputChange}
+          placeholder="Search Projects..."
+        />
       </section>
 
       {loading ? (
