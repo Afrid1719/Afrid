@@ -93,7 +93,6 @@ export default function BlogPosts({
       return;
     }
     fetchBlogs();
-    console.log("First useEffect");
   }, [searchTerm, fetchBlogs]);
 
   useEffect(() => {

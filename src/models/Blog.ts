@@ -91,8 +91,7 @@ export async function getBlogs(
             {
               $project: {
                 __v: 0,
-                updatedAt: 0,
-                createdAt: 0
+                updatedAt: 0
               }
             }
           ],
@@ -134,7 +133,7 @@ export async function getBlogs(
 export const getBlogById = async (id: string): Promise<IBlog | null> => {
   try {
     await connectDB();
-    let blog = await Blog.findById(id).lean();
+    let blog = await Blog.findById(id, { __v: 0, updatedAt: 0 }).lean();
     return JSON.parse(JSON.stringify(blog));
   } catch (error) {
     console.error(error);
