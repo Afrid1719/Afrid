@@ -38,6 +38,7 @@ export default function BlogPosts({
   const [shouldFetch, setShouldFetch] = useState(false);
   const initialRender = useRef(true);
   const blogsPerPage = 10;
+  const { status } = useSession();
 
   // Debounce the search term input to delay API calls
   const debouncedSearch = useMemo(
@@ -129,20 +130,22 @@ export default function BlogPosts({
             handleInputChange={handleInputChange}
           />
         </motion.section>
-        <div className="w-full flex justify-end">
-          <motion.section
-            initial={{ opacity: 0, marginRight: "-100px" }}
-            animate={{ opacity: 1, marginRight: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Button
-              asChild
-              className="bg-app-primary text-app-color-5 hover:bg-app-primary/60"
+        {status === "authenticated" && (
+          <div className="w-full flex justify-end">
+            <motion.section
+              initial={{ opacity: 0, marginRight: "-100px" }}
+              animate={{ opacity: 1, marginRight: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              <Link href="/blog/create">Create a Blog</Link>
-            </Button>
-          </motion.section>
-        </div>
+              <Button
+                asChild
+                className="bg-app-primary text-app-color-5 hover:bg-app-primary/60"
+              >
+                <Link href="/blog/create">Create a Blog</Link>
+              </Button>
+            </motion.section>
+          </div>
+        )}
         {data.totalCount <= 0 ? (
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-center">
             No Blogs Found

@@ -1,6 +1,5 @@
 import { MiddlewareConfig, NextResponse, type NextRequest } from "next/server";
 import { routes } from "./app/routes.config";
-import { isAllowed } from "./utils/access";
 
 const protectedRoutes: string[] = routes
   .filter((route) => route.off)
