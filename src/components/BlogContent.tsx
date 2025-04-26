@@ -23,7 +23,7 @@ export default function BlogContent({ data }: { data: IBlog }) {
       <h2 className="font-semibold text-left text-3xl md:text-4xl lg:text-5xl text-app-secondary">
         {data.title}
       </h2>
-      <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm mt-3 mb-6">
+      <div className="flex justify-end flex-wrap items-center gap-4 text-gray-400 text-sm mt-3 mb-6">
         <div className="flex items-center">
           <CalendarIcon className="mr-1 h-4 w-4" />
           <span>{moment(data.createdAt).format("YYYY-MM-DD")}</span>
@@ -56,7 +56,7 @@ export default function BlogContent({ data }: { data: IBlog }) {
           )}
         </div>
       )}
-      <div className="text-left text-gray-600 w-full mt-8">
+      <div className="flex justify-center text-left text-gray-600 w-full mt-8">
         <ReactMarkdown className="prose prose-invert">
           {data.content}
         </ReactMarkdown>
