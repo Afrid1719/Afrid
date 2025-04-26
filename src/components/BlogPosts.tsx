@@ -24,9 +24,11 @@ const oddPostsBg = "from-app-primary to-app-color-5";
 const evenPostsBg = "from-app-secondary to-app-color-4";
 
 export default function BlogPosts({
-  data
+  data,
+  isAuthenticated
 }: {
   data: IPaginationResult<IBlog>;
+  isAuthenticated: boolean;
 }) {
   const [pageData, setPageData] = useState(data);
   const [currentPage, setCurrentPage] = useState(data.currentPage);
@@ -38,7 +40,6 @@ export default function BlogPosts({
   const [shouldFetch, setShouldFetch] = useState(false);
   const initialRender = useRef(true);
   const blogsPerPage = 10;
-  const { status } = useSession();
 
   // Debounce the search term input to delay API calls
   const debouncedSearch = useMemo(
@@ -130,7 +131,7 @@ export default function BlogPosts({
             handleInputChange={handleInputChange}
           />
         </motion.section>
-        {status === "authenticated" && (
+        {isAuthenticated && (
           <div className="w-full flex justify-end">
             <motion.section
               initial={{ opacity: 0, marginRight: "-100px" }}
@@ -163,6 +164,7 @@ export default function BlogPosts({
                   blog={blog}
                   key={blog._id}
                   index={index}
+                  isAuthenticated={isAuthenticated}
                   setShouldFetch={o_setShouldFetch}
                 />
               ))}
@@ -202,13 +204,14 @@ const MemoizedBlogCard = memo(BlogCard);
 function BlogCard({
   blog,
   index,
+  isAuthenticated,
   setShouldFetch
 }: {
   blog: IBlog;
   index: number;
+  isAuthenticated: boolean;
   setShouldFetch: (value: boolean) => void;
 }) {
-  const { status } = useSession();
   const [hovered, setHovered] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -299,7 +302,7 @@ function BlogCard({
               </motion.span>
             </Link>
           </Button>
-          {status === "authenticated" && (
+          {isAuthenticated && (
             <div className="flex flex-row justify-center space-x-4">
               <Button
                 asChild
