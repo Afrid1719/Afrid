@@ -47,8 +47,8 @@ export default async function Introduction() {
           extensive experience in the field, I specialize in developing
           efficient, scalable, and user-friendly web applications using
           technologies like JavaScript, Laravel, Next.js, and MongoDB. Beyond my
-          work, I have a keen interest in exploring AI tools, delving into the
-          Marvel and Harry Potter universes, and learning Japanese. Go to{" "}
+          work, I have a keen interest working in the field of AI and ML,
+          delving into the Marvel and Harry Potter universes,. Go to{" "}
           <Link
             href={"/professional"}
             className="text-app-color-5 hover:text-app-color-6 hover:underline"
