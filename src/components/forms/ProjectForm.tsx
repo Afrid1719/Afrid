@@ -88,6 +88,7 @@ export default function ProjectFormWrapper({
       title={project ? "Edit Project" : "Create Project"}
       open={isProjectFormOpen}
       onOpenChange={setIsProjectFormOpen}
+      disableOutsideClose
     >
       <div>
         <ProjectForm
@@ -201,7 +202,7 @@ function ProjectForm({ onSubmit, onCancel, project }: ProjectFormProps) {
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 z-[200]" align="start">
                   <Calendar
                     mode="single"
                     selected={field.value}

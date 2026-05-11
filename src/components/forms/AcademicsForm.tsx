@@ -86,6 +86,7 @@ export default function AcademicsFormWrapper({
       title={academics ? "Edit Academics" : "Create Academics"}
       open={isAcademicsFormOpen}
       onOpenChange={setIsAcademicsFormOpen}
+      disableOutsideClose
     >
       <div>
         <AcademicsForm

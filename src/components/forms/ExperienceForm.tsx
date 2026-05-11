@@ -93,6 +93,7 @@ export default function ExperienceFormWrapper({
       title={experience ? "Edit Experience" : "Add Experience"}
       open={isExperienceFormOpen}
       onOpenChange={setIsExperienceFormOpen}
+      disableOutsideClose
     >
       <ExperienceForm
         onSubmit={onSubmit}
