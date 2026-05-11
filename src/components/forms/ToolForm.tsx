@@ -110,8 +110,8 @@ const ToolForm: React.FC<ToolFormProps> = ({ tool, onSubmit, onCancel }) => {
                         field.value < 0.5
                           ? field.value * 10 + 4
                           : field.value > 9.5
-                          ? field.value * 10 - 4
-                          : field.value * 10
+                            ? field.value * 10 - 4
+                            : field.value * 10
                       }%)`
                     }}
                   >
@@ -202,6 +202,7 @@ const ToolFormWrapper: React.FC<ToolFormWrapperProps> = ({
       title={tool ? "Edit Tool" : "Create Tool"}
       open={isToolFormOpen}
       onOpenChange={setIsToolFormOpen}
+      disableOutsideClose
     >
       <div>
         <ToolForm

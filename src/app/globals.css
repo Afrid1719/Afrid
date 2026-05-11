@@ -15,7 +15,7 @@ body {
   }
 }
 
-.nav--desktop:hover a{
+.nav--desktop:hover a {
   filter: blur(5px);
   transition: all ease-in-out 250ms;
 }
@@ -29,12 +29,22 @@ body {
   border-radius: 5px;
 }
 
-input:disabled, input.disabled {
+input:disabled,
+input.disabled {
   background-color: rgb(203 213 225);
 }
 
 button.disabled {
   opacity: 0.9;
+}
+
+.outside-clickable {
+  transition: all 500ms ease-in;
+  box-shadow: 0px 0px 20px 8px transparent;
+}
+
+.outside-not-clickable {
+  box-shadow: 0px 0px 50px 6px rgba(216, 55, 55, 0.849);
 }
 
 @layer base {

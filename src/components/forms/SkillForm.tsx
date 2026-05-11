@@ -78,6 +78,7 @@ export default function SkillFormWrapper({
       title={skill ? "Edit Skill" : "Create Skill"}
       open={isSkillFormOpen}
       onOpenChange={setIsSkillFormOpen}
+      disableOutsideClose
     >
       <div>
         <SkillForm
@@ -168,8 +169,8 @@ function SkillForm({ skill, onSubmit, onCancel }: FormProps) {
                         field.value < 0.5
                           ? field.value * 10 + 4
                           : field.value > 9.5
-                          ? field.value * 10 - 4
-                          : field.value * 10
+                            ? field.value * 10 - 4
+                            : field.value * 10
                       }%)`
                     }}
                   >

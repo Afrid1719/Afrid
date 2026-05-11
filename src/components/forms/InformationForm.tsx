@@ -76,6 +76,7 @@ export default function InformationFormWrapper({
       title="Edit Admin Information"
       open={isInformationFormOpen}
       onOpenChange={setIsInformationFormOpen}
+      disableOutsideClose
     >
       <InformationForm
         onSubmit={onSubmit}
